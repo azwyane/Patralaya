@@ -30,6 +30,6 @@ jobs:
         AUTH_KEY: ${{ secrets.AUTH_KEY }}
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        git remote add heroku https://heroku:$AUTH_KEY@git.heroku.com/$HOSTNAME.git
+        git remote add heroku https://heroku:$AUTH_KEY@git.heroku.com/$HOST_NAME.git
         git push heroku HEAD:master -f
       

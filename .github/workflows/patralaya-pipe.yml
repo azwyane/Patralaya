@@ -24,4 +24,12 @@ jobs:
         python manage.py migrate
         python manage.py makemigrations
         python manage.py migrate
+    - name: Deploy to Heroku
+      env:
+        HOST_NAME: ${{ secrets.HOST_NAME }}
+        AUTH_KEY: ${{ secrets.AUTH_KEY }}
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
+        git remote add heroku https://heroku:$AUTH_KEY@git.heroku.com/$HOSTNAME.git
+        git push heroku HEAD:master -f
       

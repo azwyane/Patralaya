@@ -1,7 +1,6 @@
 config.txt
 *.pyc
 *~
-/secrets.json
 /.vscode
 __pycache__
 venv

@@ -11,7 +11,19 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+
+# heroku-config package
 import django_heroku
+
+import json
+
+# open secrets file as a dictonary
+with open("secrets.json") as f:
+    secrets = json.load(f)
+
+#get secrets from key value pair
+def get_secret(settings,secrets=secrets):
+    return secrets[settings]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +33,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$glr=r9rmi*a0tp#1$g#+^)04eeo^5b51z81$xkwsax#1m*bg8'
+SECRET_KEY = get_secret("s_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = get_secret("state")
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +50,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #local apps
+    'events.apps.EventsConfig',
+    'services.apps.ServicesConfig',
+    'profiles.apps.ProfilesConfig',
 ]
 
 MIDDLEWARE = [
@@ -75,10 +92,22 @@ WSGI_APPLICATION = 'Patralaya.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
+
+    # sqlite engiene 
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+    #uncomment this if using postgres on production
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    #     'USER': get_secret('db_user'),
+    #     'PASSWORD': get_secret('db_passwd'),
+    #     'HOST': get_secret('db_host'),
+    #     'PORT': get_secret('db_port'),
+    # }
 }
 
 
@@ -106,7 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kathmandu'
 
 USE_I18N = True
 
@@ -122,3 +151,7 @@ STATIC_URL = '/static/'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# media root (holds media files)
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'

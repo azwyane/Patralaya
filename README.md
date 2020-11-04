@@ -1,9 +1,45 @@
 ## PATRALAYA
 
-### REQUIREMENTS
+## Table of Contents
+- [Requirements](#Requirements)
+- [ForkWorkflow](#ForkWorkflow)
+- [BasicWorkflow](#BasicWorkflow)
+
+
+### Requirements
 - Install python 3.7/3.8/3.9 (python 3.7/3.8 would be better)
 
-### BASIC WORKFLOW FOR THE PROJECT
+### ForkWorkflow
+
+1. #### FORK THE REPO 
+2. #### CLONE YOUR FORK TO YOUR LOCAL MACHINE
+   ```sh
+   $ git clone https://github.com/<yourname>/Patralaya.git
+   ```
+3. #### MAKE YOUR CHANGES (follow steps 3 and 4 mentioned in BasicWorkflow)
+4. #### COMMIT THE CHANGES
+   ```
+   git add .
+   git status <shows your files added to the git stage>
+   git commit -m "<commit message>"
+   ```
+5. #### ADD ORIGINAL REPO 
+   ```
+    $ git remote add upstream https://github.com/azwyane/Patralaya.git
+    $ git fetch upstream
+    $ git checkout master
+    $ git merge upstream/master
+
+    ```
+> If you get no conflicts then push the changes to your fork
+6. #### PUSH THE CHANGES TO YOUR FORK
+   ```
+   $ git push origin master
+   ```
+7. #### MAKE A PULL REQUEST TO THE MAIN REPO IN GITHUB
+8. #### BE READY TO REPEAT THE SAME STEPS BUT FIRST ALWAYS BE UPDATE WITH ORIGINAL REPO(step 5.2)
+
+### BasicWorkflow
 
 1. #### GOTO YOUR WORKSPACE AND OPEN UP A SHELL/TERMINAL
 > Clone the repo to your local device 

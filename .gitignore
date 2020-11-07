@@ -9,3 +9,4 @@ media
 /static
 .DS_Store
 .dockerignore
+.idea/

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<h3>WELCOME TO PATRALAYA</h3>
+
+<strong>
+    Landing page sits here.
+</strong>
+
+{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+   {% endfor %}
+
+{% endif %}
+<div>
+    <button ><a href="{% url 'login' %}" class="btn">login</a></button>
+</div>
+<div>
+    <button ><a href="{% url 'signup' %}" class="btn">signup</a></button>
+</div>
+<div>
+    <button ><a href="{% url 'logout' %}" class="btn">logout</a></button>
+</div>

@@ -1,0 +1,11 @@
+<form method="POST" style="border:1px solid #ccc">
+    <div class="container">
+      <p>Please fill in this form to create an account.</p>
+      <hr>
+      {% csrf_token %}
+      {{form.as_p}}
+      <button style="background-color: #4086e0; color: #ffffff" class="btn btn-outline-info" type="submit">Confirm</button>
+      </div>
+    </div>
+    
+  </form> 

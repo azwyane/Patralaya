@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+def home(request):
+    '''
+    This is the view for main landing page
+    for the web app.
+    '''
+    return render(request,'events/home.html')
+

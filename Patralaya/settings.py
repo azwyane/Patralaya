@@ -55,6 +55,9 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'services.apps.ServicesConfig',
     'profiles.apps.ProfilesConfig',
+
+    #(3rd party)
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

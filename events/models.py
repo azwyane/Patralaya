@@ -14,6 +14,9 @@ from django.urls import reverse
 # profile model
 from profiles.models import Profile
 
+# ckeditor field
+from ckeditor.fields import RichTextField
+
 
 class Bundle(models.Model):
     '''
@@ -31,7 +34,8 @@ class Bundle(models.Model):
         related_name='bundle',
         )
     title = models.CharField(max_length=200)
-    context = models.TextField()
+    # RichTextField is from ckeditor
+    context = RichTextField(blank=True,null=True)
     created_on = models.DateTimeField(default=timezone.now)
     # images get saved in the project root_directory/media/bundle_image
     media_image = models.ImageField(
@@ -43,6 +47,10 @@ class Bundle(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('detail_bundle',kwargs={'pk':self.pk})
+
 
 
 

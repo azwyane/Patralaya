@@ -1,0 +1,19 @@
+{{ object.title|safe}}
+<p>context: {{ object.context|safe }}</p>
+
+<p>Published: {{ object.created_on|date }}</p>
+<p>Author: {{ object.creator }}</p>
+
+<strong>Comments</strong>
+{% for comment in object.comment.all %}
+          <div class="w3-row-padding">
+          
+          </div>
+          <hr class="w3-clear">
+          <p>{{ comment.context|linebreaks }}</p>
+          <p>By:<strong>{{ comment.creator }}</strong><span class="w3-right w3-opacity">commented at:{{ comment.created_on}}</span></p>
+  
+{% empty %}
+<p>No comments till now :(</p>
+
+{% endfor %}

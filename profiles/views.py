@@ -86,17 +86,18 @@ def user_detail(request,username):
 @require_POST
 @login_required
 def user_follow(request):
-    user_id = request.POST.get('id')
+    user_id = request.POST.get('username')
     action = request.POST.get('action')
+    print(user_id,action)
     if user_id and action:
         try:
-            user = User.objects.get(id=user_id)
+            user = Profile.objects.get(user=User.objects.get(username=username))
             if action == 'follow':
-                Contact.objects.get_or_create(
+                Follow.objects.get_or_create(
                     user_from=request.user,
                     user_to=user)
             else:
-                Contact.objects.filter(user_from=request.user,user_to=user).delete()
+                Follow.objects.filter(user_from=request.user,user_to=user).delete()
             
             return JsonResponse({'status':'ok'})
                 

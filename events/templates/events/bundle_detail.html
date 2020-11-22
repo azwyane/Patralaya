@@ -1,7 +1,10 @@
 {{ object.title|safe}}
 <p>context: {{ object.context|safe }}</p>
 <p>Tags: {{ object.tags.all|join:", " }}</p>
+<p>Created: {{ object.created_on|date }}</p>
 <p>Published: {{ object.created_on|date }}</p>
+<p>Updated: {{ object.updated_on|date }}</p>
+<p>Status: {{ object.status }}</p>
 <p>Author: {{ object.creator }}</p>
 
 <strong>Comments</strong>

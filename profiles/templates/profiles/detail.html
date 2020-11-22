@@ -1,33 +1,35 @@
 {% load static %}
-<head>
-    <link rel="stylesheet" href="{% static 'js/followbutton.js' %}">
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-</head>
-{% block title %}{{ user.get_full_name }}{% endblock %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+<script src="{% static 'profiles/js/followbutton.js' %}"></script>
+
+
 {% block content %}
 <h1>{{ user}}</h1>
+<h1>{{ user.followers.count }}</h1>
 {{user.profile_picture}}
     {% with total_followers=user.followers.count %}
     <span class="count">
     <span class="total">{{ total_followers }}</span>
     follower{{ total_followers|pluralize }}
     </span>
+    <ul>
+        {% for u in user.followers.all %}
+
+        <li>{{ u }}</li>
+        {% endfor %}
+    </ul>
     
-<a href="{% url 'user_follow' %}" data-id="{{ user.user }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
-    {% if request.user not in user.followers.all %}
+    
+    <a name="{{ user.user.username }}" style="font-size:48px;color: blue;" class="likin" id="co"><i class="fa fa-thumbs-up" aria-hidden="true"></i>
+    <button id="follow" type="submit">
+    {% if request.user.username not in user.followers.all %}
     Follow
     {% else %}
     Unfollow
     {% endif %}
+    </button>
     </a>
-    {% endwith %}
 
-   
-    
-    
-
-
-
-
-
-    {% endblock %}
+{% endwith %}
+{% endblock %}

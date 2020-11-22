@@ -42,7 +42,7 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
 
     model = Bundle
     template_name = 'events/bundle_form.html'
-    fields = ['title','context','media_image',]
+    fields = ['title','tags','context','media_image','status']
     login_url = 'home'
 
     def form_valid(self,form):
@@ -89,9 +89,17 @@ class BundleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     '''
 
     model = Bundle
-    fields = ['title','context','media_image',]
+    fields = ['title','tags','context','media_image','status']
     template_name = 'events/bundle_form.html'
     login_url = 'home'
+
+    def get_object(self,**kwargs):
+        '''
+        BREAKS HERE
+        '''
+        return get_object_or_404(Bundle,
+            pk=self.request.kwargs['pk']
+        )
 
 
     def form_valid(self,form):

@@ -20,6 +20,8 @@ from ckeditor.fields import RichTextField
 # taggit manager for tagging bundles
 from taggit.managers import TaggableManager
 
+#slugify
+from django.utils.text import slugify
 
 class PublishManager(models.Manager):
     '''
@@ -101,7 +103,8 @@ class Bundle(models.Model):
         object.get_absolute_url (default) will dynamically generate detail
         view url assosicated with bundle creator's profile username.
         '''
-        return reverse('detail_bundle', kwargs={'creator':self.creator,'slug': self.slug})
+        return reverse('detail_bundle', kwargs={'creator':self.creator,'slug': self.slug,'pk':self.pk})
+
 
     def save(self, *args, **kwargs): 
         '''

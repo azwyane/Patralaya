@@ -11,5 +11,5 @@ urlpatterns=[
     path('logout/',logout_user,name='logout'),
     path('users/',user_list, name='user_list'),
     path('<slug:username>/',user_detail, name='user_detail'),
-    path('users/follow/',user_follow, name='user_follow'),
+    path('<slug:username>/follow/',user_follow, name='user_follow'),
 ]

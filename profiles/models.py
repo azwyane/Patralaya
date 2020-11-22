@@ -34,10 +34,47 @@ class Profile(models.Model):
         default='default.jpeg',
         upload_to='profile_picture',
         )
- 
+    following = models.ManyToManyField(
+        'self',
+        through='Follow',
+        related_name='followers',
+        symmetrical=False
+        )
+
+    def get_absolute_url(self):
+        '''
+        This method when applied to Profile object in templates as
+        object.get_absolute_url (default) will dynamically generate detail
+        view url assosicated with profile username.
+        '''
+        return reverse('user_detail', kwargs={'username':self.user.username})
+
 
     def __str__(self):
         return f"{self.user.username}"
-    
+
+
+class Follow(models.Model):
+    profile_from = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='follow_from',
+    )
+    profile_to = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='follow_to',
+    )
+    created_on = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True)
+
+        
+    class Meta:
+        ordering = ('-created_on',)
+
+
+    def __str__(self):
+        return f'{self.profile_from} follows {self.profile_to}'
 
 

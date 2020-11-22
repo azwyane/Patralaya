@@ -60,8 +60,8 @@ class BundleListView(LoginRequiredMixin, ListView):
     - View to see list of bundles: inherits from ListView
     - Login is required to create bundle: inherits from LoginRequiredMixin
     '''
-
-    model = Bundle
+    # queryset gets published (filtered) bundle  
+    queryset = Bundle.published.all() 
     template_name = 'events/bundle_list.html'
     ordering = ['-created_on']
     paginate_by = 2

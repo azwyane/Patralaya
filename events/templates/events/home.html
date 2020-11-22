@@ -19,6 +19,8 @@
 <div>
     <button ><a href="{% url 'signup' %}" class="btn">signup</a></button>
 </div>
+{% if user.is_authenticated %}
 <div>
     <button ><a href="{% url 'logout' %}" class="btn">logout</a></button>
 </div>
+{% endif %}

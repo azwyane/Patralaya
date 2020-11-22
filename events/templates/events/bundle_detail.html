@@ -1,6 +1,6 @@
 {{ object.title|safe}}
 <p>context: {{ object.context|safe }}</p>
-
+<p>Tags: {{ object.tags.all|join:", " }}</p>
 <p>Published: {{ object.created_on|date }}</p>
 <p>Author: {{ object.creator }}</p>
 

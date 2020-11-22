@@ -6,9 +6,10 @@ from events.models import Bundle, Comment
  
 
 class BundleAdmin(admin.ModelAdmin):
-    list_display=["title","creator"]
-    list_display_links=["creator"]
+    list_display=["title","slug","creator","status"]
+    list_display_links=["slug"]
     list_filter=["created_on"]
+    prepopulated_fields = {'slug': ('title',)}
     
     class meta:
         model = Bundle

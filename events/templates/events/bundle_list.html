@@ -1,7 +1,7 @@
 <ul>
     {% for post in page_obj %}
 
-<li>{{ post.title|safe }}<a href='{% url 'detail_bundle' pk=post.pk  %}'>Readmore</a></li>
+<li>{{ post.title|safe }}<a href='{{ post.get_absolute_url }}'>Readmore</a></li>
 
 {% endfor %}
 </ul>

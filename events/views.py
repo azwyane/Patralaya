@@ -167,3 +167,23 @@ def public_bundle_view(request, tag_slug=None):
     return render(request,'events/bundle_list.html',{'page_obj': obj_list,'tag': tag})
 
 
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    '''
+    - View to create a bundle: inherits from CreateView
+    - Login is required to create bundle: inherits from LoginRequiredMixin
+    '''
+
+    model = Comment
+    template_name = 'events/comment_form.html'
+    fields = ['context']
+    login_url = 'home'
+
+    def form_valid(self,form):
+        '''
+        save the data obtained from the form
+        if its valid
+        '''
+        #creator takes the instance from profile(foreignkey can reverse reference but not oneToone)
+        form.instance.creator  = Profile.objects.get(user=self.request.user)
+        form.instance.bundle = Bundle.objects.get(slug=self.kwargs['slug'])
+        return super().form_valid(form)

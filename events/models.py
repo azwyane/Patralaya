@@ -103,7 +103,7 @@ class Bundle(models.Model):
         object.get_absolute_url (default) will dynamically generate detail
         view url assosicated with bundle creator's profile username.
         '''
-        return reverse('detail_bundle', kwargs={'creator':self.creator,'slug': self.slug,'pk':self.pk})
+        return reverse('detail_bundle', kwargs={'creator':self.creator,'slug': self.slug,})
 
 
     def save(self, *args, **kwargs): 

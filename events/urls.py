@@ -3,17 +3,24 @@ from events.views import (
     home, BundleCreateView,
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
+    PublicBundleListView,public_bundle_view
     )
 
 urlpatterns=[
     path('home/',home,name='home'),
-    path('create/',BundleCreateView.as_view(),name='create_bundle'),
-    path('list/',BundleListView.as_view(),name='list_bundle'),
+    path('<slug:creator>/<slug:slug>/create/',BundleCreateView.as_view(),name='create_bundle'),
+    path('<slug:creator>/all/',BundleListView.as_view(),name='list_bundle'),
 
     #slug is dynamically generated from the Bundle model as /<creator>/<title>
-    path('<slug:creator>/<slug:slug>',BundleDetailView.as_view(),name='detail_bundle'),
+    path('<slug:creator>/<slug:slug>/',BundleDetailView.as_view(),name='detail_bundle'),
     
-    path('update/<slug:slug>',BundleUpdateView.as_view(),name='update_bundle'),
-    path('delete/<slug:slug>',BundleDeleteView.as_view(),name='delete_bundle'), 
+    path('<slug:creator>/<slug:slug>/update/',BundleUpdateView.as_view(),name='update_bundle'),
+    path('<slug:creator>/<slug:slug>/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
+
+    #public list  
+    # path('all/',PublicBundleListView.as_view(),name='list_public_bundle'),
+    path('all/',public_bundle_view,name='list_public_bundle'),
+    path('all/tag/<slug:tag_slug>/',public_bundle_view, name='post_list_by_tag'),
+
     
 ]

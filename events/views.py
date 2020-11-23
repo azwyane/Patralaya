@@ -20,6 +20,9 @@ from django.urls import reverse_lazy
 # contrib.auth User model
 from django.contrib.auth.models import User
 
+#taggit
+from taggit.models import Tag
+
 # local models
 from profiles.models import Profile
 from events.models import Bundle,Comment
@@ -55,13 +58,13 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class BundleListView(LoginRequiredMixin, ListView):
+class BundleListView(ListView):
     '''
     - View to see list of bundles: inherits from ListView
     - Login is required to create bundle: inherits from LoginRequiredMixin
     '''
     # queryset gets published (filtered) bundle  
-    queryset = Bundle.published.all() 
+    model = Bundle
     template_name = 'events/bundle_list.html'
     ordering = ['-created_on']
     paginate_by = 2
@@ -92,15 +95,6 @@ class BundleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ['title','tags','context','media_image','status']
     template_name = 'events/bundle_form.html'
     login_url = 'home'
-
-    def get_object(self,**kwargs):
-        '''
-        BREAKS HERE
-        '''
-        return get_object_or_404(Bundle,
-            pk=self.request.kwargs['pk']
-        )
-
 
     def form_valid(self,form):
         '''
@@ -139,3 +133,37 @@ class BundleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if Profile.objects.get(user=self.request.user) == self.get_object().creator:
             return True
         return False
+
+
+class PublicBundleListView(ListView):
+    '''
+    - View to see list of public (publish) bundles: inherits from ListView
+    '''
+    # queryset gets published (filtered) bundle  
+    # queryset = Bundle.published.all() 
+    model = Bundle
+    template_name = 'events/bundle_list.html'
+    ordering = ['-created_on']
+    paginate_by = 2
+    login_url = 'home'
+
+    def get_context_data(self,tag_slug=None, **kwargs):
+        obj_list = super().get_context_data(**kwargs)
+        obj_list = obj_list.filter(status='Publish')
+        tag = None
+        if tag_slug:
+            tag = get_object_or_404(Tag, slug=tag_slug)
+            obj_list = obj_list.filter(tags__in=[tag])
+            obj_list['tag'] = tag
+            print(obj_list)
+        return obj_list
+
+def public_bundle_view(request, tag_slug=None):
+    obj_list = Bundle.published.all()
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        obj_list = obj_list.filter(tags__in=[tag])
+    return render(request,'events/bundle_list.html',{'page_obj': obj_list,'tag': tag})
+
+

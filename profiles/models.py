@@ -13,6 +13,8 @@ from django.utils import timezone
 # reverse the parent content
 from django.urls import reverse
 
+#PIL
+from PIL import Image
 
 class Profile(models.Model):
     '''
@@ -49,6 +51,15 @@ class Profile(models.Model):
         '''
         return reverse('user_detail', kwargs={'username':self.user.username})
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        profile_img = Image.open(self.profile_picture.path)
+        
+        if profile_img.width > 400 or profile_img.height > 400:
+            crop_size = (400,400)
+            profile_img.thumbnail(crop_size)
+            profile_img.save(self.profile_picture.path)
 
     def __str__(self):
         return f"{self.user.username}"

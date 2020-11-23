@@ -6,6 +6,7 @@
 <p>Updated: {{ object.updated_on|date }}</p>
 <p>Status: {{ object.status }}</p>
 <p>Author: {{ object.creator }}</p>
+<img src='{{object.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
 
 <strong>Comments</strong>
 {% for comment in object.comment.all %}

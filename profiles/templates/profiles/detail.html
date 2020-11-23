@@ -7,7 +7,7 @@
 {% block content %}
 <h1>{{ user}}</h1>
 <h1>{{ user.followers.count }}</h1>
-{{user.profile_picture}}
+<img src='{{user.profile_picture.url}}' style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
     {% with total_followers=user.followers.count %}
     <span class="count">
     <span class="total">{{ total_followers }}</span>

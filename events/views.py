@@ -110,8 +110,11 @@ class BundleDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         obj_list = super().get_queryset()
-        if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
-            return obj_list
+        if self.request.user.is_authenticated:
+            if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
+                return obj_list
+            else:
+                return obj_list.filter(status='Publish')
         else:
             return obj_list.filter(status='Publish')
 

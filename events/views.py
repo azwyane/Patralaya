@@ -53,7 +53,7 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
         save the data obtained from the form
         if its valid
         '''
-        #creator takes the instance from profile(foreignkey can reverse reference but not oneToone)
+        #foreign key traces parent table
         form.instance.creator  = Profile.objects.get(user=self.request.user)
         return super().form_valid(form)
 
@@ -75,14 +75,28 @@ class BundleListView(ListView):
     
     def get_queryset(self):
         obj_list = super().get_queryset()
-        if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
+        if self.request.user.is_authenticated:
+            if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
+                '''
+                Return all private(draft) and public(publish) bundles if the user 
+                requesting is the owner of the bundle
+                '''
+                return obj_list.filter(
+                    creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))
+                    )
+            else: 
+                '''
+                Return all private(draft) and public(publish) bundles if the user 
+                requesting is the owner of the bundle
+                '''
+                return obj_list.filter(
+                    creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])),
+                    status='Publish') 
+        else:
             return obj_list.filter(
-                creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))
-                )
-        else: 
-            return obj_list.filter(
-                creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])),
-                status='Publish') 
+                    creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])),
+                    status='Publish') 
+
 
 class BundleDetailView(LoginRequiredMixin, DetailView):
     '''
@@ -159,8 +173,6 @@ class PublicBundleListView(ListView):
     '''
     - View to see list of public (publish) bundles: inherits from ListView
     '''
-    # queryset gets published (filtered) bundle  
-    # queryset = Bundle.objects.filter(status='Publish')
     model = Bundle
     template_name = 'events/bundle_list.html'
     ordering = ['-created_on']
@@ -170,29 +182,12 @@ class PublicBundleListView(ListView):
     def get_queryset(self):
         obj_list = super().get_queryset()
         tag = None 
-        if self.kwargs['tag_slug']:
-            tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
-            obj_list = obj_list.filter(tags__in=[tag])
+        if self.kwargs:
+            if self.kwargs['tag_slug']:
+                tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+                obj_list = obj_list.filter(tags__in=[tag])
           
         return obj_list
-
-    # def get_context_data(self, **kwargs):
-    #     obj_list = super().get_context_data(**kwargs)
-    #     # obj_list = obj_list.filter('Publish')
-        
-    #     if tag_slug:=self.kwargs['tag_slug']:
-    #         tag = get_object_or_404(Tag, slug=tag_slug)
-    #         obj_list = obj_list.filter(tags__in=[tag])
-    #         obj_list['tag'] = tag
-    #     return obj_list
-
-# def public_bundle_view(request, tag_slug=None):
-#     obj_list = Bundle.published.all()
-#     tag = None
-#     if tag_slug:
-#         tag = get_object_or_404(Tag, slug=tag_slug)
-#         obj_list = obj_list.filter(tags__in=[tag])
-#     return render(request,'events/bundle_list.html',{'page_obj': obj_list,'tag': tag})
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
@@ -211,7 +206,6 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         save the data obtained from the form
         if its valid
         '''
-        #creator takes the instance from profile(foreignkey can reverse reference but not oneToone)
         form.instance.creator  = Profile.objects.get(user=self.request.user)
         form.instance.bundle = Bundle.objects.get(slug=self.kwargs['slug'])
         return super().form_valid(form)

@@ -4,7 +4,7 @@ from events.views import (
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
     PublicBundleListView, CommentCreateView,
-    public_bundle_view
+   
     )
 
 urlpatterns=[
@@ -19,9 +19,9 @@ urlpatterns=[
     path('<slug:creator>/<slug:slug>/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
     
     #public list  
-    # path('all/',PublicBundleListView.as_view(),name='list_public_bundle'),
-    path('all/',public_bundle_view,name='list_public_bundle'),
-    path('all/tag/<slug:tag_slug>/',public_bundle_view, name='post_list_by_tag'),
+    path('all/',PublicBundleListView.as_view(),name='list_public_bundle'),
+    # path('all/',public_bundle_view,name='list_public_bundle'),
+    path('all/tag/<slug:tag_slug>/',PublicBundleListView.as_view(), name='list_bundle_by_tag'),
 
     #comment urls
     path('<slug:creator>/<slug:slug>/comment/',CommentCreateView.as_view(),name='comment_bundle'),

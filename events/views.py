@@ -62,14 +62,27 @@ class BundleListView(ListView):
     '''
     - View to see list of bundles: inherits from ListView
     - Login is required to create bundle: inherits from LoginRequiredMixin
+
+    Private bundle list view: returns both draft and published bundles 
+    for the right owner profile else will return only published bundles 
     '''
-    # queryset gets published (filtered) bundle  
+    
     model = Bundle
     template_name = 'events/bundle_list.html'
     ordering = ['-created_on']
     paginate_by = 2
     login_url = 'home'
-
+    
+    def get_queryset(self):
+        obj_list = super().get_queryset()
+        if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
+            return obj_list.filter(
+                creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))
+                )
+        else: 
+            return obj_list.filter(
+                creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])),
+                status='Publish') 
 
 class BundleDetailView(LoginRequiredMixin, DetailView):
     '''
@@ -80,6 +93,13 @@ class BundleDetailView(LoginRequiredMixin, DetailView):
     model = Bundle 
     template_name = 'events/bundle_detail.html'
     login_url = 'home'
+
+    def get_queryset(self):
+        obj_list = super().get_queryset()
+        if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
+            return obj_list
+        else:
+            return obj_list.filter(status='Publish')
 
 
 class BundleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -140,36 +160,44 @@ class PublicBundleListView(ListView):
     - View to see list of public (publish) bundles: inherits from ListView
     '''
     # queryset gets published (filtered) bundle  
-    # queryset = Bundle.published.all() 
+    # queryset = Bundle.objects.filter(status='Publish')
     model = Bundle
     template_name = 'events/bundle_list.html'
     ordering = ['-created_on']
     paginate_by = 2
     login_url = 'home'
 
-    def get_context_data(self,tag_slug=None, **kwargs):
-        obj_list = super().get_context_data(**kwargs)
-        obj_list = obj_list.filter(status='Publish')
-        tag = None
-        if tag_slug:
-            tag = get_object_or_404(Tag, slug=tag_slug)
+    def get_queryset(self):
+        obj_list = super().get_queryset()
+        tag = None 
+        if self.kwargs['tag_slug']:
+            tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
             obj_list = obj_list.filter(tags__in=[tag])
-            obj_list['tag'] = tag
-            print(obj_list)
+          
         return obj_list
 
-def public_bundle_view(request, tag_slug=None):
-    obj_list = Bundle.published.all()
-    tag = None
-    if tag_slug:
-        tag = get_object_or_404(Tag, slug=tag_slug)
-        obj_list = obj_list.filter(tags__in=[tag])
-    return render(request,'events/bundle_list.html',{'page_obj': obj_list,'tag': tag})
+    # def get_context_data(self, **kwargs):
+    #     obj_list = super().get_context_data(**kwargs)
+    #     # obj_list = obj_list.filter('Publish')
+        
+    #     if tag_slug:=self.kwargs['tag_slug']:
+    #         tag = get_object_or_404(Tag, slug=tag_slug)
+    #         obj_list = obj_list.filter(tags__in=[tag])
+    #         obj_list['tag'] = tag
+    #     return obj_list
+
+# def public_bundle_view(request, tag_slug=None):
+#     obj_list = Bundle.published.all()
+#     tag = None
+#     if tag_slug:
+#         tag = get_object_or_404(Tag, slug=tag_slug)
+#         obj_list = obj_list.filter(tags__in=[tag])
+#     return render(request,'events/bundle_list.html',{'page_obj': obj_list,'tag': tag})
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     '''
-    - View to create a bundle: inherits from CreateView
+    - View to create a comment to a bundle: inherits from CreateView
     - Login is required to create bundle: inherits from LoginRequiredMixin
     '''
 

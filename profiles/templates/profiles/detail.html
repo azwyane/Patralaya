@@ -1,8 +1,24 @@
 {% load static %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
-<script src="{% static 'profiles/js/followbutton.js' %}"></script>
+<!-- <script src="{% static 'js/followbutton.js' %}"></script> -->
+<script>
+    $(document).ready(function(){
+    $("button#follow").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'user_follow' %}",
+            {
+                username:"{{user}}",
+                action:"follow",
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            }
+            
 
+        );
+    });
+});
+</script>
 
 {% block content %}
 <h1>{{ user}}</h1>
@@ -21,7 +37,7 @@
     </ul>
     
     
-    <a name="{{ user.user.username }}" style="font-size:48px;color: blue;" class="likin" id="co"><i class="fa fa-thumbs-up" aria-hidden="true"></i>
+    
     <button id="follow" type="submit">
     {% if request.user.username not in user.followers.all %}
     Follow
@@ -30,6 +46,8 @@
     {% endif %}
     </button>
     </a>
+
+    
 
 {% endwith %}
 {% endblock %}

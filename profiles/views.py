@@ -71,12 +71,12 @@ def logout_user(request):
     return redirect('home') #home view is the main page view for future
 
 
-@login_required
+# @login_required
 def user_list(request):
     profile = Profile.objects.all
     return render(request,'profiles/list.html',{'users': profile})
     
-@login_required
+# @login_required
 def user_detail(request,username):
     profile = get_object_or_404(Profile,user=User.objects.get(username=username))
     return render(request,'profiles/detail.html',{'user': profile})
@@ -86,21 +86,21 @@ def user_detail(request,username):
 @require_POST
 @login_required
 def user_follow(request):
-    user_id = request.POST.get('username')
-    action = request.POST.get('action')
-    print(user_id,action)
-    if user_id and action:
-        try:
-            user = Profile.objects.get(user=User.objects.get(username=username))
-            if action == 'follow':
-                Follow.objects.get_or_create(
-                    user_from=request.user,
-                    user_to=user)
-            else:
-                Follow.objects.filter(user_from=request.user,user_to=user).delete()
+    username = request.POST['username']
+    action = request.POST['action']
+    print(username,action)
+    # if user_id and action:
+    #     try:
+    #         user = Profile.objects.get(user=User.objects.get(username=username))
+    #         if action == 'follow':
+    #             Follow.objects.get_or_create(
+    #                 user_from=request.user,
+    #                 user_to=user)
+    #         else:
+    #             Follow.objects.filter(user_from=request.user,user_to=user).delete()
             
-            return JsonResponse({'status':'ok'})
+    #         return JsonResponse({'status':'ok'})
                 
-        except User.DoesNotExist:
-            return JsonResponse({'status':'error'})
-    return JsonResponse({'status':'error'})
+    #     except User.DoesNotExist:
+    #         return JsonResponse({'status':'error'})
+    # return JsonResponse({'status':'error'})

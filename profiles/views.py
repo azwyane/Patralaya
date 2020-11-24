@@ -97,7 +97,7 @@ def user_follow(request):
                     profile_to = profile_to_follow
                     )
             else:
-                Follow.objects.filter(profile_from=request.user,profile_to=profile_to_follow).delete()
+                Follow.objects.filter(profile_from=Profile.objects.get(user=request.user),profile_to=profile_to_follow).delete()
             
             return JsonResponse({'status':'ok'})
                 

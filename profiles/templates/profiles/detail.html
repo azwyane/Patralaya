@@ -1,4 +1,6 @@
 {% load static %}
+<!--custom template tag-->
+{% load profiles_tags %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 <!-- <script src="{% static 'js/followbutton.js' %}"></script> -->
@@ -10,12 +12,22 @@
             "{% url 'user_follow' %}",
             {
                 username:"{{user}}",
-                action:"follow",
+                action: $(this).data('action'),
                 csrfmiddlewaretoken: "{{csrf_token}}"
             },
             function(data){
                 if (data['status'] == 'ok'){
                     var previous_action = $('button#follow').data('action');
+                    // toggle data-action
+                    $('button#follow').data('action', previous_action == 'follow' ?
+                    'unfollow' : 'follow');
+                    // toggle link text
+                    $('button#follow').text(previous_action == 'follow' ? 'unfollow' :
+                    'follow');
+                    // update total likes
+                    var previous_follows = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'follow' ?
+                    previous_follows + 1 : previous_follows - 1);
                 }
             }
             
@@ -34,22 +46,25 @@
     <span class="total">{{ total_followers }}</span>
     follower{{ total_followers|pluralize }}
     </span>
-    <ul>
+    <ul class="followers">
         {% for profile in user.followers.all %}
 
         <li><a href="{% url 'user_detail' profile %}">{{ profile }}</a></li>
         {% endfor %}
     </ul>
     
-    {{request.user}}
+    <!--custom tag takes request.user and returns profile object as current_user variable-->
+    {% profile_obj request.user as current_user%}
     {% if request.user.is_authenticated %}
-    <button id="follow" type="submit">
-    {% if request.user.username not in user.followers.all %}
+    {% if current_user != user %}
+    <button id="follow" type="submit" data-action="{% if current_user in user.followers.all %}un{% endif %}follow">
+    {% if current_user not in user.followers.all %}
     Follow
     {% else %}
     Unfollow
     {% endif %}
     </button>
+    {% endif %}
     {% endif %}
 
     

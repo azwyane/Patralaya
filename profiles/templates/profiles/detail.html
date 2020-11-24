@@ -12,6 +12,11 @@
                 username:"{{user}}",
                 action:"follow",
                 csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    var previous_action = $('button#follow').data('action');
+                }
             }
             
 
@@ -22,22 +27,22 @@
 
 {% block content %}
 <h1>{{ user}}</h1>
-<h1>{{ user.followers.count }}</h1>
 <img src='{{user.profile_picture.url}}' style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
     {% with total_followers=user.followers.count %}
     <span class="count">
+        <hr>
     <span class="total">{{ total_followers }}</span>
     follower{{ total_followers|pluralize }}
     </span>
     <ul>
-        {% for u in user.followers.all %}
+        {% for profile in user.followers.all %}
 
-        <li>{{ u }}</li>
+        <li><a href="{% url 'user_detail' profile %}">{{ profile }}</a></li>
         {% endfor %}
     </ul>
     
-    
-    
+    {{request.user}}
+    {% if request.user.is_authenticated %}
     <button id="follow" type="submit">
     {% if request.user.username not in user.followers.all %}
     Follow
@@ -45,7 +50,7 @@
     Unfollow
     {% endif %}
     </button>
-    </a>
+    {% endif %}
 
     
 

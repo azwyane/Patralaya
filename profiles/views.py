@@ -86,21 +86,21 @@ def user_detail(request,username):
 @require_POST
 @login_required
 def user_follow(request):
-    username = request.POST['username']
+    profile_name = request.POST['username']
     action = request.POST['action']
-    print(username,action)
-    # if user_id and action:
-    #     try:
-    #         user = Profile.objects.get(user=User.objects.get(username=username))
-    #         if action == 'follow':
-    #             Follow.objects.get_or_create(
-    #                 user_from=request.user,
-    #                 user_to=user)
-    #         else:
-    #             Follow.objects.filter(user_from=request.user,user_to=user).delete()
+    if profile_name and action:
+        try:
+            profile_to_follow = Profile.objects.get(user=User.objects.get(username=profile_name))
+            if action == 'follow':
+                Follow.objects.get_or_create(
+                    profile_from = Profile.objects.get(user=request.user),
+                    profile_to = profile_to_follow
+                    )
+            else:
+                Follow.objects.filter(profile_from=request.user,profile_to=profile_to_follow).delete()
             
-    #         return JsonResponse({'status':'ok'})
+            return JsonResponse({'status':'ok'})
                 
-    #     except User.DoesNotExist:
-    #         return JsonResponse({'status':'error'})
-    # return JsonResponse({'status':'error'})
+        except Profile.DoesNotExist:
+            return JsonResponse({'status':'error'})
+    return JsonResponse({'status':'error'})

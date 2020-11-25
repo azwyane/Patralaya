@@ -1,14 +1,33 @@
-{{ object.title|safe}}
+<!--custom template tag-->
+{% load profiles_tags %}
+<!--custom tag takes request.user and returns profile object as current_user variable-->
+{% profile_obj request.user as current_user%}
+{% if object.creator == current_user %}
+<ul>
+    <li>
+        <a href="{% url 'update_bundle' creator=object.creator slug=object.slug %}">update</a>
+    </li>
+    <li>
+        <a href="{% url 'delete_bundle' creator=object.creator slug=object.slug %}">delete</a>
+    </li>
+</ul>
+{% endif %}
+
+
+<h1><p>{{ object.title|safe}}</p></h1>
 <p>context: {{ object.context|safe }}</p>
 <p>Tags: {{ object.tags.all|join:", " }}</p>
 <p>Created: {{ object.created_on|date }}</p>
 <p>Published: {{ object.created_on|date }}</p>
 <p>Updated: {{ object.updated_on|date }}</p>
 <p>Status: {{ object.status }}</p>
-<p>Author: {{ object.creator }}</p>
+<p>Creator: {{ object.creator }}</p>
 <img src='{{object.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
 
-<strong>Comments</strong>
+<hr>
+<a href="{% url 'comment_bundle' creator=object.creator slug=object.slug %}" type="submit">Create Comment</a>
+
+<p><strong>Comments</strong></p>
 {% for comment in object.comment.all %}
           <div class="w3-row-padding">
           

@@ -37,6 +37,9 @@
 });
 </script>
 
+<!--custom tag takes request.user and returns profile object as current_user variable-->
+{% profile_obj request.user as current_user%}
+
 {% block content %}
 <h1>{{ user}}</h1>
 <img src='{{user.profile_picture.url}}' style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
@@ -53,8 +56,7 @@
         {% endfor %}
     </ul>
     
-    <!--custom tag takes request.user and returns profile object as current_user variable-->
-    {% profile_obj request.user as current_user%}
+    
     {% if request.user.is_authenticated %}
     {% if current_user != user %}
     <button id="follow" type="submit" data-action="{% if current_user in user.followers.all %}un{% endif %}follow">
@@ -71,3 +73,40 @@
 
 {% endwith %}
 {% endblock %}
+
+{% block bundles %}
+<ul>
+{% for bundle in bundles %}
+<li>{{ bundle.title|safe }}<a href='{{ bundle.get_absolute_url }}'>Readmore</a></li>
+<p>Created by:</p>
+<p><img src='{{bundle.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
+</p>
+<p>{{ bundle.creator }}</p>
+<p>Tags: </p>
+<ul>
+    {% for tag in bundle.tags.all %}
+    <li><a href="{% url 'list_bundle_by_tag' tag.slug %}">
+        {{ tag.name }}
+    </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endfor %}
+</ul>
+
+{% endblock %}
+
+
+{% if bundles.has_previous %}
+            <a href="?page=1" >&laquo; first</a>
+            <a href="?page={{ bundles.previous_page_number }}" >previous</a>
+{% endif %}
+  
+        <span class="current">
+            Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}.
+        </span>
+  
+{% if bundles.has_next %}
+    <a href="?page={{ bundles.next_page_number }}" >next</a>
+    <a href="?page={{ bundles.paginator.num_pages }}" >last &raquo;</a>
+{% endif %}

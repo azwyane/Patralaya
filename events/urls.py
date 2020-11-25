@@ -6,10 +6,12 @@ from events.views import (
     PublicBundleListView, CommentCreateView,
    
     )
+from profiles.views import user_detail
 
 urlpatterns=[
-    path('home/',home,name='home'),
-    path('<slug:creator>/<slug:slug>/create/',BundleCreateView.as_view(),name='create_bundle'),
+    path('',home,name='home'),
+    path('<slug:username>/',user_detail, name='user_detail'),
+    path('<slug:creator>/create/',BundleCreateView.as_view(),name='create_bundle'),
     path('<slug:creator>/all/',BundleListView.as_view(),name='list_bundle'),
 
     #slug is dynamically generated from the Bundle model as /<creator>/<title>

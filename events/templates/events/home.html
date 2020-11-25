@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <h3>WELCOME TO PATRALAYA</h3>
+<hr>
+<p>Great to see you back, {{ user }}</p>
 
+<br>
+<h4>NAVIGATIONS FOR YOU</h4>
+<ul>
+    <li>
+        <a href="#">settings</a>
+    </li>
+    <li>
+        <a href="{% url 'user_detail' user %}">profile</a>
+    </li>
+    <li>
+        <a href="{% url 'create_bundle' user %}">create bundle</a>
+    </li>
+    <li>
+       <a href="#">activity stream</a>
+    </li>
+    <li>
+        <a href="{% url 'user_list' %}"> public users</a>
+    </li>
+</ul>
 <strong>
     Landing page sits here.
 </strong>
@@ -13,12 +34,14 @@
    {% endfor %}
 
 {% endif %}
+{% if not user.is_authenticated %}
 <div>
     <button ><a href="{% url 'login' %}" class="btn">login</a></button>
 </div>
 <div>
     <button ><a href="{% url 'signup' %}" class="btn">signup</a></button>
 </div>
+{% endif %}
 {% if user.is_authenticated %}
 <div>
     <button ><a href="{% url 'logout' %}" class="btn">logout</a></button>

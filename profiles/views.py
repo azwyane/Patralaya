@@ -18,8 +18,12 @@ from django.contrib.auth.models import User
 #local form 
 from profiles.forms import UserRegisterForm
 
+#function based paginator
+from django.core.paginator import Paginator
+
 #models
 from profiles.models import Profile, Follow
+from events.models import Bundle
 
 def signup(request):
     if request.method == "POST":
@@ -74,12 +78,37 @@ def logout_user(request):
 # @login_required
 def user_list(request):
     profile = Profile.objects.all
-    return render(request,'profiles/list.html',{'users': profile})
+    return render(request,'profiles/profile_list.html',{'users': profile})
     
 # @login_required
 def user_detail(request,username):
     profile = get_object_or_404(Profile,user=User.objects.get(username=username))
-    return render(request,'profiles/detail.html',{'user': profile})
+    bundles = Bundle.objects.filter(creator=profile).order_by('-published_on')
+    if request.user.is_authenticated:
+            if Profile.objects.get(user=request.user) == Profile.objects.get(user=User.objects.get(username=username)):
+                '''
+                Return all private(draft) and public(publish) bundles if the user 
+                requesting is the owner of the bundle
+                '''
+                bundles = bundles.filter(
+                    creator=Profile.objects.get(user=User.objects.get(username=username))
+                    )
+            else: 
+                '''
+                Return all private(draft) and public(publish) bundles if the user 
+                requesting is the owner of the bundle
+                '''
+                bundles = bundles.filter(
+                    creator=Profile.objects.get(user=User.objects.get(username=username)),
+                    status='Publish') 
+    else:
+        bundles = bundles.filter(
+                creator=Profile.objects.get(user=User.objects.get(username=username)),
+                status='Publish') 
+    paginator = Paginator(bundles,3)
+    page = request.GET.get('page')
+    bundles = paginator.get_page(page)
+    return render(request,'profiles/profile_detail.html',{'user': profile, 'bundles':bundles})
 
 
 @ajax_required

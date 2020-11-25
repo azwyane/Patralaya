@@ -160,7 +160,7 @@ class BundleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     model = Bundle
     template_name = 'events/bundle_delete.html'
-    success_url = reverse_lazy('list_bundle')
+    success_url = reverse_lazy('home')
     login_url = 'home'
 
     def test_func(self):
@@ -202,6 +202,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     template_name = 'events/comment_form.html'
     fields = ['context']
+    success_url = reverse_lazy('home')
     login_url = 'home'
 
     def form_valid(self,form):
@@ -212,3 +213,5 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         form.instance.creator  = Profile.objects.get(user=self.request.user)
         form.instance.bundle = Bundle.objects.get(slug=self.kwargs['slug'])
         return super().form_valid(form)
+
+   

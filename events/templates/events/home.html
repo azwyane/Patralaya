@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <h3>WELCOME TO PATRALAYA</h3>
 <hr>
+{% if user.is_authenticated %}
 <p>Great to see you back, {{ user }}</p>
 
 <br>
+
 <h4>NAVIGATIONS FOR YOU</h4>
 <ul>
     <li>
@@ -18,10 +20,13 @@
     <li>
        <a href="#">activity stream</a>
     </li>
+    {% endif %}
+    
     <li>
         <a href="{% url 'user_list' %}"> public users</a>
     </li>
 </ul>
+
 <strong>
     Landing page sits here.
 </strong>
@@ -46,4 +51,42 @@
 <div>
     <button ><a href="{% url 'logout' %}" class="btn">logout</a></button>
 </div>
+{% endif %}
+
+<hr>
+<p>SEARCH FIELD</p>
+
+<hr>
+<h3>CATEGORIES</h3>
+<ul>
+    {% for category in categories %}
+    <li>
+       <a href="{% url 'list_tag' tag_slug=category %}"> #{{ category }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<hr>
+<h3>RECENTLY PUBLISHED BUNDLES</h3>
+<ul>
+    {% for bundle in bundles %}
+    <li>
+       <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}"> {{ bundle }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<!--pagination-->
+{% if bundles.has_previous %}
+            <a href="?page=1" >&laquo; first</a>
+            <a href="?page={{ bundles.previous_page_number }}" >previous</a>
+{% endif %}
+  
+        <span class="current">
+            Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}.
+        </span>
+  
+{% if bundles.has_next %}
+    <a href="?page={{ bundles.next_page_number }}" >next</a>
+    <a href="?page={{ bundles.paginator.num_pages }}" >last &raquo;</a>
 {% endif %}

@@ -3,7 +3,8 @@ from events.views import (
     home, BundleCreateView,
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
-    PublicBundleListView, CommentCreateView,
+    PublicBundleListView, TagListView,
+    CommentCreateView,
    
     )
 from profiles.views import user_detail
@@ -26,4 +27,8 @@ urlpatterns=[
 
     #comment urls
     path('<slug:creator>/<slug:slug>/comment/',CommentCreateView.as_view(),name='comment_bundle'),
+
+    #topics by tag
+    path('bundle/topics/<slug:tag_slug>/',TagListView.as_view(), name='list_tag'),
+
 ]

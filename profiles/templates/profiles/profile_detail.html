@@ -37,8 +37,10 @@
 });
 </script>
 
+{% if request.user.is_authenticated %}
 <!--custom tag takes request.user and returns profile object as current_user variable-->
 {% profile_obj request.user as current_user%}
+{% endif %}
 
 {% block content %}
 <h1>{{ user}}</h1>
@@ -74,6 +76,8 @@
 {% endwith %}
 {% endblock %}
 
+<hr>
+<h3>{{user}}'s Bundles</h3>
 {% block bundles %}
 <ul>
 {% for bundle in bundles %}

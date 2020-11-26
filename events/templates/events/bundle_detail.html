@@ -1,7 +1,11 @@
 <!--custom template tag-->
 {% load profiles_tags %}
+
+{% if request.user.is_authenticated %}
 <!--custom tag takes request.user and returns profile object as current_user variable-->
 {% profile_obj request.user as current_user%}
+{% endif %}
+
 {% if object.creator == current_user %}
 <ul>
     <li>

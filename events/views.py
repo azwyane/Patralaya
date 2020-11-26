@@ -17,6 +17,9 @@ from django.views.generic import (
 #redirects to the url
 from django.urls import reverse_lazy
 
+#function based paginator
+from django.core.paginator import Paginator
+
 # contrib.auth User model
 from django.contrib.auth.models import User
 
@@ -34,7 +37,12 @@ def home(request):
     This is the view for main landing page
     for the web app.
     '''
-    return render(request,'events/home.html')
+    bundles = Bundle.published.all()
+    categories = Tag.objects.all()
+    paginator = Paginator(bundles,3)
+    page = request.GET.get('page')
+    bundles = paginator.get_page(page)
+    return render(request,'events/home.html',{'categories':categories,'bundles':bundles})
 
 
 class BundleCreateView(LoginRequiredMixin, CreateView):
@@ -98,7 +106,7 @@ class BundleListView(ListView):
                     status='Publish') 
 
 
-class BundleDetailView(LoginRequiredMixin, DetailView):
+class BundleDetailView(DetailView):
     '''
     - View to see details in a bundle: inherits from DetailView
     - Login is required to create bundle: inherits from LoginRequiredMixin
@@ -106,7 +114,7 @@ class BundleDetailView(LoginRequiredMixin, DetailView):
 
     model = Bundle 
     template_name = 'events/bundle_detail.html'
-    login_url = 'home'
+    # login_url = 'home'
 
     def get_queryset(self):
         obj_list = super().get_queryset()
@@ -192,6 +200,25 @@ class PublicBundleListView(ListView):
           
         return obj_list
 
+
+class TagListView(ListView):
+    '''
+    - View to see list of public (publish) bundles: inherits from ListView
+    '''
+    model = Bundle
+    template_name = 'events/tag_list.html'
+    ordering = ['-created_on']
+    paginate_by = 2
+
+    def get_queryset(self):
+        obj_list = super().get_queryset()
+        tag = None 
+        if self.kwargs:
+            if self.kwargs['tag_slug']:
+                tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
+                obj_list = obj_list.filter(tags__in=[tag])
+          
+                return obj_list
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     '''

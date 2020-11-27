@@ -61,7 +61,6 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
         save the data obtained from the form
         if its valid
         '''
-        #foreign key traces parent table
         form.instance.creator  = Profile.objects.get(user=self.request.user)
         return super().form_valid(form)
 
@@ -69,10 +68,8 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
 class BundleListView(ListView):
     '''
     - View to see list of bundles: inherits from ListView
-    - Login is required to create bundle: inherits from LoginRequiredMixin
-
-    Private bundle list view: returns both draft and published bundles 
-    for the right owner profile else will return only published bundles 
+    - Private bundle list view: returns both draft and published bundles 
+      for the right owner profile else will return only published bundles 
     '''
     
     model = Bundle
@@ -83,24 +80,21 @@ class BundleListView(ListView):
     
     def get_queryset(self):
         obj_list = super().get_queryset()
-        if self.request.user.is_authenticated:
-            if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
-                '''
-                Return all private(draft) and public(publish) bundles if the user 
-                requesting is the owner of the bundle
-                '''
-                return obj_list.filter(
+        if self.request.user.is_authenticated and (Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))):
+            '''
+            check if the requesting user is the owner of the bundle
+            if True return all private and public bundle for the
+            requesting user
+            '''
+            return obj_list.filter(
                     creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))
                     )
-            else: 
-                '''
-                Return all private(draft) and public(publish) bundles if the user 
-                requesting is the owner of the bundle
-                '''
-                return obj_list.filter(
-                    creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])),
-                    status='Publish') 
         else:
+            '''
+            if requesting user is not the owner of the bundle or
+            is an anonymous user then return all public bundle
+            of the provided username
+            '''
             return obj_list.filter(
                     creator=Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])),
                     status='Publish') 
@@ -114,16 +108,19 @@ class BundleDetailView(DetailView):
 
     model = Bundle 
     template_name = 'events/bundle_detail.html'
-    # login_url = 'home'
 
     def get_queryset(self):
         obj_list = super().get_queryset()
-        if self.request.user.is_authenticated:
-            if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator'])):
-                return obj_list
-            else:
-                return obj_list.filter(status='Publish')
+        if self.request.user.is_authenticated and (Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))):
+            '''
+            returns detail view for the requesting user if
+            the user is the owner of the bundle
+            '''
+            return obj_list
         else:
+            '''
+            returns forced detail view only for published bundles only
+            '''
             return obj_list.filter(status='Publish')
 
 
@@ -178,27 +175,6 @@ class BundleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if Profile.objects.get(user=self.request.user) == self.get_object().creator:
             return True
         return False
-
-
-class PublicBundleListView(ListView):
-    '''
-    - View to see list of public (publish) bundles: inherits from ListView
-    '''
-    model = Bundle
-    template_name = 'events/bundle_list.html'
-    ordering = ['-created_on']
-    paginate_by = 2
-    login_url = 'home'
-
-    def get_queryset(self):
-        obj_list = super().get_queryset()
-        tag = None 
-        if self.kwargs:
-            if self.kwargs['tag_slug']:
-                tag = get_object_or_404(Tag, slug=self.kwargs['tag_slug'])
-                obj_list = obj_list.filter(tags__in=[tag])
-          
-        return obj_list
 
 
 class TagListView(ListView):

@@ -6,6 +6,8 @@ from profiles.views import (
 )
 
 urlpatterns=[
+
+    #urls will be following pattern as example.com/profiles/<actions>
     path('login/',login_user,name='login'),
     path('signup/',signup,name='signup'),
     path('logout/',logout_user,name='logout'),

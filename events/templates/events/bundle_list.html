@@ -12,7 +12,7 @@
 <p>Tags: </p>
 <ul>
     {% for tag in bundle.tags.all %}
-    <li><a href="{% url 'list_bundle_by_tag' tag.slug %}">
+    <li><a href="{% url 'list_tag' tag_slug=tag.slug %}">
         {{ tag.name }}
     </a>
     </li>

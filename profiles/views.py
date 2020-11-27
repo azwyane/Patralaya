@@ -33,7 +33,7 @@ def signup(request):
             username = form.cleaned_data.get('username')
             messages.success(request, f"New account created: {username}")
             login(request, user,backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('home') #home view is the main page view for future
+            return redirect('home')
 
         else:
             for msg in form.error_messages:
@@ -55,7 +55,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 messages.info(request, f"logged in as {username}")
-                return redirect('home') #home view is the main page view for future
+                return redirect('home') 
             else:
                 messages.error(request, "Invalid username or password.")
                 
@@ -72,36 +72,33 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     messages.info(request, "Logged out successfully!")
-    return redirect('home') #home view is the main page view for future
+    return redirect('home') 
 
 
-# @login_required
 def user_list(request):
     profile = Profile.objects.all
     return render(request,'profiles/profile_list.html',{'users': profile})
     
-# @login_required
+
 def user_detail(request,username):
     profile = get_object_or_404(Profile,user=User.objects.get(username=username))
     bundles = Bundle.objects.filter(creator=profile).order_by('-published_on')
-    if request.user.is_authenticated:
-            if Profile.objects.get(user=request.user) == Profile.objects.get(user=User.objects.get(username=username)):
-                '''
-                Return all private(draft) and public(publish) bundles if the user 
-                requesting is the owner of the bundle
-                '''
-                bundles = bundles.filter(
+    if request.user.is_authenticated and (Profile.objects.get(user=request.user) == Profile.objects.get(user=User.objects.get(username=username))):
+        '''
+        check if the requesting user is the owner of the bundle
+        if True return all private and public bundle for the
+        requesting user
+        '''
+        
+        bundles = bundles.filter(
                     creator=Profile.objects.get(user=User.objects.get(username=username))
                     )
-            else: 
-                '''
-                Return all private(draft) and public(publish) bundles if the user 
-                requesting is the owner of the bundle
-                '''
-                bundles = bundles.filter(
-                    creator=Profile.objects.get(user=User.objects.get(username=username)),
-                    status='Publish') 
     else:
+        '''
+        if requesting user is not the owner of the bundle or
+        is an anonymous user then return all public bundle
+        of the provided username
+        '''
         bundles = bundles.filter(
                 creator=Profile.objects.get(user=User.objects.get(username=username)),
                 status='Publish') 

@@ -4,11 +4,15 @@ from events.views import (
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
     CommentCreateView,TagListView,
-    SearchBundleListView,
+    SearchBundleListView, 
+    # fork_bundle
     )
 
 # profile views is imported here to make url as example.com/<username>    
 from profiles.views import user_detail
+
+#rss feed generator
+from .feeds import PublishedBundleFeed
 
 urlpatterns=[
 
@@ -33,5 +37,11 @@ urlpatterns=[
 
     #search public bundles
     path('bundle/public/search/',SearchBundleListView.as_view(), name='search_bundle_results'),
+
+    #rss url
+    path('bundle/published/all/feed/', PublishedBundleFeed(), name='bundle_feed'),
+    
+    #fork bundles
+    # path('bundle/fork/new/<slug:username>/<slug:title>',fork_bundle, name='fork_bundle'),
 
 ]

@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import (
     LoginRequiredMixin,   # require login to access the content
     UserPassesTestMixin   # check if the logged in user is owner of the object
 )
+from django.contrib.auth.decorators import login_required
 
 # get timezone
 from django.utils import timezone
@@ -158,6 +159,7 @@ class BundleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+
 class BundleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     '''
     - View to delete a bundle: inherits from DeleteView
@@ -215,6 +217,14 @@ class SearchBundleListView(ListView):
             )
         context['published'] = published_bundles
         return context
+
+
+# @login_required
+# def fork_bundle(request,**kwargs):
+    #   '''
+    #   a fork view soon to be implemented
+    #   '''
+#     return render(request,'events/bundle_form.html',form)
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):

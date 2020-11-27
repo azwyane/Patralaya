@@ -30,7 +30,8 @@ from taggit.models import Tag
 from profiles.models import Profile
 from events.models import Bundle,Comment
 
-
+# search api from django db
+from django.db.models import Q
 
 def home(request):
     '''
@@ -76,7 +77,6 @@ class BundleListView(ListView):
     template_name = 'events/bundle_list.html'
     ordering = ['-created_on']
     paginate_by = 2
-    login_url = 'home'
     
     def get_queryset(self):
         obj_list = super().get_queryset()
@@ -195,6 +195,22 @@ class TagListView(ListView):
                 obj_list = obj_list.filter(tags__in=[tag])
           
                 return obj_list
+
+
+class SearchBundleListView(ListView):
+    model = Bundle
+    template_name = 'events/search_list.html'
+    paginate_by = 2
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        published_bundles = Bundle.published.all()
+        published_bundles = published_bundles.filter(
+            Q(title__icontains=self.request.GET['query']) | Q(context__icontains=self.request.GET['query'])
+            ).distinct()
+        context['published'] = published_bundles
+        return context
+
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     '''

@@ -4,6 +4,7 @@ from events.views import (
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
     CommentCreateView,TagListView,
+    SearchBundleListView,
     )
 
 # profile views is imported here to make url as example.com/<username>    
@@ -29,5 +30,8 @@ urlpatterns=[
 
     #public topics by tag
     path('bundle/topics/<slug:tag_slug>/',TagListView.as_view(), name='list_tag'),
+
+    #search public bundles
+    path('bundle/public/search/',SearchBundleListView.as_view(), name='search_bundle_results'),
 
 ]

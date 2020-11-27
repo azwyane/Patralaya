@@ -87,7 +87,7 @@ class Bundle(models.Model):
         '''
         modifiable meta class as per desire
         '''
-        ordering = ('-published_on',)
+        ordering = ('-published_on','title','context')
 
     
     def __str__(self):

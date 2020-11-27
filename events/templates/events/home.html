@@ -58,6 +58,9 @@
 
 <hr>
 <p>SEARCH FIELD</p>
+<form action="{% url 'search_bundle_results' %}" method="GET">
+    <input name="query" type="text" placeholder="search bundles">
+</form>
 
 <hr>
 <h3>CATEGORIES</h3>

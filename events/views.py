@@ -80,7 +80,9 @@ class BundleListView(ListView):
     
     def get_queryset(self):
         obj_list = super().get_queryset()
-        if self.request.user.is_authenticated and (Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))):
+        if (self.request.user.is_authenticated and 
+            Profile.objects.get(user=self.request.user) 
+                == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))):
             '''
             check if the requesting user is the owner of the bundle
             if True return all private and public bundle for the
@@ -111,7 +113,9 @@ class BundleDetailView(DetailView):
 
     def get_queryset(self):
         obj_list = super().get_queryset()
-        if self.request.user.is_authenticated and (Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))):
+        if (self.request.user.is_authenticated and 
+            Profile.objects.get(user=self.request.user) 
+                == Profile.objects.get(user=User.objects.get(username=self.kwargs['creator']))):
             '''
             returns detail view for the requesting user if
             the user is the owner of the bundle

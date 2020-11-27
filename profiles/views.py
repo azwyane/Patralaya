@@ -83,7 +83,9 @@ def user_list(request):
 def user_detail(request,username):
     profile = get_object_or_404(Profile,user=User.objects.get(username=username))
     bundles = Bundle.objects.filter(creator=profile).order_by('-published_on')
-    if request.user.is_authenticated and (Profile.objects.get(user=request.user) == Profile.objects.get(user=User.objects.get(username=username))):
+    if (request.user.is_authenticated and 
+        Profile.objects.get(user=request.user) 
+            == Profile.objects.get(user=User.objects.get(username=username))):
         '''
         check if the requesting user is the owner of the bundle
         if True return all private and public bundle for the
@@ -146,14 +148,19 @@ def user_follow(request):
     action = request.POST['action']
     if profile_name and action:
         try:
-            profile_to_follow = Profile.objects.get(user=User.objects.get(username=profile_name))
+            profile_to_follow = Profile.objects.get(
+                user=User.objects.get(username=profile_name)
+                )
             if action == 'follow':
                 Follow.objects.get_or_create(
                     profile_from = Profile.objects.get(user=request.user),
                     profile_to = profile_to_follow
                     )
             else:
-                Follow.objects.filter(profile_from=Profile.objects.get(user=request.user),profile_to=profile_to_follow).delete()
+                Follow.objects.filter(
+                    profile_from=Profile.objects.get(user=request.user),
+                    profile_to=profile_to_follow
+                    ).delete()
             
             return JsonResponse({'status':'ok'})
                 

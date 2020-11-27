@@ -33,8 +33,9 @@ class Profile(models.Model):
         primary_key=True
         )
     profile_picture = models.ImageField(
-        default='default.jpeg',
         upload_to='profile_picture',
+        blank=True,
+        null= True
         )
     following = models.ManyToManyField(
         'self',

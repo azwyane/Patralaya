@@ -26,7 +26,10 @@
 <p>Updated: {{ object.updated_on|date }}</p>
 <p>Status: {{ object.status }}</p>
 <p>Creator: {{ object.creator }}</p>
+
+{% if object.creator.profile_picture %}
 <img src='{{object.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
+{% endif %}
 
 <hr>
 <a href="{% url 'comment_bundle' creator=object.creator slug=object.slug %}" type="submit">Create Comment</a>

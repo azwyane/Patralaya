@@ -16,7 +16,7 @@ from common.decorators import ajax_required
 from django.contrib.auth.models import User
 
 #local form 
-from profiles.forms import UserRegisterForm
+from profiles.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 #function based paginator
 from django.core.paginator import Paginator
@@ -106,6 +106,36 @@ def user_detail(request,username):
     page = request.GET.get('page')
     bundles = paginator.get_page(page)
     return render(request,'profiles/profile_detail.html',{'user': profile, 'bundles':bundles})
+
+
+@login_required
+def user_settings(request):
+    if request.method == "POST":
+        user_form = UserUpdateForm(
+            request.POST,
+            instance = request.user
+            )
+        profile_form = ProfileUpdateForm(
+            request.POST,
+            request.FILES,
+            instance = Profile.objects.get(user=request.user)
+            )
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "Your profile has been updated")
+            return redirect('home')
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=Profile.objects.get(user=request.user))
+
+
+    user_profile_forms = {
+        'user_form':user_form,
+        'profile_form':profile_form
+    }
+
+    return render(request,'profiles/settings.html',user_profile_forms)
 
 
 @ajax_required

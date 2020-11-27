@@ -44,7 +44,9 @@
 
 {% block content %}
 <h1>{{ user}}</h1>
+{% if bundle.creator.profile_picture %}
 <img src='{{user.profile_picture.url}}' style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
+{% endif %}   
     {% with total_followers=user.followers.count %}
     <span class="count">
         <hr>
@@ -81,10 +83,12 @@
 {% block bundles %}
 <ul>
 {% for bundle in bundles %}
-<li>{{ bundle.title|safe }}<a href='{{ bundle.get_absolute_url }}'>Readmore</a></li>
+<li>{{ bundle.title|safe }}<a href='{{ bundle.get_absolute_url }}'>  Readmore</a></li>
 <p>Created by:</p>
+{% if bundle.creator.profile_picture %}
 <p><img src='{{bundle.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
 </p>
+{% endif %}
 <p>{{ bundle.creator }}</p>
 <p>Tags: </p>
 <ul>
@@ -93,6 +97,7 @@
         {{ tag.name }}
     </a>
     </li>
+    <br>
     {% endfor %}
 </ul>
 {% endfor %}

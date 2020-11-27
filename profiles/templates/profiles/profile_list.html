@@ -3,8 +3,10 @@
 <ul>
 {% for public_profiles in users %}
     <li>
+        {% if public_profiles.profile_picture %}
         <p><img src='{{public_profiles.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
         </p>
+        {% endif %}
         <a href='{{ public_profiles.get_absolute_url }}'>
             {{ public_profiles.user }}
         </a>

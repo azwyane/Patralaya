@@ -206,8 +206,9 @@ class SearchBundleListView(ListView):
         context = super().get_context_data(**kwargs)
         published_bundles = Bundle.published.all()
         published_bundles = published_bundles.filter(
-            Q(title__icontains=self.request.GET['query']) | Q(context__icontains=self.request.GET['query'])
-            ).distinct()
+            # Q(title__icontains=self.request.GET['query']) | Q(context__icontains=self.request.GET['query'])
+            Q(title__icontains=self.request.GET['query'])
+            )
         context['published'] = published_bundles
         return context
 

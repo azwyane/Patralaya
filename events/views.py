@@ -34,6 +34,12 @@ from events.models import Bundle,Comment
 # search api from django db
 from django.db.models import Q
 
+#decorators for user comment
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+# global decorator defined in common in root directory
+from common.decorators import ajax_required
+
 def home(request):
     '''
     This is the view for main landing page
@@ -227,25 +233,27 @@ class SearchBundleListView(ListView):
 #     return render(request,'events/bundle_form.html',form)
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
-    '''
-    - View to create a comment to a bundle: inherits from CreateView
-    - Login is required to create bundle: inherits from LoginRequiredMixin
-    '''
-
-    model = Comment
-    template_name = 'events/comment_form.html'
-    fields = ['context']
-    success_url = reverse_lazy('home')
-    login_url = 'home'
-
-    def form_valid(self,form):
-        '''
-        save the data obtained from the form
-        if its valid
-        '''
-        form.instance.creator  = Profile.objects.get(user=self.request.user)
-        form.instance.bundle = Bundle.objects.get(slug=self.kwargs['slug'])
-        return super().form_valid(form)
-
-   
+@ajax_required
+@require_POST
+@login_required
+def bundle_comment(request):
+    pk = request.POST['pk']
+    action = request.POST['action']
+    context = request.POST['context']
+    if pk and action and context:
+        try:
+            bundle_to_comment = Bundle.objects.get(
+                pk=pk
+                )
+            if action == 'comment':
+                Comment.objects.create(
+                    bundle = bundle_to_comment,
+                    creator=Profile.objects.get(user=request.user),
+                    context=context
+                    )
+            
+            return JsonResponse({'status':'ok'})
+                
+        except Profile.DoesNotExist:
+            return JsonResponse({'status':'error'})
+    return JsonResponse({'status':'error'})

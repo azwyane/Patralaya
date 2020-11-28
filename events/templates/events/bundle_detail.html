@@ -1,6 +1,34 @@
 <!--custom template tag-->
 {% load profiles_tags %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+<script>
+    $(document).ready(function(){
+    $("button#comment").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'comment_bundle' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                context: $("textarea.comment").val(),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    $('div.comment-success').text($("textarea.comment").val());
+                    $("textarea.comment").val('')
+                }
+            }
+            
+
+        );
+    });
+});
+</script>
+
+
 {% if request.user.is_authenticated %}
 <!--custom tag takes request.user and returns profile object as current_user variable-->
 {% profile_obj request.user as current_user%}
@@ -43,14 +71,27 @@
 {% endif %}
 
 <hr>
-<a href="{% url 'comment_bundle' creator=object.creator slug=object.slug %}" type="submit">Create Comment</a>
+
+<p>
+    {% if request.user.is_authenticated %}
+    
+        <textarea class="comment" placeholder="Comment here"></textarea>
+        <button id="comment" type="submit" data-action="comment">
+            Comment
+        </button>
+    
+    {% endif %}
+
+
+</p>
+
 
 <p><strong>Comments</strong></p>
 {% for comment in object.comment.all %}
-          <div class="w3-row-padding">
+          <div class="comment-success">
           
           </div>
-          <hr class="w3-clear">
+          <hr class="comments-all">
           <p>{{ comment.context|linebreaks }}</p>
           <p>By:<strong>{{ comment.creator }}</strong><span class="w3-right w3-opacity">commented at:{{ comment.created_on}}</span></p>
   

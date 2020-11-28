@@ -3,8 +3,8 @@ from events.views import (
     home, BundleCreateView,
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
-    CommentCreateView,TagListView,
-    SearchBundleListView, 
+    TagListView,SearchBundleListView,
+    bundle_comment, 
     # fork_bundle
     )
 
@@ -32,7 +32,8 @@ urlpatterns=[
     path('<slug:creator>/<slug:slug>/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
     
     #comment urls uses ajax 
-    path('<slug:creator>/<slug:slug>/comment/',CommentCreateView.as_view(),name='comment_bundle'),
+    path(r'^bundle/comment/$',bundle_comment,name='comment_bundle'),
+
 
     #public topics by tag
     path('bundle/topics/<slug:tag_slug>/',TagListView.as_view(), name='list_tag'),

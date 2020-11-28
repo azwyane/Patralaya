@@ -76,6 +76,11 @@ class Bundle(models.Model):
         blank=True,
         null=True
         )
+    media_file = models.FileField(
+        upload_to='bundle_papers/%Y/%m/%d/',
+        blank=True,
+        null=True
+        )
     slug = models.SlugField(null=False, unique=True)
     
     #managers

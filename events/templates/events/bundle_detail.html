@@ -16,7 +16,17 @@
     </li>
 </ul>
 {% endif %}
-{{test}}
+
+{% if object.media_file or object.media_image %}
+<br>
+<p> MEDIAS</p>
+{% if object.media_file %}
+<p>PAPER: <a href='{{object.media_file.url}}'>{{object.media_file.name|slice:"25:"}}</a></p>
+{% endif %}
+{% if object.media_image %}
+<p>IMAGE: <a href='{{object.media_image.url}}'>{{object.media_image.name|slice:"13:"}}</a></p>
+{% endif %}
+{% endif %}
 
 <h1><p>{{ object.title|safe}}</p></h1>
 <p>context: {{ object.context|safe }}</p>
@@ -26,6 +36,7 @@
 <p>Updated: {{ object.updated_on|date }}</p>
 <p>Status: {{ object.status }}</p>
 <p>Creator: {{ object.creator }}</p>
+
 
 {% if object.creator.profile_picture %}
 <img src='{{object.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">

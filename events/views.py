@@ -139,7 +139,7 @@ class BundleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     '''
 
     model = Bundle
-    fields = ['title','tags','context','media_image','status']
+    fields = ['title','tags','context','media_file','media_image','status']
     template_name = 'events/bundle_form.html'
     login_url = 'home'
 

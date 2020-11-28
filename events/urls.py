@@ -14,6 +14,8 @@ from profiles.views import user_detail
 #rss feed generator
 from .feeds import PublishedBundleFeed
 
+# app_name = 'events'
+
 urlpatterns=[
 
     # home url
@@ -39,7 +41,7 @@ urlpatterns=[
     path('bundle/public/search/',SearchBundleListView.as_view(), name='search_bundle_results'),
 
     #rss url
-    path('bundle/published/all/feed/', PublishedBundleFeed(), name='bundle_feed'),
+    path('bundle/published/all/feed.xml', PublishedBundleFeed(), name='bundle_feed'),
     
     #fork bundles
     # path('bundle/fork/new/<slug:username>/<slug:title>',fork_bundle, name='fork_bundle'),

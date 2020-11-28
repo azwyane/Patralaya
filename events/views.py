@@ -37,8 +37,12 @@ from django.db.models import Q
 #decorators for user comment
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+
 # global decorator defined in common in root directory
 from common.decorators import ajax_required
+
+# activity generation model utils
+from activities.utils import create_action
 
 def home(request):
     '''
@@ -71,6 +75,8 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
         '''
         form.instance.creator  = Profile.objects.get(user=self.request.user)
         return super().form_valid(form)
+        
+        # create_action(Profile.objects.get(user=self.request.user), 'created a new bundle', self.object)
 
 
 class BundleListView(ListView):

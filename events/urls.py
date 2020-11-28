@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from events.views import (
     home, BundleCreateView,
     BundleListView, BundleDetailView,
@@ -32,7 +32,7 @@ urlpatterns=[
     path('<slug:creator>/<slug:slug>/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
     
     #comment urls uses ajax 
-    path(r'^bundle/comment/$',bundle_comment,name='comment_bundle'),
+    path('bundle/create/comment/',bundle_comment,name='comment_bundle'),
 
 
     #public topics by tag

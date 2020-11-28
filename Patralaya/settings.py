@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'services.apps.ServicesConfig',
     'profiles.apps.ProfilesConfig',
+    'activities.apps.ActivitiesConfig',
 
     #(3rd party)
     'ckeditor',

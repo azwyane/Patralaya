@@ -26,6 +26,21 @@ class Profile(models.Model):
     It refers to the social profile of the user. These fields are
     extensible for future.
     '''
+    WORKING_STATUS_CHOICES= [
+    ('student', 'Student'),
+    ('teacher', 'Teacher'),
+    ('none', 'Prefer no to say'),
+    ]
+
+    INTERESTED_FIELDS_CHOICES =[
+        ('science','Science'),
+        ('maths','Maths'),
+        ('computer','Computer'),
+        ('history','History'),
+        ('health','Health'),
+    ]
+
+
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -42,6 +57,17 @@ class Profile(models.Model):
         through='Follow',
         related_name='followers',
         symmetrical=False
+        )
+    bio = models.TextField(blank = True, null = True)
+    current_status = models.CharField(
+        max_length=10,
+        choices = WORKING_STATUS_CHOICES,
+        blank = True, null = True
+        )
+    interested_fields = models.CharField(
+        max_length=10,
+        choices = INTERESTED_FIELDS_CHOICES,
+        blank = True, null = True
         )
 
     def get_absolute_url(self):

@@ -6,11 +6,11 @@ from .models import Bundle
 
 class PublishedBundleFeed(Feed):
     title = 'MY PUBLISHED BUNDLES ON PATRALAYA'
-    link = 'http://127.0.0.1:8000/'
+    link = 'home'
     description = 'Latest published bundles'
     
     def items(self):
-        return Bundle.published.all()
+        return Bundle.published.all().order_by('-published_on')
         
     
     def item_title(self, item):

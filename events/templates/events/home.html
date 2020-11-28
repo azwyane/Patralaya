@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <h3>WELCOME TO PATRALAYA</h3>
+
+<p>
+    <em><a href="{% url 'bundle_feed' %}">Subscribe through RSS</a></em>
+</p>
 <hr>
 {% if user.is_authenticated %}
 <p>Great to see you back, {{ user }}</p>

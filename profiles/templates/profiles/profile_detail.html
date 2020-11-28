@@ -46,7 +46,26 @@
 <h1>{{ user}}</h1>
 {% if bundle.creator.profile_picture %}
 <img src='{{user.profile_picture.url}}' style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
-{% endif %}   
+{% endif %}  
+
+{% if  user.bio %}
+
+<p> BIO: </p>    
+<em>{{ user.bio}}
+</em>
+{% endif %}
+
+{% if  user.current_status %}
+<p>CURRENT STATUS:</p>
+<p> {{user.current_status}} </p>
+{% endif %}
+
+{% if  user.interested_fields %}
+<p>INTERESTED IN:</p>
+<p> {{user.interested_fields}} </p>
+{% endif %}
+
+
     {% with total_followers=user.followers.count %}
     <span class="count">
         <hr>

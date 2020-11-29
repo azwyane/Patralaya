@@ -56,6 +56,16 @@
 {% endif %}
 {% endif %}
 
+
+{% if object.forks %}
+<p><h3>Bundle Forks</h3></p>
+<ul>
+{% for forked in object.forks.all %}
+<li><a href="{{ forked.get_absolute_url }}">{{ forked }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
 <h1><p>{{ object.title|safe}}</p></h1>
 <p>context: {{ object.context|safe }}</p>
 <p>Tags: {{ object.tags.all|join:", " }}</p>

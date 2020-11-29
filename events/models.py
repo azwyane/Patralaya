@@ -82,7 +82,13 @@ class Bundle(models.Model):
         null=True
         )
     slug = models.SlugField(null=False, unique=True)
-    
+    fork = models.ManyToManyField(
+        'self',
+        through='Fork',
+        related_name='forks',
+        symmetrical=False
+        )
+
     #managers
     objects = models.Manager() 
     published = PublishManager() 
@@ -120,6 +126,31 @@ class Bundle(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+
+
+class Fork(models.Model):
+    bundle_to = models.ForeignKey(
+        Bundle,
+        on_delete=models.CASCADE,
+        related_name='forked_into',
+    )
+    bundle_from = models.ForeignKey(
+        Bundle,
+        on_delete=models.CASCADE,
+        related_name='fork_origin',
+    )
+    created_on = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True)
+
+        
+    class Meta:
+        ordering = ('-created_on',)
+
+
+    def __str__(self):
+        return f'{self.bundle_from} forked into {self.bundle_to}'
+
 
 
 

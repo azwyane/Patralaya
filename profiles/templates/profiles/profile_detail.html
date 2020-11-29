@@ -65,6 +65,22 @@
 <p> {{user.interested_fields}} </p>
 {% endif %}
 
+<!--get the profiles the user is following-->
+{% profile_followings user as followings %}
+{% with total_followings=followings.count %}
+<span>{{ total_followings}}</span>
+following{{ total_followings|pluralize }}
+{% endwith %}    
+
+<ul>
+    {% for profile in followings.all %}
+    <li>
+        <a href="{% url 'user_detail' profile %}">{{profile}}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+
 
     {% with total_followers=user.followers.count %}
     <span class="count">
@@ -78,7 +94,7 @@
         <li><a href="{% url 'user_detail' profile %}">{{ profile }}</a></li>
         {% endfor %}
     </ul>
-    
+    {% endwith %}
     
     {% if request.user.is_authenticated %}
     {% if current_user != user %}
@@ -94,7 +110,7 @@
 
     
 
-{% endwith %}
+
 {% endblock %}
 
 <hr>

@@ -74,8 +74,9 @@
 {% if object.media_file %}
 <p>PAPER: <a href='{{object.media_file.url}}'>{{object.media_file.name|slice:"25:"}}</a></p>
 {% endif %}
+
 {% if object.media_image %}
-<p>IMAGE: <a href='{{object.media_image.url}}'>{{object.media_image.name|slice:"13:"}}</a></p>
+<p>IMAGE: <a href='{{object.media_image.url}}' download>{{object.media_image.name|slice:"13:"}}</a></p>
 {% endif %}
 {% if object.git_url %}
 <p> GIT URL <a href="{{object.git_url}}">{{object.git_url}}</a></p>
@@ -83,8 +84,8 @@
 {% endif %}
 
 
-{% if object.forks %}
-<p><h3>Bundle Forks</h3></p>
+{% if object.forks.count > 0 %}
+<p><h3>Bundle Forked Into</h3></p>
 <ul>
 {% for forked in object.forks.all %}
 <li><a href="{{ forked.get_absolute_url }}">{{ forked.slug }}</a></li>

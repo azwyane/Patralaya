@@ -45,6 +45,6 @@ urlpatterns=[
     path('bundle/published/all/feed.xml', PublishedBundleFeed(), name='bundle_feed'),
     
     #fork bundles
-    # path('bundle/fork/new/<slug:username>/<slug:title>',fork_bundle, name='fork_bundle'),
+    # path('bundle/fork/new/',fork_bundle, name='fork_bundle'),
 
 ]

@@ -29,7 +29,7 @@ from taggit.models import Tag
 
 # local models
 from profiles.models import Profile
-from events.models import Bundle,Comment
+from events.models import Bundle,Comment, Fork
 
 # search api from django db
 from django.db.models import Q
@@ -233,12 +233,36 @@ class SearchBundleListView(ListView):
         return context
 
 
-# @login_required
-# def fork_bundle(request,**kwargs):
-    #   '''
-    #   a fork view soon to be implemented
-    #   '''
-#     return render(request,'events/bundle_form.html',form)
+@ajax_required
+@require_POST
+@login_required
+def fork_bundle(request):
+    '''
+    a fork view 
+    '''
+    pk = request.POST['pk']
+    action = request.POST['action']
+    fork_owner = Profile.objects.get(
+                user=request.user
+                )
+    if pk and action and fork_owner:
+        try:
+            bundle_from = Bundle.objects.get(
+                pk=pk
+                )
+            if action == 'fork':
+                bundle_to = Bundle.create() #create copy but with new title
+
+                Fork.objects.create(
+                    bundle_to = bundle_to,
+                    bundle_from = bundle_from 
+                    )
+            
+            return JsonResponse({'status':'ok'})
+                
+        except Profile.DoesNotExist:
+            return JsonResponse({'status':'error'})
+    return JsonResponse({'status':'error'})
 
 
 @ajax_required

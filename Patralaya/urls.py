@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('profile/', include('profiles.urls')),
     path('', include('events.urls')),
-    # path('activity/', include('activities.urls')),
+    path('activity/', include('activities.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

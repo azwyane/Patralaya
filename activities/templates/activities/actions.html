@@ -1,10 +1,23 @@
+<h3>RECENT ACTIONS</h3>
+
+{% if actions %}
 <ul>
 {% for action in actions %}
 <p>
-    <!-- {{action.profile}} {{action.verb}} {{action.target}} -->
-    {{action}}
+    <a href="{{ action.profile.get_absolute_url }}"> {{action.profile}}</a> {{action.verb}} <a href="{{ action.target.get_absolute_url }}">{{action.target}}</a>
+   
 </p>
+<p>Time at: {{action.created}}</p>
 <hr>
 
 {% endfor %}
 </ul>
+
+{% else %}
+
+<em>Sorry no actions to show</em>
+<p>
+    for this to show you must follow some users 
+</p>
+
+{% endif %}

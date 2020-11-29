@@ -5,7 +5,7 @@ from django.utils import timezone
 from activities.models import Action
 
 
-def create_action(user, verb, target=None):
+def create_action(profile, verb, target=None):
     '''
     It is a method for object creation 
     for Action model.
@@ -15,9 +15,9 @@ def create_action(user, verb, target=None):
     last_minute = timezone.now()- datetime.timedelta(seconds=60)
     #filter Actions instances if created within 1 min back from right now
     similar_actions = Action.objects.filter(
-        user=user,
-        verb= verb,
-        created__gte=last_minute
+        profile = profile.pk,
+        verb = verb,
+        created__gte = last_minute
         )
 
     if target:
@@ -28,7 +28,7 @@ def create_action(user, verb, target=None):
         #filter similar action for the specific object
         similar_actions = similar_actions.filter(
             target_contenttype = target_contenttype ,
-            target_id=target.id
+            target_id=target.pk
             )
     
     if not similar_actions:
@@ -37,7 +37,6 @@ def create_action(user, verb, target=None):
         i.e fresh action within 1 min boundary
         create object with given arguments
         '''
-        action = Action(user=user, verb=verb, target=target)
+        action = Action(profile=profile, verb=verb, target=target)
         action.save()
-        return True
-    return False
+    

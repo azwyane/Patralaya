@@ -65,7 +65,7 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
 
     model = Bundle
     template_name = 'events/bundle_form.html'
-    fields = ['title','tags','context','media_image','status']
+    fields = ['title','tags','context','media_file','media_image','status']
     login_url = 'home'
 
     def form_valid(self,form):
@@ -74,10 +74,12 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
         if its valid
         '''
         form.instance.creator  = Profile.objects.get(user=self.request.user)
-        return super().form_valid(form)
-        
-        # create_action(Profile.objects.get(user=self.request.user), 'created a new bundle', self.object)
-
+        # return super().form_valid(form)
+        form_saved = super().form_valid(form)
+        #create an action for the object
+        if self.object.status == 'Publish':
+            create_action(Profile.objects.get(user=self.request.user), 'created a new bundle', self.object)
+        return form_saved
 
 class BundleListView(ListView):
     '''

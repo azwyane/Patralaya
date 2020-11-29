@@ -84,13 +84,15 @@
 
 
 </p>
+<br>
 
+<div class="comment-success">
+          
+</div>
 
 <p><strong>Comments</strong></p>
 {% for comment in object.comment.all %}
-          <div class="comment-success">
           
-          </div>
           <hr class="comments-all">
           <p>{{ comment.context|linebreaks }}</p>
           <p>By:<strong>{{ comment.creator }}</strong><span class="w3-right w3-opacity">commented at:{{ comment.created_on}}</span></p>

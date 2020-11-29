@@ -1,4 +1,3 @@
-
 # django model fields
 from django.db import models
 
@@ -22,6 +21,7 @@ from taggit.managers import TaggableManager
 
 #slugify
 from django.utils.text import slugify
+
 
 class PublishManager(models.Manager):
     '''

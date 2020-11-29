@@ -159,7 +159,7 @@ def user_follow(request):
                     profile_from = Profile.objects.get(user=request.user),
                     profile_to = profile_to_follow
                     )
-                # action_response = create_action(profile_form, 'is following', profile_to)
+                # create_action(profile_form, 'is following', profile_to)
             else:
                 Follow.objects.filter(
                     profile_from=Profile.objects.get(user=request.user),

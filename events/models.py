@@ -82,6 +82,7 @@ class Bundle(models.Model):
         null=True
         )
     slug = models.SlugField(null=False, unique=True)
+    git_url = models.URLField(blank=True)
     fork = models.ManyToManyField(
         'self',
         through='Fork',

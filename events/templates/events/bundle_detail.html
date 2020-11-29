@@ -45,7 +45,7 @@
 </ul>
 {% endif %}
 
-{% if object.media_file or object.media_image %}
+{% if object.media_file or object.media_image or object.git_url %}
 <br>
 <p> MEDIAS</p>
 {% if object.media_file %}
@@ -53,6 +53,9 @@
 {% endif %}
 {% if object.media_image %}
 <p>IMAGE: <a href='{{object.media_image.url}}'>{{object.media_image.name|slice:"13:"}}</a></p>
+{% endif %}
+{% if object.git_url %}
+<p> GIT URL <a href="{{object.git_url}}">{{object.git_url}}</a></p>
 {% endif %}
 {% endif %}
 

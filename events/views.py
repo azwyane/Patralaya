@@ -65,7 +65,7 @@ class BundleCreateView(LoginRequiredMixin, CreateView):
 
     model = Bundle
     template_name = 'events/bundle_form.html'
-    fields = ['title','tags','context','media_file','media_image','status']
+    fields = ['title','tags','context','media_file','media_image','status','git_url']
     login_url = 'home'
 
     def form_valid(self,form):
@@ -153,7 +153,7 @@ class BundleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     '''
 
     model = Bundle
-    fields = ['title','tags','context','media_file','media_image','status']
+    fields = ['title','tags','context','media_file','media_image','status','git_url']
     template_name = 'events/bundle_form.html'
     login_url = 'home'
 

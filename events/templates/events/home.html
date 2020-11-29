@@ -81,7 +81,7 @@
 <ul>
     {% for bundle in bundles %}
     <li>
-       <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}"> {{ bundle }}</a>
+       <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}"> {{ bundle.slug }}</a>
     </li>
     {% endfor %}
 </ul>

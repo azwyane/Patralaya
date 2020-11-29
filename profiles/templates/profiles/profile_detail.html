@@ -102,7 +102,7 @@
 {% block bundles %}
 <ul>
 {% for bundle in bundles %}
-<li>{{ bundle.title|safe }}<a href='{{ bundle.get_absolute_url }}'>  Readmore</a></li>
+<li>{{ bundle.slug|safe }}<a href='{{ bundle.get_absolute_url }}'>  Readmore</a></li>
 <p>Created by:</p>
 {% if bundle.creator.profile_picture %}
 <p><img src='{{bundle.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">

@@ -51,7 +51,7 @@ def home(request):
     '''
     bundles = Bundle.published.all()
     categories = Tag.objects.all()
-    paginator = Paginator(bundles,3)
+    paginator = Paginator(bundles,8)
     page = request.GET.get('page')
     bundles = paginator.get_page(page)
     return render(request,'events/home.html',{'categories':categories,'bundles':bundles})
@@ -251,18 +251,28 @@ def fork_bundle(request):
                 pk=pk
                 )
             if action == 'fork':
-                bundle_to = Bundle.create() #create copy but with new title
+                fork_title = bundle_from.__dict__['title']
+                fork_slug = bundle_from.__dict__['slug'] + '-' + request.user.username
+                fork_context = bundle_from.__dict__['context']
+                fork_status = 'Publish'
+                bundle_to = Bundle.objects.create(
+                    creator = fork_owner,
+                    title = fork_title,
+                    slug = fork_slug,
+                    context = fork_context,
+                    status = fork_status
+                ) 
 
                 Fork.objects.create(
                     bundle_to = bundle_to,
                     bundle_from = bundle_from 
                     )
-            
+                create_action(Profile.objects.get(user=request.user), 'forked bundle', bundle_from)
             return JsonResponse({'status':'ok'})
                 
-        except Profile.DoesNotExist:
-            return JsonResponse({'status':'error'})
-    return JsonResponse({'status':'error'})
+        except Exception as e:
+            return JsonResponse({'status':'error','fork_error':'No need to fork again'})
+    return JsonResponse({'status':'error','fork_error':'No need to fork again'})
 
 
 @ajax_required
@@ -286,6 +296,6 @@ def bundle_comment(request):
             
             return JsonResponse({'status':'ok'})
                 
-        except Profile.DoesNotExist:
+        except Bundle.DoesNotExist:
             return JsonResponse({'status':'error'})
     return JsonResponse({'status':'error'})

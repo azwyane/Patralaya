@@ -4,7 +4,13 @@
 <ul>
 {% for action in actions %}
 <p>
-    <a href="{{ action.profile.get_absolute_url }}"> {{action.profile}}</a> {{action.verb}} <a href="{{ action.target.get_absolute_url }}">{{action.target}}</a>
+    <a href="{{ action.profile.get_absolute_url }}"> {{action.profile}}</a> {{action.verb}} <a href="{{ action.target.get_absolute_url }}">
+        {% if action.target.slug %}
+        {{action.target.slug}}
+        {% else %}
+        {{action.target}}
+        {% endif %}
+    </a>
    
 </p>
 <p>Time at: {{action.created}}</p>

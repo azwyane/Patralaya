@@ -5,7 +5,7 @@ from events.views import (
     BundleUpdateView, BundleDeleteView,
     TagListView,SearchBundleListView,
     bundle_comment, 
-    # fork_bundle
+    fork_bundle
     )
 
 # profile views is imported here to make url as example.com/<username>    
@@ -45,6 +45,6 @@ urlpatterns=[
     path('bundle/published/all/feed.xml', PublishedBundleFeed(), name='bundle_feed'),
     
     #fork bundles
-    # path('bundle/fork/new/',fork_bundle, name='fork_bundle'),
+    path('bundle/fork/new/',fork_bundle, name='fork_bundle'),
 
 ]

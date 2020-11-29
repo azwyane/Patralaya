@@ -24,6 +24,24 @@
             
 
         );
+    }),
+    $("button#fork").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'fork_bundle' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    alert('Congrats, the Bundle is forked');
+                }
+                if (data['status'] == 'error'){
+                    alert(data['fork_error']);
+                }
+            });
     });
 });
 </script>
@@ -32,6 +50,11 @@
 {% if request.user.is_authenticated %}
 <!--custom tag takes request.user and returns profile object as current_user variable-->
 {% profile_obj request.user as current_user%}
+
+<!--make visible fork button-->
+<p>
+    <button id="fork" type="submit" data-action="fork">fork</button>
+</p>
 {% endif %}
 
 {% if object.creator == current_user %}
@@ -64,7 +87,7 @@
 <p><h3>Bundle Forks</h3></p>
 <ul>
 {% for forked in object.forks.all %}
-<li><a href="{{ forked.get_absolute_url }}">{{ forked }}</a></li>
+<li><a href="{{ forked.get_absolute_url }}">{{ forked.slug }}</a></li>
 {% endfor %}
 </ul>
 {% endif %}

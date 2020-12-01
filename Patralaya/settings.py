@@ -153,6 +153,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+import os
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #bootstrap files sits here
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) #collectstatic puts bootstrap files here
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage' #file storage engine used when collecting static files 
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

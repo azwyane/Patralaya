@@ -1,29 +1,6 @@
-<!DOCTYPE html>
-
-
-<head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Patralaya</title>
-
-
-
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
-
-  {% load static %}
- 
-  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
-
-      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-</head>
-
-<body>
+{% extends 'events/base.html' %}
+{% load static %}
+{% block body %}
 <p>
     <em><a href="{% url 'bundle_feed' %}">Subscribe through RSS</a></em>
 </p>
@@ -176,17 +153,20 @@
 										</div>
 										
 										
-										<!-- card content  line gatau hai shrawan -->
+                    <!-- card content  line gatau hai shrawan -->
+                    <!--{{bundle.context |truncatechars:500 |safe}} brings weird cards consumed into card itself-->
 										<p class="">
-											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.content | truncatechars:200}}
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.context |truncatechars:500 }}
 										</p>
 										<!-- content end --->
 										<div class="d-flex justify-content-between align-items-center">
 										<div class="text-muted">
 										
 										<!--- created on -->
-									     <span> {{bundle.created_on}}</span> <!-- created on deleted -->
-									     <a class="text-muted" href=""><span class="ml-3" >author</span></a>
+									     <span> {{bundle.published_on}}</span> <!-- created on deleted -->
+                       <a class="text-muted" href=""><span class="ml-3" >{{bundle.creator}}</span></a>
+                       
+                       {% for tag in bundle.tags.all %}<a href="{% url 'list_tag' tag %}">{{tag}},</a>{%endfor%}
 										</div>
 										<div class="ml-auto">
 										
@@ -306,44 +286,4 @@
 									</div>
 									</section>
 								
-
-
-
-
-  <!-- Footer -->
-  <footer class="footer bg-light">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-          <ul class="list-inline mb-2">
-            <li class="list-inline-item">
-              <a href="#">About</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Contact</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
-            </li>
-          </ul>
-          <p class="text-muted small mb-4 mb-lg-0">&copy; Patralaya 2020. All Rights Reserved.</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-
-
-
-
- <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
-   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-</body>
-</html>
-
+{% endblock %}

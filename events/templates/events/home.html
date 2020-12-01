@@ -170,7 +170,7 @@
 										
 										
 										<!-- card tag -->
-										 {% for tag in bundles.tags %}
+										 {% for tag in bundle.tags %}
 										<a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="" >{{tag}}</a>{%endfor%}
 										<!---    card tag end  -->
 										</div>
@@ -178,14 +178,14 @@
 										
 										<!-- card content  line gatau hai shrawan -->
 										<p class="">
-											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundles.content}}
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.content}}
 										</p>
 										<!-- content end --->
 										<div class="d-flex justify-content-between align-items-center">
 										<div class="text-muted">
 										
 										<!--- created on -->
-									     <span> {{bundles.created_on}}</span> <!-- created on deleted -->
+									     <span> {{bundle.created_on}}</span> <!-- created on deleted -->
 									     <a class="text-muted" href=""><span class="ml-3" >author</span></a>
 										</div>
 										<div class="ml-auto">

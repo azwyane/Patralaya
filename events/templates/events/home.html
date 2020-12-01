@@ -1,6 +1,29 @@
 <!DOCTYPE html>
-<h3>WELCOME TO PATRALAYA</h3>
 
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Patralaya</title>
+
+
+
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+
+  {% load static %}
+ 
+  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
+
+      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
 <p>
     <em><a href="{% url 'bundle_feed' %}">Subscribe through RSS</a></em>
 </p>
@@ -8,35 +31,13 @@
 {% if user.is_authenticated %}
 <p>Great to see you back, {{ user }}</p>
 
-<br>
+{% endif %}
 
-<h4>NAVIGATIONS FOR YOU</h4>
-<ul>
-    <li>
-        <a href="{% url 'profile_settings' %}">settings</a>
-    </li>
-    <li>
-        <a href="{% url 'user_detail' user %}">profile</a>
-    </li>
-    <li>
-        <a href="{% url 'create_bundle' user %}">create bundle</a>
-    </li>
-    <li>
-        <a href="{% url 'list_bundle' user %}">bundles you created</a>
-    </li>
-    <li>
-       <a href="{% url 'recent_activity' %}">activity stream</a>
-    </li>
-    {% endif %}
-    
-    <li>
-        <a href="{% url 'user_list' %}"> public users</a>
-    </li>
-</ul>
 
-<strong>
-    Landing page sits here.
-</strong>
+						
+									
+										
+										
 
 {% if messages %}
     {% for message in messages %}
@@ -46,57 +47,303 @@
    {% endfor %}
 
 {% endif %}
-{% if not user.is_authenticated %}
-<div>
-    <button ><a href="{% url 'login' %}" class="btn">login</a></button>
-</div>
-<div>
-    <button ><a href="{% url 'signup' %}" class="btn">signup</a></button>
-</div>
-{% endif %}
+
+
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container d-flex justify-content-between ">
+  <a class="navbar-brand" href="#">Patralaya</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  {% if user.is_authenticated %}
+  <div class="collapse navbar-collapse align-self-center" id="primaryNav">
+    <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_detail' user %}">Profile </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile_settings' %}">settings</a>
+   
+      </li>
+       <li class="nav-item ">
+        <a class="nav-link" href="{% url 'list_bundle' user %}">Bundle you created</a>
+      </li>
+       <li class="nav-item ">
+        <a class="nav-link" href="{% url 'recent_activity' %}">Activity stream</a>
+      </li>
+      {% if not user.is_authenticated %}
+       <li class="nav-item d-lg-none">
+        <a class="nav-link" href="% url 'login' %}">log in</a>
+      </li>
+       <li class="nav-item d-lg-none">
+        <a class="nav-link" href="{% url 'signup' %}">sign up</a>
+      </li>
+    {% endif %}
 {% if user.is_authenticated %}
-<div>
-    <button ><a href="{% url 'logout' %}" class="btn">logout</a></button>
-</div>
+  <li class="nav-item d-lg-none">
+        <a class="nav-link" href="{% url 'logout' %}">logout</a>
+      </li>
+      {% endif %}
+    </ul>
+
+  </div>
+   {% endif %}
+        <div class="  d-none col-auto d-lg-flex justify-content-end align-items-center">
+        <a class="text-muted" href="#" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
+        </a>
+          {% if not user.is_authenticated %}
+        
+        <a class="btn btn-sm btn-primary mr-3 px-3" href="% url 'login' %}">Sign in</a>
+        <a class="btn btn-sm btn-outline-primary px-3" href="{% url 'signup' %}">Sign up </a>
+            {% endif %}
+{% if user.is_authenticated %}
+<a class="btn btn-sm btn-outline-primary px-3" href="{% url 'logout' %}">log out </a>
 {% endif %}
+      </div>
+  </div>
+</nav>
 
-<hr>
-<p>SEARCH FIELD</p>
-<form action="{% url 'search_bundle_results' %}" method="GET">
-    <input name="query" type="text" placeholder="search bundles">
-</form>
 
-<hr>
-<h3>CATEGORIES</h3>
-<ul>
-    {% for category in categories %}
-    <li>
-       <a href="{% url 'list_tag' tag_slug=category %}"> #{{ category }}</a>
-    </li>
-    {% endfor %}
-</ul>
 
-<hr>
-<h3>RECENTLY PUBLISHED BUNDLES</h3>
-<ul>
-    {% for bundle in bundles %}
-    <li>
-       <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}"> {{ bundle.slug }}</a>
-    </li>
-    {% endfor %}
-</ul>
 
-<!--pagination-->
-{% if bundles.has_previous %}
-            <a href="?page=1" >&laquo; first</a>
-            <a href="?page={{ bundles.previous_page_number }}" >previous</a>
-{% endif %}
+
+  <!-- Masthead -->
+  <header class="masthead text-white text-center" style="background-image: url({% static 'images/bg-masthead.jpg' %});">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-2">All you need is a hungry eyes</h1>
+           <p class="lead mb-5">No matter your age and field, Learn and grow with patralaya</p>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form>
+            <div class="form-row" action="{% url 'search_bundle_results' %}" method="GET">
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input name="query"type="text" class="form-control form-control-lg" placeholder="search bundles">
+              </div>
+              <div class="col-12 col-md-3">
+                <button type="submit" class="btn btn-block btn-lg btn-primary">search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+
+<section class="recently-post-area mt-5">
+				<div class="container no-padding">
+					<div class="row">
+						<div class="col-lg-8 bundle-list mb-5 ">
+							<!-- Start latest-post Area -->
+							<div class="recently-pbulished-bundle-wrapper  p-0">
+								
+								
+								<h4 class=" p-0">Recently Published Bundle</h4>
+								<div class="bundle-container border-top border-top-muted"> 
+								
+								
+								
+								
+
+							<!-- this section is for card  ---->
+						
+								 {% for bundle in bundles %}
+								
+								<div class="single-latest-post row  card mt-4 py-3 px-3 mx-auto">
+								
+								
+								
+								<!-- card title --->
+									
+										<a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="">
+											<h4 class="card-title text-dark mb-2">{{ bundle.slug }}</h4>
+										</a>
+										<div class="tags d-flex mb-3">
+										
+										
+										<!-- card tag -->
+										 {% for tag in bundles.tags %}
+										<a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="" >{{tag}}</a>{%endfor%}
+										<!---    card tag end  -->
+										</div>
+										
+										
+										<!-- card content  line gatau hai shrawan -->
+										<p class="">
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundles.content}}
+										</p>
+										<!-- content end --->
+										<div class="d-flex justify-content-between align-items-center">
+										<div class="text-muted">
+										
+										<!--- created on -->
+									     <span> {{bundles.created_on}}</span> <!-- created on deleted -->
+									     <a class="text-muted" href=""><span class="ml-3" >author</span></a>
+										</div>
+										<div class="ml-auto">
+										
+										
+										<!---- view  --->
+									  <i class="fa fa-eye text-muted"> <span id="total_views">253</span></i>
+                                      <i class="fa fa-share mx-3 text-muted"> </i>
+                                      <!--- view ended -->
+                                      
+                                      
+                                      <!--- fork action haru handle garne parne xa yo kasari garne ajax request pathyera ki redirect garne download share ra star pani implement garnu parne xa  ---->
+                                      
+                                                                                    <button class=" btn text-muted" data-toggle="dropdown"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><i class="fa fa-ellipsis-v "  > </i></button> 
+
+                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                               
+                                              <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-code-branch align-self-center " style="width:24px"></i><span class="ml-2">Fork</span></li>
+                                                <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-download" style="width:24px"></i><span class="ml-2">Download</span></li>
+                                                    <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-star" style="width:24px"></i><span class="ml-2">Star</span></li>
+                                             
+
+                                            </div>
+
+										</div>
+										</div>
+										
+										<div>
+										</div>
+										</div>
+										
+				
+						 {% endfor %}	
+						 <!----              card sectioin ends here ... card is inside loop  --->
+						 
+
+
+						 
+<!----paginaition  --->
+						 
+						 
+						 <nav >
+  <ul class="pagination justify-content-center align-items-center mt-3">
   
-        <span class="current">
-            Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}.
-        </span>
   
-{% if bundles.has_next %}
-    <a href="?page={{ bundles.next_page_number }}" >next</a>
-    <a href="?page={{ bundles.paginator.num_pages }}" >last &raquo;</a>
-{% endif %}
+  <!-- prvioud buttons starts here   -->
+  {% if bundles.has_previous %}
+      <li class="page-item">
+    
+      <a class="page-link" href="?page=1" tabindex="1">First</a>
+    </li>
+    <li class="page-item">
+    
+      <a class="page-link" href="?page={{ bundles.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+    {%else%}
+        <li class="page-item disabled">
+    
+      <a class="page-link" href="#" tabindex="-1">Previous</a>
+    </li>
+    
+    {% endif %}
+    
+     <!--- previous buttons end here --->
+     
+     
+     
+    <li class="page-item disabled text-muted mx-2">Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}</li>
+  
+
+  {% if bundles.has_next %}
+
+        <li class="page-item">
+    
+      <a class="page-link" href="?page={{ bundles.next_page_number }}" tabindex="+1">next</a>
+    </li>
+        <li class="page-item">
+    
+      <a class="page-link" href="?page={{ bundles.paginator.num_pages }}" >last</a>
+    </li>
+    {%else%}
+        <li class="page-item disabled">
+    
+      <a class="page-link"  >next</a>
+    </li>
+    
+    {% endif %}
+    
+  </ul>
+</nav>
+
+
+<!--pagination ends herw --->
+	
+								
+								
+								
+					</div>
+					</div>
+					</div>
+											<div class="col-lg-4 mt-lg-6 ">
+							
+									<h4 class="cat-title">Catagories</h4>
+									<div class="bundle-container border-top border-top-muted"> 
+									
+									<div class="catagories-container mx-auto">
+									
+	
+	  {% for category in categories %}								<ul class="list-group list-group-flush">
+  <li class="list-group-item"><a href="{% url 'list_tag' tag_slug=category %}"> #{{ category }}</a></li>
+  {% endfor %}
+
+</ul>
+									</div>
+									</div>
+									</div>
+									</div>
+									</div>
+									</section>
+								
+
+
+
+
+  <!-- Footer -->
+  <footer class="footer bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+          <ul class="list-inline mb-2">
+            <li class="list-inline-item">
+              <a href="#">About</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#">Contact</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#">Terms of Use</a>
+            </li>
+            <li class="list-inline-item">&sdot;</li>
+            <li class="list-inline-item">
+              <a href="#">Privacy Policy</a>
+            </li>
+          </ul>
+          <p class="text-muted small mb-4 mb-lg-0">&copy; Patralaya 2020. All Rights Reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+
+ <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
+   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
+

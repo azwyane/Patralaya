@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+<!-- Bootstrap core CSS -->
+<link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+<!-- Bootstrap core JavaScript -->
+<script src="{% static 'vendor/jquery/jquery.slim.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+
+<body>
+<h3>WELCOME TO PATRALAYA</h3>
+
+<p>
+    <em><a href="{% url 'bundle_feed' %}">Subscribe through RSS</a></em>
+</p>
+<hr>
+{% if user.is_authenticated %}
+<p>Great to see you back, {{ user }}</p>
+
+<br>
+
+<h4>NAVIGATIONS FOR YOU</h4>
+<ul>
+    <li>
+        <a href="{% url 'profile_settings' %}">settings</a>
+    </li>
+    <li>
+        <a href="{% url 'user_detail' user %}">profile</a>
+    </li>
+    <li>
+        <a href="{% url 'create_bundle' user %}">create bundle</a>
+    </li>
+    <li>
+        <a href="{% url 'list_bundle' user %}">bundles you created</a>
+    </li>
+    <li>
+       <a href="{% url 'recent_activity' %}">activity stream</a>
+    </li>
+    {% endif %}
+    
+    <li>
+        <a href="{% url 'user_list' %}"> public users</a>
+    </li>
+</ul>
+
+<strong>
+    Landing page sits here.
+</strong>
+
+{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+   {% endfor %}
+
+{% endif %}
+{% if not user.is_authenticated %}
+<div>
+    <button ><a href="{% url 'login' %}" class="btn">login</a></button>
+</div>
+<div>
+    <button ><a href="{% url 'signup' %}" class="btn">signup</a></button>
+</div>
+{% endif %}
+{% if user.is_authenticated %}
+<div>
+    <button ><a href="{% url 'logout' %}" class="btn">logout</a></button>
+</div>
+{% endif %}
+
+<hr>
+<p>SEARCH FIELD</p>
+<form action="{% url 'search_bundle_results' %}" method="GET">
+    <input name="query" type="text" placeholder="search bundles">
+</form>
+
+<hr>
+<h3>CATEGORIES</h3>
+<ul>
+    {% for category in categories %}
+    <li>
+       <a href="{% url 'list_tag' tag_slug=category %}"> #{{ category }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<hr>
+<h3>RECENTLY PUBLISHED BUNDLES</h3>
+<ul>
+    {% for bundle in bundles %}
+    <li>
+       <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}"> {{ bundle.slug }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<!--pagination-->
+{% if bundles.has_previous %}
+            <a href="?page=1" >&laquo; first</a>
+            <a href="?page={{ bundles.previous_page_number }}" >previous</a>
+{% endif %}
+  
+        <span class="current">
+            Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}.
+        </span>
+  
+{% if bundles.has_next %}
+    <a href="?page={{ bundles.next_page_number }}" >next</a>
+    <a href="?page={{ bundles.paginator.num_pages }}" >last &raquo;</a>
+{% endif %}
+
+
+</body>

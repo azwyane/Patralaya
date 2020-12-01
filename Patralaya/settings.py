@@ -17,6 +17,9 @@ import django_heroku
 
 import json
 
+#to get the base address of the project
+import os
+
 # open secrets file as a dictonary
 with open("secrets.json") as f:
     secrets = json.load(f)
@@ -153,6 +156,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# this lines search for the static files directory. It joins the base directory of the project
+STATICFILES_DIRS=[
+os.path.join(BASE_DIR,'Patralaya/static')]
+
+STATIC_ROOT=os.path.join(BASE_DIR,'assets')
+
+
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

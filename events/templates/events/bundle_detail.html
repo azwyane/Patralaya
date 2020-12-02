@@ -57,6 +57,10 @@
 </p>
 {% endif %}
 
+<br>
+<a href="{% url 'share_by_email' slug=object.slug %}">share</a>
+
+
 {% if object.creator == current_user %}
 <ul>
     <li>

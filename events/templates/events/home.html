@@ -45,6 +45,9 @@
         <a class="nav-link" href="{% url 'profile_settings' %}">settings</a>
    
       </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'create_bundle' creator=request.user %}">Create new</a>
+      </li>
        <li class="nav-item ">
         <a class="nav-link" href="{% url 'list_bundle' user %}">Bundle you created</a>
       </li>

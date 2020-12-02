@@ -77,7 +77,7 @@ ROOT_URLCONF = 'Patralaya.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -163,3 +163,14 @@ django_heroku.settings(locals())
 # media root (holds media files)
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+#emailconfig
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.sendgrid.net'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_TIMEOUT=21600
+EMAIL_HOST_USER=get_secret('e_host')
+EMAIL_HOST_PASSWORD = os.environ.get('e_pass')
+
+LOGIN_REDIRECT_URL = 'home'

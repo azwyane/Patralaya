@@ -89,7 +89,12 @@ class Bundle(models.Model):
         related_name='forks',
         symmetrical=False
         )
-
+    claps = models.ManyToManyField(
+        Profile,
+        through='Clap',
+        related_name='bundle_liked',
+        blank=True
+        )
     #managers
     objects = models.Manager() 
     published = PublishManager() 
@@ -153,6 +158,28 @@ class Fork(models.Model):
         return f'{self.bundle_from} forked into {self.bundle_to}'
 
 
+class Clap(models.Model):
+    bundle = models.ForeignKey(
+        Bundle,
+        on_delete=models.CASCADE,
+        related_name='bundle',
+    )
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='profile',
+    )
+    claped_on = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True)
+
+        
+    class Meta:
+        ordering = ('-claped_on',)
+
+
+    def __str__(self):
+        return f'{self.profile} claped {self.bundle}'
 
 
 class Comment(models.Model):

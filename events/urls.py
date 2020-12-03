@@ -1,11 +1,11 @@
 from django.urls import path, re_path
 from events.views import (
-    home, BundleCreateView,
+    HomeView, BundleCreateView,
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
-    TagListView,SearchBundleListView,
-    bundle_comment, 
-    fork_bundle
+    TagListView, SearchBundleListView,
+    bundle_comment, fork_bundle,
+    bundle_clap
     )
 
 # profile views is imported here to make url as example.com/<username>    
@@ -19,7 +19,7 @@ from .feeds import PublishedBundleFeed
 urlpatterns=[
 
     # home url
-    path('',home,name='home'),
+    path('',HomeView.as_view(),name='home'),
 
     #user url will be example.com/<username>
     path('<slug:username>/',user_detail, name='user_detail'),
@@ -46,5 +46,8 @@ urlpatterns=[
     
     #fork bundles
     path('bundle/fork/new/',fork_bundle, name='fork_bundle'),
+
+    #fork bundles
+    path('bundle/clap',bundle_clap, name='bundle_clap'),
 
 ]

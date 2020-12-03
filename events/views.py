@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.views.generic import (
     ListView,DetailView,
     CreateView,UpdateView,
-    DeleteView
+    DeleteView,TemplateView
 )
 
 #redirects to the url
@@ -29,7 +29,12 @@ from taggit.models import Tag
 
 # local models
 from profiles.models import Profile
-from events.models import Bundle,Comment, Fork
+from events.models import (
+    Bundle,
+    Comment,
+    Fork,
+    Clap
+    )
 
 # search api from django db
 from django.db.models import Q
@@ -44,17 +49,18 @@ from common.decorators import ajax_required
 # activity generation model utils
 from activities.utils import create_action
 
-def home(request):
-    '''
-    This is the view for main landing page
-    for the web app.
-    '''
-    bundles = Bundle.published.all()
-    categories = Tag.objects.all()
-    paginator = Paginator(bundles,8)
-    page = request.GET.get('page')
-    bundles = paginator.get_page(page)
-    return render(request,'events/home.html',{'categories':categories,'bundles':bundles})
+class HomeView(TemplateView):
+    template_name = "events/home.html"
+
+    def bundles(self, *args, **kwargs):
+        bundles = Bundle.published.all()
+        paginator = Paginator(bundles,8)
+        page = self.request.GET.get('page')
+        bundles = paginator.get_page(page)
+        return bundles
+
+    def categories(self, *args, **kwargs):
+        return Tag.objects.all()
 
 
 class BundleCreateView(LoginRequiredMixin, CreateView):
@@ -294,6 +300,35 @@ def bundle_comment(request):
                     context=context
                     )
             
+            return JsonResponse({'status':'ok'})
+                
+        except Bundle.DoesNotExist:
+            return JsonResponse({'status':'error'})
+    return JsonResponse({'status':'error'})
+
+
+@ajax_required
+@require_POST
+@login_required
+def bundle_clap(request):
+    pk = request.POST['pk']
+    action = request.POST['action']
+    if pk and action:
+        try:
+            bundle_to_clap = Bundle.objects.get(
+                pk=pk
+                )
+            if action == 'clap':
+                Clap.objects.create(
+                    bundle = bundle_to_clap,
+                    profile = Profile.objects.get(user=request.user)
+                    )
+            else:
+                Clap.objects.filter(
+                    profile = Profile.objects.get(user=request.user),
+                    bundle = bundle_to_clap
+                    ).delete()
+
             return JsonResponse({'status':'ok'})
                 
         except Bundle.DoesNotExist:

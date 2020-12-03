@@ -135,7 +135,7 @@
 
 							<!-- this section is for card  ---->
 						
-								 {% for bundle in bundles %}
+								 {% for bundle in view.bundles %}
 								
 								<div class="single-latest-post row  card mt-4 py-3 px-3 mx-auto">
 								
@@ -175,7 +175,8 @@
 										
 										
 										<!---- view  --->
-									  <i class="fa fa-eye text-muted"> <span id="total_views">253</span></i>
+                    <i class="fa fa-eye text-muted"> <span id="total_views">253</span></i>
+                    <i class=""> <span id="total_claps">{{bundle.claps.count}} claps</span></i>
                                       <i class="fa fa-share mx-3 text-muted"> </i>
                                       <!--- view ended -->
                                       
@@ -215,14 +216,14 @@
   
   
   <!-- prvioud buttons starts here   -->
-  {% if bundles.has_previous %}
+  {% if view.bundles.has_previous %}
       <li class="page-item">
     
       <a class="page-link" href="?page=1" tabindex="1">First</a>
     </li>
     <li class="page-item">
     
-      <a class="page-link" href="?page={{ bundles.previous_page_number }}" tabindex="-1">Previous</a>
+      <a class="page-link" href="?page={{ view.bundles.previous_page_number }}" tabindex="-1">Previous</a>
     </li>
     {%else%}
         <li class="page-item disabled">
@@ -236,18 +237,18 @@
      
      
      
-    <li class="page-item disabled text-muted mx-2">Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}</li>
+    <li class="page-item disabled text-muted mx-2">Page {{ view.bundles.number }} of {{ view.bundles.paginator.num_pages }}</li>
   
 
-  {% if bundles.has_next %}
+  {% if view.bundles.has_next %}
 
         <li class="page-item">
     
-      <a class="page-link" href="?page={{ bundles.next_page_number }}" tabindex="+1">next</a>
+      <a class="page-link" href="?page={{ view.bundles.next_page_number }}" tabindex="+1">next</a>
     </li>
         <li class="page-item">
     
-      <a class="page-link" href="?page={{ bundles.paginator.num_pages }}" >last</a>
+      <a class="page-link" href="?page={{ view.bundles.paginator.num_pages }}" >last</a>
     </li>
     {%else%}
         <li class="page-item disabled">
@@ -277,7 +278,7 @@
 									<div class="catagories-container mx-auto">
 									
 	
-	  {% for category in categories %}								<ul class="list-group list-group-flush">
+	  {% for category in view.categories %}								<ul class="list-group list-group-flush">
   <li class="list-group-item"><a href="{% url 'list_tag' tag_slug=category %}"> #{{ category }}</a></li>
   {% endfor %}
 

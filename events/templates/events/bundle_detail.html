@@ -42,6 +42,31 @@
                     alert(data['fork_error']);
                 }
             });
+    }),
+    $("button#clap").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'bundle_clap' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    var previous_action = $('button#clap').data('action');
+                    // toggle data-action
+                    $('button#clap').data('action', previous_action == 'clap' ?
+                    'unclap' : 'clap');
+                    // toggle link text
+                    $('button#clap').text(previous_action == 'clap' ? 'unclap' :
+                    'clap');
+                    // update total claps
+                    var previous_claps = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'clap' ?
+                    previous_claps + 1 : previous_claps - 1);
+                }
+            });
     });
 });
 </script>
@@ -55,6 +80,18 @@
 <p>
     <button id="fork" type="submit" data-action="fork">fork</button>
 </p>
+
+<!--clap button-->
+<p>
+    <button id="clap" type="submit" data-action="{% if current_user in object.claps.all %}un{% endif %}clap">
+        {% if current_user not in object.claps.all %}
+        Clap
+        {% else %}
+        Unclap
+        {% endif %}
+    </button>
+</p>
+
 {% endif %}
 
 <br>
@@ -96,6 +133,21 @@
 {% endfor %}
 </ul>
 {% endif %}
+
+{% with total_claps=object.claps.count %}
+<span class="count">
+    <hr>
+<span class="total">{{ total_claps }}</span>
+clap{{ total_claps|pluralize }}
+</span>
+<ul class="followers">
+    {% for profile in object.claps.all %}
+
+    <li><a href="{% url 'user_detail' profile %}">{{ profile }}</a></li>
+    {% endfor %}
+</ul>
+{% endwith %}
+
 
 <h1><p>{{ object.title|safe}}</p></h1>
 <p>context: {{ object.context|safe }}</p>

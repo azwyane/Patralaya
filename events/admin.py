@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # Bundle, Comment and Fork model from events app
-from events.models import Bundle, Comment, Fork
+from events.models import Bundle, Comment, Fork, Clap
  
 
 class BundleAdmin(admin.ModelAdmin):
@@ -29,3 +29,4 @@ class CommentAdmin(admin.ModelAdmin):
 admin.site.register(Bundle, BundleAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Fork)
+admin.site.register(Clap)

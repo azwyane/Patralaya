@@ -323,6 +323,7 @@ def bundle_clap(request):
                     bundle = bundle_to_clap,
                     profile = Profile.objects.get(user=request.user)
                     )
+                create_action(Profile.objects.get(user=request.user), 'claps the bundle', bundle_to_clap)
             else:
                 Clap.objects.filter(
                     profile = Profile.objects.get(user=request.user),

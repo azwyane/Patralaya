@@ -101,8 +101,8 @@
            <p class="lead mb-5">No matter your age and field, Learn and grow with patralaya</p>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form>
-            <div class="form-row" action="{% url 'search_bundle_results' %}" method="GET">
+          <form action="{% url 'search_bundle_results' %}" method="GET">
+            <div class="form-row" >
               <div class="col-12 col-md-9 mb-2 mb-md-0">
                 <input name="query"type="text" class="form-control form-control-lg" placeholder="search bundles">
               </div>

@@ -1,18 +1,375 @@
-<form method="POST" style="border:1px solid #ccc">
-    <div class="container">
-      <h1>Login </h1>
-        <p>Please fill in this form to login</p>
-      <hr>
-        {% csrf_token %}
-        {{form.as_p}}
-      <button class="btn btn-outline-info" type="submit">Login</button>
-      {# <h6><a href="{% url 'password_reset' %}">Forgot password?</a></h6> #}
-    </div>
-  </form>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no">
+      <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    {% load static %}
+ 
+  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
 
-  <hr>
-  <p>DONT HAVE AN ACCOUNT?</p>
-  <a href="{% url 'signup' %}">signup</a>
+      <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+ <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
+   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 
-  <hr>
-  <a href="{% url 'password_reset_form' %}">forgot password</a>
+    <title>Patrlaya | login</title>
+  </head>
+  
+  <style>
+  *{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    height:100%;
+    width:100%;
+    background-color:#f7f7f7;
+}
+
+
+
+
+.login-content{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	text-align: center;
+	margin-top:35px;
+	width: 360px;
+}
+
+
+
+.sign-form{
+width:360px;}
+.sign-form form{
+	width: 360px;
+}
+
+.modal-content h2{
+	font-family:'Poppins';
+	font-weight: 500;
+	width:auto;
+	color:#4a4a4a;
+	width:360px;
+	
+}
+.login-img{
+margin-left:auto;
+margin-right:auto;
+	width:160px;
+	margin-bottom:2rem;
+	
+}
+
+
+
+.login-content .input-div{
+	position: relative;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    margin: 25px 0;
+    padding: 5px 0;
+    border-bottom: 2px solid #d9d9d9;
+}
+
+.login-content .input-div.one{
+	margin-top: 0;
+}
+.modal-form{
+margin-left:auto;
+margin-right:auto;
+position:absolute;
+background-color:#fff;
+	top:50%;
+	left:50%;
+	transform:translate(-50%,-50%);
+
+	padding:24px 24px;
+	border-radius:10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.sign-form .i{
+	color: #d9d9d9;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.sign-form .i i{
+	transition: .3s;
+}
+
+.sign-form .input-div > div{
+    position: relative;
+	height: 45px;
+}
+
+.sign-form .input-div > div > label{
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #4a4a4a;
+	font-size: 18px;
+	transition: .3s;
+}
+.error > div > label{
+	color:red;
+}
+
+.input-div:before, .input-div:after{
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	width: 0%;
+	height: 2px;
+	background-color: #38d39f;
+	transition: .4s;
+}
+.error.input-div:before, .error.input-div:after{
+	background-color: red;
+}
+.input-div:before{
+	right: 50%;
+}
+
+.input-div:after{
+	left: 50%;
+}
+
+.input-div.focus:before, .input-div.focus:after{
+	width: 50%;
+}
+
+.input-div.focus > div > label{
+	top: -5px;
+	font-size: 15px;
+}
+
+.input-div.focus > .i > i{
+	color: #38d39f;
+}
+.error.input-div.focus > .i > i{
+	color: red;
+}
+
+
+.input-div > div > input{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: none;
+	background: none;
+	padding: 0.5rem 0.7rem;
+	font-size: 1.2rem;
+	color: #4a4a4a;
+	font-family: 'poppins', sans-serif;
+}
+
+.error.input-div > div > input{
+	color: red;
+}
+.input-div.pass{
+	margin-bottom: 4px;
+}
+
+a{
+	display: block;
+	text-align: right;
+	text-decoration: none;
+	color: #999;
+	font-size: 0.9rem;
+	transition: .3s;
+}
+
+a:hover{
+	color: #38d39f;
+}
+
+.btn{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 25px;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+	background-size: 200%;
+	font-size: 1.2rem;
+	color: #fff;
+	font-family: 'Poppins', sans-serif;
+	text-transform: uppercase;
+	margin: 1rem 0;
+	cursor: pointer;
+	transition: .5s;
+}
+.btn:hover{
+	background-position: right;
+}
+
+.error i{ color:red; }
+
+
+
+@media screen and (max-width: 1000px){
+	form{
+		width: 290px;
+	}
+
+
+	.sign-form h2{
+        font-size: 2.4rem;
+        margin: 8px 0;
+        width: 290px;
+	}
+.sign-form{
+		width: 290px;
+	}
+
+  .login-content{
+  	width: 290px;
+  }
+}
+
+
+.feedback{
+	margin-left: 2rem;
+	text-align: start;
+	color: gray;
+	display: none;
+}
+.error-feedback{
+margin-left: 2rem;
+	text-align: start;
+	color: red;
+}
+
+  </style>
+  <body>
+  
+  
+
+      <div class="modal-form">
+            <div class="sign-form">
+            <h4 class="text-primary mb-5">Patralaya</h4>
+            <!-- <h2 class="highlight"> We are happy <span class="d-block"> to see you </span><span class="d-block"> again....</span></h2> -->
+             
+             
+              <div class="login-content ">
+             <form method="POST">
+              {% csrf_token %}
+             <img class="login-img" src="{% static 'images/login.svg' %}">
+				<h2 class="title">Welcome Back</h2>
+                           <div id="signin-field-email"class="input-container one">
+           <div class="input-div ">
+                <div class="i">
+                   <i class="fas fa-lock"></i>
+                </div>
+                <div class="div">
+                    <label for="signup-password-confirmation-field">Username</label>
+                   {{form.username}}
+                </div>
+             </div>
+              <div class="error-feedback feedback">
+             {{form.username.errors}}
+             </div>
+           </div>
+             
+             
+             
+             
+             
+             
+           <div id="signin-field-pass">
+              <div class="input-div pass">
+                <div class="i">
+                   <i class="fas fa-lock"></i>
+                </div>
+                <div class="div">
+                    <label for="signin-pass-field">Password</label>
+                   {{form.password}}
+                </div>
+             </div>
+               <div class="error-feedback">
+
+           </div>
+           </div>
+           </div>
+           
+       
+           
+             <a class="text-primary" href="href="{% url 'password_reset_form' %}"">Forgot Password?</a>
+             
+                        <div class="error-feedback">{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+   {% endfor %}
+
+{% endif %}
+
+           </div>
+             <input type="submit" class="btn btn-primary" value="Login">
+           </form>
+         
+         
+         </div>
+           <div class="mt-2" style="margin-left: auto; margin-right: auto; text-align: center;">
+            or sign in with <a class="d-inline-block"href=""><img class="ml-2" src="{% static 'images/google-logo.svg' %}" alt="google logo" width="24px" height="24px" ></a> <a  class="d-inline-block"href="" ><img class="ml-2" src="{% static 'images/facebook-logo.svg' %}" alt="facebook logo" width="24px" height="24px" ></a>
+           </div>
+           <div class="mx-auto mt-3" style="text-align:center;">
+           New user ? get started here <a class="d-inline-block text-primary" href="{% url 'signup' %}"> sign up</a>
+         </div>
+         </div>
+           
+        
+      </div>
+</section>
+
+
+
+
+  
+  <script>
+
+
+
+  const inputs = document.querySelectorAll("input");
+
+
+function addcl(){
+	let parent = this.parentNode.parentNode;
+	parent.classList.add("focus");
+  let nextSibiling=parent.nextElementSibling;
+  if(nextSibiling) nextSibiling.style.display="block";
+}
+
+function remcl(){
+	let parent = this.parentNode.parentNode;
+	if(this.value == ""){
+		parent.classList.remove("focus");
+
+	}
+   let nextSibiling=parent.nextElementSibling;
+  if(nextSibiling) nextSibiling.style.display="none";
+}
+
+
+inputs.forEach(input => {
+	input.addEventListener("focus", addcl);
+	input.addEventListener("blur", remcl);
+});
+
+</script>
+</body>
+</html>

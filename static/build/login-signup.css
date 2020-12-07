@@ -7,14 +7,22 @@
 
 body{
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
     height:100%;
     width:100%;
-    background-color:#f7f7f7;
+    background-color:#f4fff6;
+
 }
 
 
+.main{
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 
+}
 
 .login-content{
 	display: flex;
@@ -64,18 +72,11 @@ margin-right:auto;
 	margin-top: 0;
 }
 .modal-form{
-margin-left:auto;
-margin-right:auto;
-position:absolute;
-background-color:#fff;
-	top:50%;
-	left:50%;
-	transform:translate(-50%,-50%);
-    margin-top:10%;
-    margin-bottom:10%;
+
 	padding:24px 24px;
 	border-radius:10px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	margin-top: 49px;
+	
 }
 .sign-form .i{
 	color: #d9d9d9;
@@ -202,9 +203,24 @@ a:hover{
 
 .error i{ color:red; }
 
+@media screen and (max-width:600px)
+
+{
+	.modal-form{
 
 
-@media screen and (max-width: 1000px){
+}
+
+
+	.sign-form h2{
+        font-size: 1.4rem;
+        margin: 8px 0;
+        width: 290px;
+	}
+
+}
+
+@media screen and (max-width: 600px){
 	form{
 		width: 290px;
 	}
@@ -236,3 +252,4 @@ margin-left: 2rem;
 	text-align: start;
 	color: red;
 }
+

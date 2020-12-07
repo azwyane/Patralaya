@@ -1,3 +1,49 @@
-<div class="container">
-    <h1>Congrats! Your password has been reset </h1>
-        <h3>Now, Please login </h3>
+
+          <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no">
+      <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    {% load static %}
+ 
+  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
+   <link href="{% static 'build/login-signup.css' %}" rel="stylesheet" >
+
+
+      <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+ <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
+   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <title>Patrlaya | password reset successful</title>
+  </head>
+  
+
+
+  </style>
+  <body>
+  
+  
+    <section class="main">
+      <div class="modal-form">
+            <div class="sign-form">
+             
+              <div class="login-content d-flex justify-content-center align-items-center flex-column ">
+        
+             <img class="" src="{% static 'images/secure.svg' %}" style="width:150px;">
+				<h3 class="title mt-3">Hurray!  Your password has been reset</h3>
+                         
+        <a class="d-inline-block text-primary h5" href="{% url 'login' %}"> Back to login page</a>
+         
+         </div>
+
+         </div>
+           
+        
+      </div>
+</section>
+
+
+
+</body>
+</html>

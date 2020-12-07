@@ -53,7 +53,7 @@
 							<!-- this section is for card  ---->
 						
 								 {% for bundle in view.bundles %}
-                 {{bundle}}
+         
 								
 								<div class="single-latest-post row  card mt-4 py-3 px-3 mx-auto">
 								
@@ -68,8 +68,9 @@
 										
 										
 										<!-- card tag -->
-										<!-- 
-										<a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="" >} -->
+										{% for tag in bundle.tags.all %}
+                                        <a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="{% url 'list_tag' tag %}" >{{tag.name}} </a> 
+                                        {% endfor %}
 										<!---    card tag end  -->
 										</div>
 										
@@ -77,7 +78,7 @@
                     <!-- card content  line gatau hai shrawan -->
                     <!--{{bundle.context |truncatechars:500 |safe}} brings weird cards consumed into card itself-->
 										<p class="">
-											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.context |truncatechars:500 }}
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.context |striptags|truncatechars:500 }}
 										</p>
 										<!-- content end --->
 										<div class="d-flex justify-content-between align-items-center">
@@ -87,7 +88,7 @@
 									     <span> {{bundle.published_on}}</span> <!-- created on deleted -->
                        <a class="text-muted" href=""><span class="ml-3" >{{bundle.creator}}</span></a>
                        
-                       {% for tag in bundle.tags.all %}<a href="{% url 'list_tag' tag %}">{{tag}},</a>{%endfor%}
+                      <!-- {% for tag in bundle.tags.all %}<a href="{% url 'list_tag' tag %}">{{tag}},</a>{%endfor%} -->
 										</div>
 										<div class="ml-auto">
 										

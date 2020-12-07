@@ -223,21 +223,21 @@ class TagListView(ListView):
                 return obj_list
 
 
-class SearchBundleListView(ListView):
-    model = Bundle
+class SearchBundleListView(TemplateView):
     template_name = 'events/search_list.html'
-    paginate_by = 2
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def published(self, *args, **kwargs):
         published_bundles = Bundle.published.all()
+        query = self.request.GET.get('query')
         published_bundles = published_bundles.filter(
-            # Q(title__icontains=self.request.GET['query']) | Q(context__icontains=self.request.GET['query'])
-            Q(title__icontains=self.request.GET['query'])
+            Q(title__icontains=query) | Q(context__icontains=query)
+            # Q(title__icontains=query)
             )
-        context['published'] = published_bundles
-        return context
-
+        paginator = Paginator(published_bundles,4)
+        page = self.request.GET.get('page')
+        published_bundles = paginator.get_page(page)
+        return {'published_bundles':published_bundles,'query':query}
+        
 
 @ajax_required
 @require_POST

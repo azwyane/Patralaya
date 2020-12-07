@@ -1,13 +1,14 @@
 {% extends 'events/base.html' %}
 
 {%block body%}
+{% with  query=view.published.query %}
 <section class="container">
 
   <div class="col-md-10 col-lg-8 col-xl-7 mx-auto my-5 py-5">
           <form  action="{% url 'search_bundle_results' %}" method="GET">
             <div class="form-row "  >
               <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input id="search-box" name="query"type="text" class="form-control form-control-lg" placeholder="search bundles">
+                <input id="search-box" name="query"type="text" class="form-control form-control-lg" placeholder="search bundles" value={{query}}>
               </div>
               <div class="col-12 col-md-3">
                 <button type="submit" class="btn btn-block btn-lg btn-primary">search</button>
@@ -16,7 +17,8 @@
           </form>
         </div>
 
-{% if published %}
+
+{% if view.published.published_bundles %}
                         <div class=" bundle-list mb-5 mx-auto">
                             <!-- Start latest-post Area -->
                             <div class="recently-pbulished-bundle-wrapper  p-0">
@@ -25,7 +27,7 @@
                                 <h4 class=" p-0">Search results</h4>
                                   <div class="bundle-container border-top border-top-muted"> 
 
-{% for bundle in published %}
+{% for bundle in view.published.published_bundles %}
 
 
 
@@ -117,14 +119,14 @@
   
   
   <!-- prvioud buttons starts here   -->
-  {% if page_obj.has_previous %}
+  {% if view.published.published_bundles.has_previous %}
       <li class="page-item">
     
-      <a class="page-link" href="?page=1" tabindex="1">First</a>
+      <a class="page-link" href="?query={{query}}&page=1" tabindex="1">First</a>
     </li>
     <li class="page-item">
     
-      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="1">Previous</a>
+      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.previous_page_number }}" tabindex="1">Previous</a>
     </li>
     {%else%}
         <li class="page-item disabled">
@@ -138,18 +140,18 @@
      
      
      
-    <li class="page-item disabled text-muted mx-2">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</li>
+    <li class="page-item disabled text-muted mx-2">Page {{ view.published.published_bundles.number }} of {{ view.published.published_bundles.paginator.num_pages }}</li>
   
 
-  {% if page_obj.has_next %}
+  {% if view.published.published_bundles.has_next %}
 
         <li class="page-item">
     
-      <a class="page-link" href="?page={{ page_obj.next_page_number }}" tabindex="1">next</a>
+      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.next_page_number }}" tabindex="1">next</a>
     </li>
         <li class="page-item">
     
-      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" tabindex="1" >last</a>
+      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.paginator.num_pages }}" tabindex="1" >last</a>
     </li>
     {%else%}
         <li class="page-item disabled">
@@ -189,9 +191,5 @@
 
 
 {% endif %}
-<script>
-    let s=window.location.href.split("=")[1];
-    document.getElementById("search-box").value=s.split("+").join(" ");
-</script>
-                                
+{% endwith %}                                
 {% endblock %}

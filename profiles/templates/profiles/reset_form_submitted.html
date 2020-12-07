@@ -1,2 +1,54 @@
-<h1>Congrats! Your request is approved. </h1>
-          <h3>An email has been sent to you </h3>
+
+
+          <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no">
+      <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    {% load static %}
+ 
+  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
+   <link href="{% static 'build/login-signup.css' %}" rel="stylesheet" >
+
+
+      <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+ <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
+   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <title>Patrlaya | password reset email sent</title>
+  </head>
+  
+
+
+  </style>
+  <body>
+  
+  
+    <section class="main">
+      <div class="modal-form">
+            <div class="sign-form">
+           <a  class="text-primary h4" href="https://patralayaa.herokuapp.com" style="text-align:start;"> Patralaya</a>
+     
+             
+             
+              <div class="login-content d-flex justify-content-center align-items-center flex-column ">
+        
+             <img class="" src="{% static 'images/email-sent.svg' %}" style="max-width:300px;">
+				<h4 class="title mt-3">Hurray! Your request is approved.</h4>
+                         
+         <p class="text-muted">An email has been sent to you. Check your spam folder as well</p>
+         
+         </div>
+ 
+         </div>
+           
+        
+      </div>
+</section>
+
+
+
+</body>
+</html>
+

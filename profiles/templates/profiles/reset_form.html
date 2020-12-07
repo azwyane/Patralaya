@@ -1,10 +1,94 @@
-<form method="POST" style="border:1px solid #ccc">
-    <div class="container">
-      <h1>Reset password </h1>
-        <p>Please put your email to reset your password</p>
-      <hr>
-        {% csrf_token %}
-        {{form.as_p}}
-      <button class="btn btn-outline-info" type="submit">Reset</button>
-    </div>
-  </form> 
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no">
+      <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    {% load static %}
+ 
+  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
+   <link href="{% static 'build/login-signup.css' %}" rel="stylesheet" >
+
+
+      <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+ <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
+   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <title>Patrlaya | reset password</title>
+  </head>
+  
+
+
+  </style>
+  <body>
+  
+  
+    <section class="main">
+      <div class="modal-form">
+            <div class="sign-form">
+           <a  class="text-primary h4" href="https://patralayaa.herokuapp.com" style="text-align:start;"> Patralaya</a>
+     
+             
+             
+              <div class="login-content ">
+             <form method="POST">
+              {% csrf_token %}
+             <img class="login-img mt-4" src="{% static 'images/forget-password.svg' %}">
+				<h2 class="title ">forget password</h2>
+				<p class="text-muted">Enter the email address associated with your account</p>
+                           <div id="signin-field-email"class="input-container one">
+           <div class="input-div ">
+                <div class="i">
+                   <i class="far fa-envelope"></i>
+                </div>
+                <div class="div">
+                    <label for="signup-password-confirmation-field">Email</label>
+                   {{form.email}}
+                </div>
+             </div>
+              <div class="error-feedback feedback">
+             {{form.username.errors}}
+             </div>
+           </div>
+             
+             
+             
+             
+             
+           
+       
+           
+   
+             
+                        <div class="error-feedback">{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+   {% endfor %}
+
+{% endif %}
+
+           </div>
+             <input type="submit" class="btn btn-primary" value="reset">
+           </form>
+         
+         
+         </div>
+
+           <div class="mx-auto mt-3" style="text-align:center;">
+           back to login page <a class="d-inline-block text-primary" href="{% url 'login' %}"> login</a>
+         </div>
+         </div>
+           
+        
+      </div>
+</section>
+
+
+
+
+  
+   <script src="{% static 'js/login-signup.js' %}"></script>
+</body>
+</html>

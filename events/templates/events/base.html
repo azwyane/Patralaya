@@ -51,14 +51,15 @@
 
  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
   <div class="container d-flex justify-content-between ">
-  <a class="navbar-brand text-primary" href="#">Patralaya</a>
+  <a class="navbar-brand text-primary" href="{% url 'home' %}">Patralaya</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  {% if user.is_authenticated %}
+ 
   <div class="collapse navbar-collapse align-self-center" id="primaryNav">
     <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+       {% if user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'user_detail' user %}">Profile </a>
       </li>
@@ -75,6 +76,7 @@
        <li class="nav-item ">
         <a class="nav-link" href="{% url 'recent_activity' %}">Activity stream</a>
       </li>
+      {% endif %}
       {% if not user.is_authenticated %}
        <li class="nav-item d-lg-none">
         <a class="nav-link" href="{% url 'login' %}">log in</a>
@@ -91,7 +93,7 @@
     </ul>
 
   </div>
-   {% endif %}
+ 
         <div class="  d-none col-auto d-lg-flex justify-content-end align-items-center">
         <a class="text-muted" href="#" aria-label="Search">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>

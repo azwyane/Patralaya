@@ -1,0 +1,10 @@
+<form method="POST" style="border:1px solid #ccc">
+    <div class="container">
+      <h1>Reset password </h1>
+        <p>Please put your email to reset your password</p>
+      <hr>
+        {% csrf_token %}
+        {{form.as_p}}
+      <button class="btn btn-outline-info" type="submit">Reset</button>
+    </div>
+  </form> 

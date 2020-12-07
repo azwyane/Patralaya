@@ -1,10 +1,119 @@
-<form method="POST" style="border:1px solid #ccc">
-    <div class="container">
-      <h1>New password </h1>
-        <p>Please fill in this form to reset your password</p>
-      <hr>
-        {% csrf_token %}
-        {{form.as_p}}
-      <button class="btn btn-outline-info" type="submit">Reset</button>
-    </div>
-  </form> 
+
+  <!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1 shrink-to-fit=no">
+      <link href="https://fonts.googleapis.com/css?family=Poppins:500&display=swap" rel="stylesheet">
+    {% load static %}
+ 
+  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
+   <link href="{% static 'build/login-signup.css' %}" rel="stylesheet" >
+
+
+      <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+ <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
+   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <title>Patrlaya | new password</title>
+  </head>
+  
+
+
+  </style>
+  <body>
+  
+  
+    <section class="main">
+      <div class="modal-form">
+            <div class="sign-form">
+           <a  class="text-primary h4" href="#" style="text-align:start;"> Patralaya</a>
+     
+             
+             
+              <div class="login-content ">
+             <form method="POST">
+              {% csrf_token %}
+             <img class="login-img mt-4" src="{% static 'images/forget-password.svg' %}">
+				<h2 class="title ">New password</h2>
+				<p class="text-muted">Please fill in this form to reset your password</p>
+                           
+          <div id="signup-field-pass ">
+         <div  class="input-div pass">
+                <div class="i">
+                   <i class="fas fa-lock"></i>
+                </div>
+                <div class="div">
+                   <label for="signup-password-field">New Password</label>
+                  {{form.new_password1}}
+                    
+
+                </div>
+             </div>
+             
+               <div class="feedback">
+                 <ul>
+                      <li>Your password can’t be too similar to your other personal information.</li>
+    <li>Your password must contain at least 8 characters.</li>
+    <li>Your password can’t be a commonly used password.</li>
+   <li> Your password can’t be entirely numeric.</li>
+              </ul>
+       
+      </div>
+
+           </div>
+           <div id="signup-field-pass-conf">
+              <div class="input-div pass">
+                <div class="i">
+                   <i class="fas fa-lock"></i>
+                </div>
+                <div class="div">
+                    <label for="signup-password-confirmation-field">New Password Confirmation</label>
+                   {{form.new_password2}}
+                </div>
+             </div>
+     
+               <div class="feedback">
+              <ul><li>Enter the same password as before, for verification.</li>
+
+           </div>
+           </div>
+             
+             
+             
+             
+             
+           
+       
+           
+   
+             
+                        <div class="error-feedback">{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+   {% endfor %}
+
+{% endif %}
+
+           </div>
+             <input type="submit" class="btn btn-primary" value="reset">
+           </form>
+         
+         
+         </div>
+
+         </div>
+           
+        
+      </div>
+</section>
+
+
+
+
+  
+   <script src="{% static 'js/login-signup.js' %}"></script>
+</body>
+</html>

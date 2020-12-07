@@ -24,13 +24,95 @@
 </head>
 
 <body>
+  <p>
+    <em><a href="{% url 'bundle_feed' %}">Subscribe through RSS</a></em>
+</p>
+<hr>
+{% if user.is_authenticated %}
+<p>Great to see you back, {{ user }}</p>
 
+{% endif %}
+
+
+            
+                  
+                    
+                    
+
+{% if messages %}
+    {% for message in messages %}
+        <div>
+            {{ message }}
+        </div>
+   {% endfor %}
+
+{% endif %}
+
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container d-flex justify-content-between ">
+  <a class="navbar-brand text-primary" href="#">Patralaya</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  {% if user.is_authenticated %}
+  <div class="collapse navbar-collapse align-self-center" id="primaryNav">
+    <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_detail' user %}">Profile </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile_settings' %}">settings</a>
+   
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link" href="{% url 'create_bundle' creator=request.user %}">Create new</a>
+      </li>
+       <li class="nav-item ">
+        <a class="nav-link" href="{% url 'list_bundle' user %}">Bundle you created</a>
+      </li>
+       <li class="nav-item ">
+        <a class="nav-link" href="{% url 'recent_activity' %}">Activity stream</a>
+      </li>
+      {% if not user.is_authenticated %}
+       <li class="nav-item d-lg-none">
+        <a class="nav-link" href="{% url 'login' %}">log in</a>
+      </li>
+       <li class="nav-item d-lg-none">
+        <a class="nav-link" href="{% url 'signup' %}">sign up</a>
+      </li>
+    {% endif %}
+{% if user.is_authenticated %}
+  <li class="nav-item d-lg-none">
+        <a class="nav-link" href="{% url 'logout' %}">logout</a>
+      </li>
+      {% endif %}
+    </ul>
+
+  </div>
+   {% endif %}
+        <div class="  d-none col-auto d-lg-flex justify-content-end align-items-center">
+        <a class="text-muted" href="#" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
+        </a>
+          {% if not user.is_authenticated %}
+        
+        <a class="btn btn-sm btn-primary mr-3 px-3" href="{% url 'login' %}">Sign in</a>
+        <a class="btn btn-sm btn-outline-primary px-3" href="{% url 'signup' %}">Sign up </a>
+            {% endif %}
+{% if user.is_authenticated %}
+<a class="btn btn-sm btn-outline-primary px-3" href="{% url 'logout' %}">log out </a>
+{% endif %}
+      </div>
+  </div>
+</nav>
     {% block body %}
     {% endblock %}
 
 
   <!-- Footer -->
-  <footer class="footer bg-light">
+  <footer class="footer bg-light" style="width:100%;">
     <div class="container">
       <div class="row">
         <div class="col-lg-6 h-100 text-center text-lg-left my-auto">

@@ -32,9 +32,12 @@
         
              <img class="" src="{% static 'images/secure.svg' %}" style="width:150px;">
 				<h3 class="title mt-3">Hurray!  Your password has been reset</h3>
-                         
+        
+        {% if request.user.is_authenticated %}
+        <a class="d-inline-block text-primary h5" href="{% url 'home' %}"> Back to home</a>
+        {% else %}                 
         <a class="d-inline-block text-primary h5" href="{% url 'login' %}"> Back to login page</a>
-         
+        {% endif %} 
          </div>
 
          </div>

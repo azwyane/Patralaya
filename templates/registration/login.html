@@ -75,15 +75,15 @@
            
              <a class="text-primary" href="{% url 'password_reset_form' %}">Forgot password?</a>
              
-            <!-- {% if error_messages %} -->
+            {% if form.errors %}
             <div class="error-feedback">
-            <!-- {% for message in error_messages %} -->
+            {% for error in form.non_field_errors %}
                 <div>
-                    <!-- {{ message }} -->
+                    {{error }}
                 </div>
-            <!-- {% endfor %} -->
+            {% endfor %}
            </div>
-           <!-- {% endif %} -->
+           {% endif %}
              <input type="submit" class="btn btn-primary" value="Login">
            </form>
          

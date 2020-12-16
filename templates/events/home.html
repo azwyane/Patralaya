@@ -1,5 +1,6 @@
 {% extends 'events/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block body %}
 
 
@@ -85,7 +86,7 @@
 										<div class="text-muted">
 										
 										<!--- created on -->
-									     <span> {{bundle.published_on}}</span> <!-- created on deleted -->
+									     <span> {{bundle.published_on|naturaltime}}</span> <!-- created on deleted -->
                        <a class="text-muted" href=""><span class="ml-3" >{{bundle.creator}}</span></a>
                        
                       <!-- {% for tag in bundle.tags.all %}<a href="{% url 'list_tag' tag %}">{{tag}},</a>{%endfor%} -->

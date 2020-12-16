@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Azwyane <tunechibaral@gmail.com>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-16 18:39+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/events/home.html:13
+msgid "All you need is a hungry eyes"
+msgstr "आंखामा भोक हुन जरुरि छ"
+
+#: templates/events/home.html:14
+msgid "No matter your age and field, Learn and grow with patralaya"
+msgstr ""
+
+#: templates/events/home.html:23
+msgid "search"
+msgstr "खोज"
+
+#: templates/events/home.html:42
+msgid "Recently Published Bundle"
+msgstr "भर्खर प्र्काशन गरिएका बन्डलहरु"
+
+#: templates/password_reset_email.html:2
+msgid "Namaste"
+msgstr "नमस्ते"
+
+#: templates/password_reset_email.html:3
+#, python-format
+msgid ""
+",We received a  request of password reset for your user account at "
+"%(site_name)s.\n"
+"If it's not you who made the request, then you can safely ignore this email."
+msgstr ""
+
+#: templates/password_reset_email.html:6
+msgid "Otherwise,Please go to the following page and choose a new password:"
+msgstr ""
+
+#: templates/password_reset_email.html:10
+msgid "Your username, in case you’ve forgotten:"
+msgstr ""
+
+#: templates/password_reset_email.html:12
+msgid "Thank Your for using Patralaya"
+msgstr "पत्रालय प्र्योग गरिदिनु भएकोमा धन्यवाद "
+
+#: templates/password_reset_email.html:14
+#, python-format
+msgid "The %(site_name)s team, Nepal."
+msgstr "%(site_name)s समुह नेपाल"

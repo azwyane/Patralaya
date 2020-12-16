@@ -17,7 +17,7 @@
           <form action="{% url 'search_bundle_results' %}" method="GET">
             <div class="form-row" >
               <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input name="query"type="text" class="form-control form-control-lg" placeholder="search bundles">
+                <input name="query"type="text" class="form-control form-control-lg" placeholder='{% translate "search bundles" %}'>
               </div>
               <div class="col-12 col-md-3">
                 <button type="submit" class="btn btn-block btn-lg btn-primary">{% translate "search" %}</button>
@@ -91,7 +91,7 @@
 										
 										<!---- view  --->
                     <i class="fa fa-eye text-muted"> <span id="total_views">253</span></i>
-                    <i class=""> <span id="total_claps">{{bundle.claps.count}} claps</span></i>
+                    <i class=""> <span id="total_claps">{{bundle.claps.count}} {% translate 'claps' %}</span></i>
                                       <i class="fa fa-share mx-3 text-muted"> </i>
                                       <!--- view ended -->
                                       
@@ -184,7 +184,7 @@
 					</div>
 											<div class="col-lg-4 mt-lg-6 ">
 							
-									<h4 class="cat-title">Catagories</h4>
+									<h4 class="cat-title">{% translate 'Categories' %}</h4>
 									<div class="bundle-container border-top border-top-muted"> 
 									
 									<div class="catagories-container mx-auto">

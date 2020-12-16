@@ -45,7 +45,7 @@
 </form>
 <hr>
 {% if user.is_authenticated %}
-<p>Great to see you back, {{ user }}</p>
+<p>{% translate "Great to see you back," %} {{ user }}</p>
 
 {% endif %}
 
@@ -67,7 +67,7 @@
 
  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
   <div class="container d-flex justify-content-between ">
-  <a class="navbar-brand text-primary" href="{% url 'home' %}">Patralaya</a>
+  <a class="navbar-brand text-primary" href="{% url 'home' %}">{% translate "Patralaya" %}</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -77,35 +77,32 @@
     <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
        {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'user_detail' user %}">Profile </a>
+        <a class="nav-link" href="{% url 'user_detail' user %}">{% translate "Profile" %}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'profile_settings' %}">settings</a>
+        <a class="nav-link" href="{% url 'profile_settings' %}">{% translate "Settings" %}</a>
    
       </li>
       <li class="nav-item ">
-        <a class="nav-link" href="{% url 'create_bundle' creator=request.user %}">Create new</a>
+        <a class="nav-link" href="{% url 'create_bundle' creator=request.user %}">{% translate "Create New" %}</a>
       </li>
        <li class="nav-item ">
-        <a class="nav-link" href="{% url 'list_bundle' user %}">Bundle you created</a>
+        <a class="nav-link" href="{% url 'list_bundle' user %}">{% translate "Bundle you created" %}</a>
       </li>
        <li class="nav-item ">
-        <a class="nav-link" href="{% url 'recent_activity' %}">Activity stream</a>
+        <a class="nav-link" href="{% url 'recent_activity' %}">{% translate "Activities Stream" %}</a>
       </li>
-      {% endif %}
-      {% if not user.is_authenticated %}
+      <li class="nav-item d-lg-none">
+        <a class="nav-link" href="{% url 'logout' %}">{% translate "Log Out" %}</a>
+      </li>
+      {% else %}
        <li class="nav-item d-lg-none">
-        <a class="nav-link" href="{% url 'login' %}">log in</a>
+        <a class="nav-link" href="{% url 'login' %}">{% translate "Sign In" %}</a>
       </li>
        <li class="nav-item d-lg-none">
-        <a class="nav-link" href="{% url 'signup' %}">sign up</a>
+        <a class="nav-link" href="{% url 'signup' %}">{% translate "Sign Up" %}</a>
       </li>
     {% endif %}
-{% if user.is_authenticated %}
-  <li class="nav-item d-lg-none">
-        <a class="nav-link" href="{% url 'logout' %}">logout</a>
-      </li>
-      {% endif %}
     </ul>
 
   </div>
@@ -114,14 +111,13 @@
         <a class="text-muted" href="#" aria-label="Search">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
         </a>
-          {% if not user.is_authenticated %}
-        
-        <a class="btn btn-sm btn-primary mr-3 px-3" href="{% url 'login' %}">Sign in</a>
-        <a class="btn btn-sm btn-outline-primary px-3" href="{% url 'signup' %}">Sign up </a>
-            {% endif %}
-{% if user.is_authenticated %}
-<a class="btn btn-sm btn-outline-primary px-3" href="{% url 'logout' %}">log out </a>
-{% endif %}
+        {% if user.is_authenticated %}
+        <a class="btn btn-sm btn-outline-primary px-3" href="{% url 'logout' %}">{% translate "Log Out" %}</a>
+        {% else %}
+        <a class="btn btn-sm btn-primary mr-3 px-3" href="{% url 'login' %}">{% translate "Sign In" %}</a>
+        <a class="btn btn-sm btn-outline-primary px-3" href="{% url 'signup' %}">{% translate "Sign Up" %}</a>
+        {% endif %}
+
       </div>
   </div>
 </nav>
@@ -137,22 +133,22 @@
         <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
           <ul class="list-inline mb-2">
             <li class="list-inline-item">
-              <a href="#">About</a>
+              <a href="#">{% translate "About" %}</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Contact</a>
+              <a href="#">{% translate "Contact" %}</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
+              <a href="#">{% translate "Terms of Use" %}</a>
             </li>
             <li class="list-inline-item">&sdot;</li>
             <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
+              <a href="#">{% translate "Privacy Policy" %}</a>
             </li>
           </ul>
-          <p class="text-muted small mb-4 mb-lg-0">&copy; Patralaya 2020. All Rights Reserved.</p>
+          <p class="text-muted small mb-4 mb-lg-0">&copy; {% translate "Patralaya 2020. All Rights Reserved." %}</p>
         </div>
       </div>
     </div>

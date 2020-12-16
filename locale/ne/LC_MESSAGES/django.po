@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-16 18:39+0545\n"
+"POT-Creation-Date: 2020-12-16 21:37+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,13 +18,79 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: templates/events/base.html:48
+msgid "Great to see you back,"
+msgstr ""
+
+#: templates/events/base.html:70
+msgid "Patralaya"
+msgstr "पत्रालय"
+
+#: templates/events/base.html:80
+msgid "Profile"
+msgstr "प्रोफाइल"
+
+#: templates/events/base.html:83
+msgid "Settings"
+msgstr "सेटिङ्स्"
+
+#: templates/events/base.html:87
+msgid "Create New"
+msgstr "नयाँ बन्डल निर्माण गर्नुहोस्"
+
+#: templates/events/base.html:90
+msgid "Bundle you created"
+msgstr "तपाईं निर्मित बन्ड्लहरु"
+
+#: templates/events/base.html:93
+msgid "Activities Stream"
+msgstr "गतिबिधि"
+
+#: templates/events/base.html:96 templates/events/base.html:115
+msgid "Log Out"
+msgstr "बाहिर प्रवेश गर्नुहोस्"
+
+#: templates/events/base.html:100 templates/events/base.html:117
+msgid "Sign In"
+msgstr "प्रवेस गर्नुहोस"
+
+#: templates/events/base.html:103 templates/events/base.html:118
+msgid "Sign Up"
+msgstr "नयाँ खाता बनाउनुहोस"
+
+#: templates/events/base.html:136
+msgid "About"
+msgstr ""
+
+#: templates/events/base.html:140
+msgid "Contact"
+msgstr ""
+
+#: templates/events/base.html:144
+msgid "Terms of Use"
+msgstr ""
+
+#: templates/events/base.html:148
+msgid "Privacy Policy"
+msgstr ""
+
+#: templates/events/base.html:151
+msgid "Patralaya 2020. All Rights Reserved."
+msgstr ""
+
 #: templates/events/home.html:13
 msgid "All you need is a hungry eyes"
-msgstr "आंखामा भोक हुन जरुरि छ"
+msgstr "आँखामा भोक हुन जरुरि छ"
 
 #: templates/events/home.html:14
 msgid "No matter your age and field, Learn and grow with patralaya"
-msgstr ""
+msgstr "सबै उमेर र क्षेत्रका को लागि साझा पत्रालय, आउनुहोस पढैं र ज्ञनको खानि बनौं"
+
+#: templates/events/home.html:20
+#, fuzzy
+#| msgid "search"
+msgid "search bundles"
+msgstr " बन्डल खोज"
 
 #: templates/events/home.html:23
 msgid "search"
@@ -33,6 +99,14 @@ msgstr "खोज"
 #: templates/events/home.html:42
 msgid "Recently Published Bundle"
 msgstr "भर्खर प्र्काशन गरिएका बन्डलहरु"
+
+#: templates/events/home.html:94
+msgid "claps"
+msgstr ""
+
+#: templates/events/home.html:187
+msgid "Categories"
+msgstr ""
 
 #: templates/password_reset_email.html:2
 msgid "Namaste"

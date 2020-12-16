@@ -37,7 +37,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("s_key",default="randomsecrectforProduction123$%^70001") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("state",default=True) 
+if os.environ.get("state"):
+    DEBUG = False 
+else:
+    DEBUG = True 
 
 ALLOWED_HOSTS = []
 
@@ -167,6 +170,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 #emailconfig
+DEFAULT_FROM_EMAIL = 'noreply@Patralaya'
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.sendgrid.net'
 EMAIL_PORT=587

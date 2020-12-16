@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from activities.utils import create_action
-from events.models import Profile
+from events.models import Bundle,Fork
+from profiles.models import Profile
 from django.contrib.auth.models import User
 
 class BundleEditMixin( UserPassesTestMixin ):
@@ -49,4 +50,25 @@ class CreateActivityMixin():
         create_action(Profile.objects.get(user=self.request.user), 'commented on bundle', bundle_to_comment)
 
     def create_clap_action(self,bundle_to_clap):
-        create_action(Profile.objects.get(user=self.request.user), 'clapped the bundle', bundle_to_clap)    
+        create_action(Profile.objects.get(user=self.request.user), 'clapped the bundle', bundle_to_clap)  
+
+
+class CreateForkMixin(): 
+    def create_bundle_fork(self,bundle_from,new_owner):
+        
+        title = bundle_from.__dict__['title']
+        slug = bundle_from.__dict__['slug'] + '-' + self.request.user.username
+        context = bundle_from.__dict__['context']
+        status = 'Publish'
+        bundle_to = Bundle.objects.create(
+                            creator = new_owner,
+                            title = title,
+                            slug = slug,
+                            context = context,
+                            status = status
+                        ) 
+        Fork.objects.create(
+                        bundle_to = bundle_to,
+                        bundle_from = bundle_from 
+                        )
+ 

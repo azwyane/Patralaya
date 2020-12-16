@@ -44,7 +44,7 @@ from common.decorators import ajax_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from events.mixins import (       #custom mixins
     BundleEditMixin, UserIsOwnerMixin, 
-    CreateActivityMixin
+    CreateActivityMixin, CreateForkMixin
     )
 
 class HomeView(TemplateView):
@@ -151,44 +151,29 @@ class SearchBundleListView(TemplateView):
 
 #ajax_views
 from django.utils.decorators import method_decorator
+
 decorators = [ajax_required, require_POST, login_required]
 
 @method_decorator(decorators, name='dispatch')
-class ForkBundle(CreateActivityMixin,View):
+class ForkBundle(CreateForkMixin,CreateActivityMixin,View):
     def post(self,request):
         pk = request.POST['pk']
         action = request.POST['action']
-        fork_owner = Profile.objects.get(
-                    user=request.user
-                    )
-        if pk and action and fork_owner:
+        new_owner = Profile.objects.get(user=request.user)
+        bundle_from = Bundle.objects.get(pk=pk)            
+        
+        if bundle_from and action and new_owner:
             try:
-                bundle_from = Bundle.objects.get(
-                    pk=pk
-                    )
                 if action == 'fork':
-                    fork_title = bundle_from.__dict__['title']
-                    fork_slug = bundle_from.__dict__['slug'] + '-' + request.user.username
-                    fork_context = bundle_from.__dict__['context']
-                    fork_status = 'Publish'
-                    bundle_to = Bundle.objects.create(
-                        creator = fork_owner,
-                        title = fork_title,
-                        slug = fork_slug,
-                        context = fork_context,
-                        status = fork_status
-                    ) 
-
-                    Fork.objects.create(
-                        bundle_to = bundle_to,
-                        bundle_from = bundle_from 
-                        )
+                    self.create_bundle_fork(bundle_from,new_owner)
                     self.create_fork_action(bundle_from)
                 return JsonResponse({'status':'ok'})
                     
             except Exception as e:
                 return JsonResponse({'status':'error','fork_error':'No need to fork again'})
+        
         return JsonResponse({'status':'error','fork_error':'No need to fork again'})
+
 
 @method_decorator(decorators, name='dispatch')
 class CommentBundle(CreateActivityMixin, View):
@@ -196,11 +181,9 @@ class CommentBundle(CreateActivityMixin, View):
         pk = request.POST['pk']
         action = request.POST['action']
         context = request.POST['context']
-        if pk and action and context:
-            try:
-                bundle_to_comment = Bundle.objects.get(
-                    pk=pk
-                    )
+        bundle_to_comment = Bundle.objects.get(pk=pk)
+        if bundle_to_comment and action and context:
+            try: 
                 if action == 'comment':
                     Comment.objects.create(
                         bundle = bundle_to_comment,

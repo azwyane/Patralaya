@@ -173,4 +173,6 @@ EMAIL_TIMEOUT=21600
 EMAIL_HOST_USER=get_secret('e_host')
 EMAIL_HOST_PASSWORD = os.environ.get('e_pass')
 
+LOGIN_URL ='login'
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

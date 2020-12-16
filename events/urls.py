@@ -4,8 +4,8 @@ from events.views import (
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
     TagListView, SearchBundleListView,
-    bundle_comment, fork_bundle,
-    bundle_clap
+    CommentBundle, ForkBundle,
+    ClapBundle,
     )
 
 # profile views is imported here to make url as example.com/<username>    
@@ -32,7 +32,7 @@ urlpatterns=[
     path('<slug:creator>/<slug:slug>/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
     
     #comment urls uses ajax 
-    path('bundle/create/comment/',bundle_comment,name='comment_bundle'),
+    path('bundle/create/comment/',CommentBundle.as_view(),name='comment_bundle'),
 
 
     #public topics by tag
@@ -45,9 +45,9 @@ urlpatterns=[
     path('bundle/published/all/feed.xml', PublishedBundleFeed(), name='bundle_feed'),
     
     #fork bundles
-    path('bundle/fork/new/',fork_bundle, name='fork_bundle'),
+    path('bundle/fork/new/',ForkBundle.as_view(), name='fork_bundle'),
 
     #fork bundles
-    path('bundle/clap',bundle_clap, name='bundle_clap'),
+    path('bundle/clap',ClapBundle.as_view(), name='bundle_clap'),
 
 ]

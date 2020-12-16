@@ -16,6 +16,7 @@ from pathlib import Path
 import django_heroku
 
 import json
+import os
 
 # open secrets file as a dictonary
 with open("secrets.json") as f:
@@ -33,10 +34,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = get_secret("s_key")
+SECRET_KEY = os.environ.get("s_key",default="randomsecrectforProduction123$%^70001") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_secret("state")
+DEBUG = os.environ.get("state",default=True) 
 
 ALLOWED_HOSTS = []
 
@@ -154,7 +155,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-import os
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #bootstrap files sits here
 
 

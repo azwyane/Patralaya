@@ -144,10 +144,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'ne' #'en-us'
+LANGUAGE_CODE = 'en-us'
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR,'locale')
+]
+
+LANGUAGES = [
+    ('en','English'),
+    ('ne', 'Nepali')
 ]
 
 TIME_ZONE = 'Asia/Kathmandu'

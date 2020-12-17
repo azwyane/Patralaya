@@ -18,18 +18,25 @@
 
   <!-- {% load static %} -->
   
-  <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
-
-      <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+      <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+     <link href="{% static 'build/build-main.css' %}" rel="stylesheet" >
 
 </head>
 
 <body>
-  <p>
+  <div class="row mx-0 align-items-center">
+    <div class="col px-2 mx-0 ">
+  <p class="mb-0">
     <em><a href="{% url 'bundle_feed' %}">Subscribe through RSS</a></em>
 </p>
 {% get_current_language as LANGUAGE_CODE %}
-<form action="{% url 'set_language' %}" method="POST">
+</div>
+<div class="col px-2 mx-0 " >
+<form action="{% url 'set_language' %}" method="POST" style=" display: flex; justify-content: flex-end;">
   {% csrf_token %}
   <input type="hidden" name="next" value="{{ redirect_to }}">
   <select name="language">
@@ -41,28 +48,57 @@
     </option>
     {% endfor %}
   </select>
-  <input type="submit" value="set">
+  <input class=""type="submit" value="set">
 </form>
-<hr>
-{% if user.is_authenticated %}
-<p>{% translate "Great to see you back," %} {{ user }}</p>
+</div>
 
-{% endif %}
-
-
+</div>
             
-                  
-                    
-                    
+      <style type="text/css">
+        #message_container{
+          position: fixed;
+          bottom: 0;
+          right:0;
+        
+          max-width: 500px;
+          z-index:1000;
+          padding: 20px 20px;
 
-{% if messages %}
+
+        }
+   
+
+        #message_container #message-box{
+          animation: messageBox 1s ease-in-out;
+
+        }
+        @keyframes messageBox{
+          0%{
+            transform:translatey(10px);
+          }
+          10%{
+            transform: translateY(0px);
+
+          }
+
+        }
+      </style>            
+                    
+<div id="message_container">
+  {% if messages %}
     {% for message in messages %}
-        <div>
-            {{ message }}
-        </div>
+    <div id="message-box" class="alert alert-info alert-dismissible fade show" role="alert">
+ {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+      
    {% endfor %}
 
 {% endif %}
+</div>
+
 
 
  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
@@ -157,9 +193,8 @@
 
 
 
+  
 
- <script src="{% static 'vendor/bootstrap/jquery/jquery.min.js' %}"></script>
-   <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
 </body>
 </html>
 

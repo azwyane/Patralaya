@@ -1,0 +1,196 @@
+<!--custom template tag-->
+{% load profiles_tags %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+<script>
+    $(document).ready(function(){
+    $("button#comment").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'comment_bundle' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                context: $("textarea.comment").val(),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    $('div.comment-success').text($("textarea.comment").val());
+                    $("textarea.comment").val('')
+                }
+            }
+            
+
+        );
+    }),
+    $("button#fork").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'fork_bundle' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    alert('Congrats, the Bundle is forked');
+                }
+                if (data['status'] == 'error'){
+                    alert(data['fork_error']);
+                }
+            });
+    }),
+    $("button#clap").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'bundle_clap' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    var previous_action = $('button#clap').data('action');
+                    // toggle data-action
+                    $('button#clap').data('action', previous_action == 'clap' ?
+                    'unclap' : 'clap');
+                    // toggle link text
+                    $('button#clap').text(previous_action == 'clap' ? 'unclap' :
+                    'clap');
+                    // update total claps
+                    var previous_claps = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'clap' ?
+                    previous_claps + 1 : previous_claps - 1);
+                }
+            });
+    });
+});
+</script>
+
+
+{% if request.user.is_authenticated %}
+<!--custom tag takes request.user and returns profile object as current_user variable-->
+{% profile_obj request.user as current_user%}
+
+<!--make visible fork button-->
+<p>
+    <button id="fork" type="submit" data-action="fork">fork</button>
+</p>
+
+<!--clap button-->
+<p>
+    <button id="clap" type="submit" data-action="{% if current_user in object.claps.all %}un{% endif %}clap">
+        {% if current_user not in object.claps.all %}
+        Clap
+        {% else %}
+        Unclap
+        {% endif %}
+    </button>
+</p>
+
+{% endif %}
+
+<br>
+<a href="{% url 'share_by_email' slug=object.slug %}">share</a>
+
+
+{% if object.creator == current_user %}
+<ul>
+    <li>
+        <a href="{% url 'update_bundle' creator=object.creator slug=object.slug %}">update</a>
+    </li>
+    <li>
+        <a href="{% url 'delete_bundle' creator=object.creator slug=object.slug %}">delete</a>
+    </li>
+</ul>
+{% endif %}
+
+{% if object.media_file or object.media_image or object.git_url %}
+<br>
+<p> MEDIAS</p>
+{% if object.media_file %}
+<p>PAPER: <a href='{{object.media_file.url}}'>{{object.media_file.name|slice:"25:"}}</a></p>
+{% endif %}
+
+{% if object.media_image %}
+<p>IMAGE: <a href='{{object.media_image.url}}' download>{{object.media_image.name|slice:"13:"}}</a></p>
+{% endif %}
+{% if object.git_url %}
+<p> GIT URL <a href="{{object.git_url}}">{{object.git_url}}</a></p>
+{% endif %}
+{% endif %}
+
+
+{% if object.forks.count > 0 %}
+<p><h3>Bundle Forked Into</h3></p>
+<ul>
+{% for forked in object.forks.all %}
+<li><a href="{{ forked.get_absolute_url }}">{{ forked.slug }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% with total_claps=object.claps.count %}
+<span class="count">
+    <hr>
+<span class="total">{{ total_claps }}</span>
+clap{{ total_claps|pluralize }}
+</span>
+<ul class="followers">
+    {% for profile in object.claps.all %}
+
+    <li><a href="{% url 'user_detail' profile %}">{{ profile }}</a></li>
+    {% endfor %}
+</ul>
+{% endwith %}
+
+
+<h1><p>{{ object.title|safe}}</p></h1>
+<p>context: {{ object.context|safe }}</p>
+<p>Tags: {{ object.tags.all|join:", " }}</p>
+<p>Created: {{ object.created_on|date }}</p>
+<p>Published: {{ object.created_on|date }}</p>
+<p>Updated: {{ object.updated_on|date }}</p>
+<p>Status: {{ object.status }}</p>
+<p>Creator: {{ object.creator }}</p>
+
+
+{% if object.creator.profile_picture %}
+<img src='{{object.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
+{% endif %}
+
+<hr>
+
+<p>
+    {% if request.user.is_authenticated %}
+    
+        <textarea class="comment" placeholder="Comment here"></textarea>
+        <button id="comment" type="submit" data-action="comment">
+            Comment
+        </button>
+    
+    {% endif %}
+
+
+</p>
+<br>
+
+<div class="comment-success">
+          
+</div>
+
+<p><strong>Comments</strong></p>
+{% for comment in object.comment.all %}
+          
+          <hr class="comments-all">
+          <p>{{ comment.context|linebreaks }}</p>
+          <p>By:<strong>{{ comment.creator }}</strong><span class="w3-right w3-opacity">commented at:{{ comment.created_on}}</span></p>
+  
+{% empty %}
+<p>No comments till now :(</p>
+
+{% endfor %}

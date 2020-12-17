@@ -64,8 +64,7 @@
                                         </div>
                                         
                                         
-                    <!-- card content  line gatau hai shrawan -->
-                    <!--{{bundle.context |truncatechars:500 |safe}} brings weird cards consumed into card itself-->
+                  
                                         <p class="">
                                             &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.context |truncatechars:500 }}
                                         </p>
@@ -88,8 +87,7 @@
                                       <i class="fa fa-share mx-3 text-muted"> </i>
                                       <!--- view ended -->
                                       
-                                      
-                                      <!--- fork action haru handle garne parne xa yo kasari garne ajax request pathyera ki redirect garne download share ra star pani implement garnu parne xa  ---->
+                                     
                                       
                                        <button class=" btn text-muted" data-toggle="dropdown"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><i class="fa fa-ellipsis-v "  > </i></button> 
 
@@ -170,10 +168,10 @@
 
 
 {% else %}
-</section>
+
 <!--if no result exists then follows this-->
 
-<section class="container">
+<div class="container">
 
 <div class="d-flex justify-content-center align-items-center " id="empty list">
 <div class="my-5 search-content text-center">
@@ -185,11 +183,12 @@
 
 
 </div>
-</section>
+</div>
 
 
 
 
 {% endif %}
-{% endwith %}                                
+{% endwith %} 
+</section>                               
 {% endblock %}

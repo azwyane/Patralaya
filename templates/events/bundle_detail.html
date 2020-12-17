@@ -14,7 +14,9 @@
     $(document).ready(function(){
     $("button#comment").click(function(e){
         e.preventDefault();
+           {% if request.user.is_authenticated %}
         let s={% profile_obj request.user as current_user%}"{{current_user}}";
+           {% endif%}
         let comment=$("textarea.comment").val();
         $.post(
             "{% url 'comment_bundle' %}",

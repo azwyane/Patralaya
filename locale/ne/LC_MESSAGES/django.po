@@ -84,7 +84,7 @@ msgstr "आँखामा भोक हुन जरुरि छ"
 
 #: templates/events/home.html:14
 msgid "No matter your age and field, Learn and grow with patralaya"
-msgstr "सबै उमेर र क्षेत्रका को लागि साझा पत्रालय, आउनुहोस पढैं र ज्ञनको खानि बनौं"
+msgstr "सबै उमेर र क्षेत्रका को लागि साझा, आउनुहोस पढैं र ज्ञनको खानि बनौं"
 
 #: templates/events/home.html:20
 #, fuzzy
@@ -98,7 +98,7 @@ msgstr "खोज"
 
 #: templates/events/home.html:42
 msgid "Recently Published Bundle"
-msgstr "भर्खर प्र्काशन गरिएका बन्डलहरु"
+msgstr "भर्खर प्रकाशन गरिएका बन्डलहरु"
 
 #: templates/events/home.html:94
 msgid "claps"

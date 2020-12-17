@@ -1,4 +1,8 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
 
+{% block body %}
 <h1>People</h1>
 <ul>
 {% for public_profiles in users %}
@@ -15,3 +19,4 @@
 {% endfor %}
 </ul>
 </div>
+{% endblock %}

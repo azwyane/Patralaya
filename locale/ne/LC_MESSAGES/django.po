@@ -90,7 +90,7 @@ msgstr "सबै उमेर र क्षेत्रका को लाग�
 #, fuzzy
 #| msgid "search"
 msgid "search bundles"
-msgstr " बन्डल खोज"
+msgstr "बन्डल खोज"
 
 #: templates/events/home.html:23
 msgid "search"

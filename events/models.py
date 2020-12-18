@@ -59,8 +59,12 @@ class Bundle(models.Model):
     creator = models.ForeignKey(
         Profile, 
         on_delete=models.CASCADE,
-        related_name='bundle',
+        related_name='bundle_creator',
         )
+    co_authors = models.ManyToManyField(
+        Profile, 
+        related_name='bundle_co_creators',
+        )    
     title = models.CharField(max_length=200)
     context = RichTextField(blank=True,null=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -83,6 +87,7 @@ class Bundle(models.Model):
         )
     slug = models.SlugField(null=False, unique=True)
     git_url = models.URLField(blank=True)
+    forkable = models.BooleanField(default=True)
     fork = models.ManyToManyField(
         'self',
         through='Fork',

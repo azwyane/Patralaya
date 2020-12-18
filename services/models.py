@@ -1,3 +1,7 @@
+# django model fields
 from django.db import models
 
-# Create your models here.
+
+
+    
+

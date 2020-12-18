@@ -65,9 +65,17 @@ class Bundle(models.Model):
         related_name='bundle_creator',
         )
     co_authors = models.ManyToManyField(
-        Profile, 
-        related_name='bundle_co_creators',
-        )    
+        Profile,
+        through='AcceptedAuthorshipRequest', 
+        related_name='cocreators',
+        symmetrical=False
+        ) 
+    co_authors_request =  models.ManyToManyField(
+        Profile,
+        through='ReceivedAuthorshipRequest', 
+        related_name='creatorrequests',
+        symmetrical=False
+        )       
     title = models.CharField(max_length=200)
     context = RichTextField(blank=True,null=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -137,6 +145,12 @@ class Bundle(models.Model):
     def get_forked_from(self):
         return Bundle.objects.filter(forks=self).all()    
 
+    def get_author_requests(self):
+        return self.co_authors_request.all()
+
+    def get_co_authors(self):
+        return self.co_authors.all()    
+
     def save(self, *args, **kwargs): 
         '''
         over riding the parent save method for
@@ -194,6 +208,35 @@ class Clap(models.Model):
 
     def __str__(self):
         return f'{self.profile} claped {self.bundle}'
+
+
+class AuthorshipRequestBase(models.Model):
+    bundle = models.ForeignKey(
+        Bundle,
+        on_delete=models.CASCADE, 
+        # related_name='bundle',
+        )    
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        # related_name='profile'
+        )
+    requested_on = models.DateTimeField(
+                auto_now_add=True,
+                db_index=True
+                )
+
+    class meta:
+        abstract = True
+
+
+class AcceptedAuthorshipRequest(AuthorshipRequestBase):
+    def __str__(self):
+        return f"{self.profile} is co-author to {self.bundle}"
+
+class ReceivedAuthorshipRequest(AuthorshipRequestBase):
+    def __str__(self):
+        return f"Received request of authorship to {self.bundle} from {self.profile}"
 
 
 class Comment(models.Model):

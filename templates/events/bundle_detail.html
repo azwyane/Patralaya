@@ -117,6 +117,27 @@
                     
                 }
             });
+    }),
+    $("button#authorship").click(function(e){
+        e.preventDefault();
+        $.post(
+            "#",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    var previous_action = $('button#authorship').data('action');
+                    // toggle data-action
+                    $('button#authorship').data('action', previous_action == 'request' ?
+                    'cancle' : 'request');
+                    // toggle link text
+                    $('button#authorship').text(previous_action == 'request' ?
+                    'cancle' : 'request' );
+                }
+            });
     });
 });
 </script>
@@ -389,6 +410,8 @@
                                 </div>
     </section>
 
+
+<!--display parent of the bundle -->    
 {% if object.get_forked_from.count == 1 %}
 {% with object.get_forked_from.0 as parent %}
 <p><h3>Bundle Forked From:</h3></p>
@@ -400,6 +423,8 @@
 {% endwith %}
 {% endif %}
 
+
+<!--display child of the bundle-->
 {% if object.forks.count > 0 %}
 <p><h3>Bundle Forked Into</h3></p>
 <ul>
@@ -407,6 +432,34 @@
 <li><a href="{{ forked.get_absolute_url }}">{{ forked.slug }}</a></li>
 {% endfor %}
 </ul>
+{% endif %}
+
+<!--request the bundle owner to be recognized as coauthor-->
+{% if request.user.is_authenticated %}
+{% if current_user != object.creator and current_user not in object.co_authors.all %}
+<p>Request for authorship</p>
+<button id="authorship" type="submit" data-action="{% if current_user in object.co_authors_request.all %}cancle{% endif %}request">
+    {% if current_user in object.co_authors_request.all %}
+    cancel 
+    {% endif %}
+    request
+</button>
+{% endif %}
+{% endif %}
+
+
+<!--display co-authors of the bundle-->
+{% if object.co_authors.all %}
+<h3>Co-Authors</h3>
+<ul>
+    {% for author in object.co_authors.all %}
+    <li>
+        
+        <a href="{% url  'user_detail' username=author %}">{{author}}</a>
+    </li>
+</ul>
+
+{% endfor %}
 {% endif %}
 
 {% endblock %}

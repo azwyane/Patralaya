@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # Bundle, Comment and Fork model from events app
-from events.models import Bundle, Comment, Fork, Clap
+from events.models import Bundle, Comment, Fork, Clap, AcceptedAuthorshipRequest, ReceivedAuthorshipRequest
  
 
 class BundleAdmin(admin.ModelAdmin):
@@ -24,9 +24,11 @@ class CommentAdmin(admin.ModelAdmin):
     
     class meta:
         model = Comment
-
+   
 
 admin.site.register(Bundle, BundleAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Fork)
 admin.site.register(Clap)
+admin.site.register(AcceptedAuthorshipRequest)
+admin.site.register(ReceivedAuthorshipRequest)

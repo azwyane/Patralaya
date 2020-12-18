@@ -90,7 +90,7 @@ class Bundle(models.Model):
         )
     slug = models.SlugField(null=False, unique=True)
     git_url = models.URLField(blank=True)
-    forkable = models.BooleanField(default=True)
+    forkable = models.BooleanField(default=False)
     fork = models.ManyToManyField(
         'self',
         through='Fork',
@@ -135,7 +135,7 @@ class Bundle(models.Model):
         return self.fork.all()
 
     def get_forked_from(self):
-        return Bundle.objects.filter(fork=self).all()    
+        return Bundle.objects.filter(forks=self).all()    
 
     def save(self, *args, **kwargs): 
         '''

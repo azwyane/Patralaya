@@ -30,6 +30,9 @@ class PublishManager(models.Manager):
     def get_queryset(self):
         return super(PublishManager,self).get_queryset().filter(status='Publish')
 
+class ForkableManager(PublishManager):
+    def get_queryset(self):
+        return super(ForkableManager,self).get_queryset().filter(forkable=True)
 
 class Bundle(models.Model):
     '''
@@ -103,6 +106,7 @@ class Bundle(models.Model):
     #managers
     objects = models.Manager() 
     published = PublishManager() 
+    fork_able = ForkableManager() 
     tags = TaggableManager()
     
     class Meta:
@@ -127,6 +131,11 @@ class Bundle(models.Model):
         '''
         return reverse('detail_bundle', kwargs={'creator':self.creator,'slug': self.slug,})
 
+    def get_forked_children(self):
+        return self.fork.all()
+
+    def get_forked_from(self):
+        return Bundle.objects.filter(fork=self).all()    
 
     def save(self, *args, **kwargs): 
         '''

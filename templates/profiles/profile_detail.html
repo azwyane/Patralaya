@@ -1,4 +1,6 @@
+{% extends 'events/base.html' %}
 {% load static %}
+{% load i18n %}
 <!--custom template tag-->
 {% load profiles_tags %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -37,6 +39,8 @@
 });
 </script>
 
+
+{% block body %}
 {% if request.user.is_authenticated %}
 <!--custom tag takes request.user and returns profile object as current_user variable-->
 {% profile_obj request.user as current_user%}
@@ -154,3 +158,5 @@ following{{ total_followings|pluralize }}
     <a href="?page={{ bundles.next_page_number }}" >next</a>
     <a href="?page={{ bundles.paginator.num_pages }}" >last &raquo;</a>
 {% endif %}
+
+{% endblock %}

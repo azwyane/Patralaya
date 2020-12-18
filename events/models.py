@@ -30,6 +30,9 @@ class PublishManager(models.Manager):
     def get_queryset(self):
         return super(PublishManager,self).get_queryset().filter(status='Publish')
 
+class ForkableManager(PublishManager):
+    def get_queryset(self):
+        return super(ForkableManager,self).get_queryset().filter(forkable=True)
 
 class Bundle(models.Model):
     '''
@@ -59,8 +62,12 @@ class Bundle(models.Model):
     creator = models.ForeignKey(
         Profile, 
         on_delete=models.CASCADE,
-        related_name='bundle',
+        related_name='bundle_creator',
         )
+    co_authors = models.ManyToManyField(
+        Profile, 
+        related_name='bundle_co_creators',
+        )    
     title = models.CharField(max_length=200)
     context = RichTextField(blank=True,null=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -83,6 +90,7 @@ class Bundle(models.Model):
         )
     slug = models.SlugField(null=False, unique=True)
     git_url = models.URLField(blank=True)
+    forkable = models.BooleanField(default=False)
     fork = models.ManyToManyField(
         'self',
         through='Fork',
@@ -98,6 +106,7 @@ class Bundle(models.Model):
     #managers
     objects = models.Manager() 
     published = PublishManager() 
+    fork_able = ForkableManager() 
     tags = TaggableManager()
     
     class Meta:
@@ -122,6 +131,11 @@ class Bundle(models.Model):
         '''
         return reverse('detail_bundle', kwargs={'creator':self.creator,'slug': self.slug,})
 
+    def get_forked_children(self):
+        return self.fork.all()
+
+    def get_forked_from(self):
+        return Bundle.objects.filter(forks=self).all()    
 
     def save(self, *args, **kwargs): 
         '''

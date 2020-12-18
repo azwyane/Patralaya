@@ -78,6 +78,12 @@ class Profile(models.Model):
         '''
         return reverse('user_detail', kwargs={'username':self.user.username})
 
+    def get_followers(self):
+        return self.following.all()
+
+    def get_followings(self):
+        return Profile.objects.filter(followers=self).all()
+
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)
         

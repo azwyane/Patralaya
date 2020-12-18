@@ -1,3 +1,9 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block body %}
+
 <h3>RECENT ACTIONS</h3>
 
 {% if actions %}
@@ -27,3 +33,5 @@
 </p>
 
 {% endif %}
+
+{% endblock %}

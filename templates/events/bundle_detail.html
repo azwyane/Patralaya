@@ -169,7 +169,7 @@
 <!--custom tag takes request.user and returns profile object as current_user variable-->
 {% profile_obj request.user as current_user%}
  
-  {% if object.creator == current_user %}
+  {% if object.creator == current_user or object.forkable == False %}
     <li class="nav-item">
     <button class="nav-link" id="update" data-action="update"><i class='fas fa-edit mr-2'></i>update</button>
   </li>
@@ -391,7 +391,16 @@
                                 </div>
     </section>
 
-
+{% if object.get_forked_from.count == 1 %}
+{% with object.get_forked_from.0 as parent %}
+<p><h3>Bundle Forked From:</h3></p>
+<ul>
+    <li>
+        <a href="{{ parent.get_absolute_url }}">{{parent.slug}}</a>
+    </li>
+</ul>
+{% endwith %}
+{% endif %}
 
 {% if object.forks.count > 0 %}
 <p><h3>Bundle Forked Into</h3></p>

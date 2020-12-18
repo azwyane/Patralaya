@@ -64,7 +64,7 @@ class HomeView(TemplateView):
 class BundleCreateView(LoginRequiredMixin, CreateActivityMixin, CreateView):
     model = Bundle
     template_name = 'events/bundle_form.html'
-    fields = ['title','tags','context','media_file','media_image','status','git_url']
+    fields = ['title','tags','context','media_file','media_image','status','git_url','forkable']
     login_url = 'home'
 
     def form_valid(self,form):
@@ -100,7 +100,7 @@ class BundleDetailView(UserIsOwnerMixin, DetailView):
 
 class BundleUpdateView(LoginRequiredMixin, BundleEditMixin, UpdateView):
     model = Bundle
-    fields = ['title','tags','context','media_file','media_image','status','git_url']
+    fields = ['title','tags','context','media_file','media_image','status','git_url','forkable']
     template_name = 'events/bundle_form.html'
     login_url = 'login'
 

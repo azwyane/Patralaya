@@ -1,3 +1,10 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block body %}
+
+
 {% if tag %}
 <h2>Posts tagged with "{{ tag.name }}"</h2>
 {% endif %}
@@ -55,3 +62,5 @@ Didn't found the bundle?
 <p> Proceed to <a href="{% url 'login' %}">LOGIN</a></p>
 {% endif %}
 {% endif %}
+
+{% endblock %}

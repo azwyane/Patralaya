@@ -200,9 +200,18 @@
 
   
 
+{%else %}
 
 
-  {% with total_claps=object.claps.count %}
+
+
+
+   <li class="nav-item">
+    <button class="nav-link ml-0 pl-0" id="fork" data-action="fork" ><i class='fas fa-code-branch mr-2'></i>fork</button>
+  </li>
+  {%endif%}
+
+    {% with total_claps=object.claps.count %}
 
   <li class="nav-item">
     <button class="nav-link" id="clap" data-action="{% if current_user in object.claps.all %}un{% endif %}clap"><span class="count">{{ total_claps }}</span>   {% if current_user not in object.claps.all %}<img  id="clap-img" class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> {%else%}  <img id="clap-img" class="d-inline-block " src="{% static 'images/clap_clapped.svg' %}"> {%endif%}
@@ -213,13 +222,6 @@
   </li>
   {% endwith %}
 
-
-{%else %}
-
-   <li class="nav-item">
-    <button class="nav-link ml-0 pl-0" id="fork" data-action="fork" ><i class='fas fa-code-branch mr-2'></i>fork</button>
-  </li>
-  {%endif%}
 {%else%}
   {% with total_claps=object.claps.count %}
   <li class="nav-item">

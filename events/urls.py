@@ -6,7 +6,7 @@ from events.views import (
     TagListView, SearchBundleListView,
     CommentBundle, ForkBundle,
     ClapBundle, RequestAuthorshipBundle,
-    AcceptedAuthorshipRequest
+    AcceptedAuthorshipRequest, AuthorRequestView
     )
 
 # profile views is imported here to make url as example.com/<username>    
@@ -51,7 +51,9 @@ urlpatterns=[
     #fork bundles
     path('bundle/clap',ClapBundle.as_view(), name='bundle_clap'),
 
-    #request_authorship
+    #make POST request for authorship
     path('bundle/authorship/request',RequestAuthorshipBundle.as_view(), name='bundle_authorship_request'),
+
+    path('<slug:username>/<slug:slug>/authorship/requests',AuthorRequestView.as_view(), name='bundle_authorships'),
 
 ]

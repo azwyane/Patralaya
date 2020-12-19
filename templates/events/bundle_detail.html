@@ -464,6 +464,14 @@
 {% endfor %}
 {% endif %}
 
+
+<!--link that redirects to co authorship requests-->
+{% if current_user == object.creator %}
+<p>
+    
+    <a href="{% url 'bundle_authorships' username=object.creator slug=object.slug%}">Requests</a>
+</p>
+{% endif %}
 {% endblock %}
 
 

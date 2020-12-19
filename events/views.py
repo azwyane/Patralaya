@@ -40,7 +40,7 @@ from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
 
 #mixins
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from events.mixins import (       #custom mixins
     BundleEditMixin, UserIsOwnerMixin, 
     CreateActivityMixin, CreateForkMixin
@@ -259,6 +259,7 @@ class AcceptAuthorshipBundle(CreateActivityMixin, View):
     def post(self,request):
         pk = request.POST['pk']
         action = request.POST['action']
+        co_auth = request.POST['co-auth']
         if pk and action:
             try:
                 bundle_to_accept_for = Bundle.objects.get(
@@ -267,12 +268,21 @@ class AcceptAuthorshipBundle(CreateActivityMixin, View):
                 if action == 'accept':
                     AcceptedAuthorshipRequest.objects.create(
                         bundle = bundle_to_accept_for,
-                        profile = Profile.objects.get(user=request.user)
+                        profile = Profile.objects.get(
+                            User.objects.get(username=co_auth)
                         )
+                        )
+                        
+                    ReceivedAuthorshipRequest.objects.filter(
+                        bundle = bundle_to_accept_for,
+                        profile = Profile.objects.get(
+                            User.objects.get(username=co_auth)
+                        )
+                        ).delete()    
                     # self.create_clap_action(bundle_to_clap)
                 else:
-                    AcceptedAuthorshipRequest.objects.filter(
-                        profile = Profile.objects.get(user=request.user),
+                    ReceivedAuthorshipRequest.objects.filter(
+                        profile = Profile.objects.get(User.objects.get(username=co_auth)),
                         bundle = bundle_to_accept_for
                         ).delete()
 
@@ -281,3 +291,18 @@ class AcceptAuthorshipBundle(CreateActivityMixin, View):
             except Bundle.DoesNotExist:
                 return JsonResponse({'status':'error'})
         return JsonResponse({'status':'error'})               
+
+
+class AuthorRequestView(LoginRequiredMixin,UserPassesTestMixin,ListView):
+    model = ReceivedAuthorshipRequest
+    context_object_name = 'request_authors'
+    template_name = 'events/bundle_requests.html'
+
+    def get_queryset(self):
+        obj_list = super().get_queryset()
+        return obj_list.filter(bundle=Bundle.objects.get(slug=self.kwargs['slug']))
+        
+    def test_func(self):
+        if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['username'])):
+            return True
+        return False  

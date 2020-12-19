@@ -1,0 +1,21 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block body %}
+
+REQUEST FOR CO-AUTHORSHIP MENTION
+<ul>
+    {% for req_auth in request_authors %}
+
+    <li>
+        {{req_auth.profile}}
+        <button id="accept" type="submit" data-action="accept">
+        <button id="reject" type="submit" data-action="reject">
+
+    </li>
+
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

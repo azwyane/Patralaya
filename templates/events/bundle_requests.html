@@ -1,7 +1,59 @@
-{% extends 'events/base.html' %}
+{# extends 'events/base.html' #} 
 {% load static %}
 {% load i18n %}
 {% block body %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
+<script type="text/javascript"> 
+
+    $(document).ready(function(){
+        {% for req_auth in request_authors %}
+    $("button#accept").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'bundle_authorship_request_action' %}",
+            {
+                pk:"{{req_auth.bundle.pk}}",
+                action: $(this).data('action'),
+                co_auth: "{{req_auth.profile}}",
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                let d=new Date();
+                if (data['status'] == 'ok'){
+                    
+                }
+            }
+            
+
+        );
+    });
+    $("button#reject").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'bundle_authorship_request_action' %}",
+            {
+                pk:"{{req_auth.bundle.pk}}",
+                action: $(this).data('action'),
+                co_auth: "{{req_auth.profile}}",
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                let d=new Date();
+                if (data['status'] == 'ok'){
+                    
+                }
+            }
+            
+
+        );
+    });
+    {% endfor %}
+    });
+</script>    
 
 REQUEST FOR CO-AUTHORSHIP MENTION
 <ul>
@@ -9,9 +61,9 @@ REQUEST FOR CO-AUTHORSHIP MENTION
 
     <li>
         {{req_auth.profile}}
-        <button id="accept" type="submit" data-action="accept">
-        <button id="reject" type="submit" data-action="reject">
-
+        <button id="accept" type="submit" data-action="accept">Accept</button>
+        <button id="reject" type="submit" data-action="reject">Reject</button>
+       
     </li>
 
     {% endfor %}

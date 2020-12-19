@@ -259,30 +259,27 @@ class AcceptAuthorshipBundle(CreateActivityMixin, View):
     def post(self,request):
         pk = request.POST['pk']
         action = request.POST['action']
-        co_auth = request.POST['co-auth']
+        co_auth = request.POST['co_auth']
         if pk and action:
             try:
                 bundle_to_accept_for = Bundle.objects.get(
                     pk=pk
                     )
+                co_auth_profile = Profile.objects.get(user = User.objects.get(username=co_auth))    
                 if action == 'accept':
                     AcceptedAuthorshipRequest.objects.create(
                         bundle = bundle_to_accept_for,
-                        profile = Profile.objects.get(
-                            User.objects.get(username=co_auth)
-                        )
+                        profile = co_auth_profile
                         )
                         
                     ReceivedAuthorshipRequest.objects.filter(
                         bundle = bundle_to_accept_for,
-                        profile = Profile.objects.get(
-                            User.objects.get(username=co_auth)
-                        )
+                        profile = co_auth_profile
                         ).delete()    
                     # self.create_clap_action(bundle_to_clap)
                 else:
                     ReceivedAuthorshipRequest.objects.filter(
-                        profile = Profile.objects.get(User.objects.get(username=co_auth)),
+                        profile = co_auth_profile,
                         bundle = bundle_to_accept_for
                         ).delete()
 

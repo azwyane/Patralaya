@@ -45,6 +45,7 @@ from events.mixins import (       #custom mixins
     BundleEditMixin, UserIsOwnerMixin, 
     CreateActivityMixin, CreateForkMixin
     )
+from django.contrib.messages.views import SuccessMessageMixin
 
 class HomeView(TemplateView):
     template_name = "events/home.html"
@@ -60,17 +61,17 @@ class HomeView(TemplateView):
         return Tag.objects.all()
 
 
-class BundleCreateView(LoginRequiredMixin, CreateActivityMixin, CreateView):
+class BundleCreateView(LoginRequiredMixin, CreateActivityMixin, SuccessMessageMixin, CreateView):
     model = Bundle
     template_name = 'events/bundle_form.html'
     fields = ['title','tags','context','media_file','media_image','status','git_url','forkable']
     login_url = 'home'
+    success_message = "You have successfully created %(title)s, Cheers!"
+
 
     def form_valid(self,form):
         form.instance.creator  = Profile.objects.get(user=self.request.user)
         form_saved = super().form_valid(form)
-        # if self.object.status == 'Publish':
-        #     create_action(Profile.objects.get(user=self.request.user), 'created a new bundle', self.object)
         self.create_published_action()
         return form_saved
 
@@ -97,23 +98,24 @@ class BundleDetailView(UserIsOwnerMixin, DetailView):
         return obj_list
 
 
-class BundleUpdateView(LoginRequiredMixin, BundleEditMixin, UpdateView):
+class BundleUpdateView(LoginRequiredMixin, BundleEditMixin,SuccessMessageMixin, UpdateView):
     model = Bundle
     fields = ['title','tags','context','media_file','media_image','status','git_url','forkable']
     template_name = 'events/bundle_form.html'
     login_url = 'login'
+    success_message = "%(title)s updated successfully"
 
     def form_valid(self,form):
         form.instance.creator = Profile.objects.get(user=self.request.user)
         return super().form_valid(form)
 
 
-class BundleDeleteView(LoginRequiredMixin, BundleEditMixin, DeleteView):
+class BundleDeleteView(LoginRequiredMixin, BundleEditMixin,SuccessMessageMixin, DeleteView):
     model = Bundle
     template_name = 'events/bundle_delete.html'
     success_url = reverse_lazy('home')
     login_url = 'home'
-
+    success_message = "%(title)s deleted successfully"
 
 class TagListView(ListView):
     model = Bundle
@@ -146,6 +148,21 @@ class SearchBundleListView(TemplateView):
         page = self.request.GET.get('page')
         published_bundles = paginator.get_page(page)
         return {'published_bundles':published_bundles,'query':query}
+
+
+class AuthorRequestView(LoginRequiredMixin,UserPassesTestMixin,ListView):
+    model = ReceivedAuthorshipRequest
+    context_object_name = 'request_authors'
+    template_name = 'events/bundle_requests.html'
+
+    def get_queryset(self):
+        obj_list = super().get_queryset()
+        return obj_list.filter(bundle=Bundle.objects.get(slug=self.kwargs['slug']))
+        
+    def test_func(self):
+        if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['username'])):
+            return True
+        return False  
 
 
 #ajax_views
@@ -290,16 +307,3 @@ class AcceptAuthorshipBundle(CreateActivityMixin, View):
         return JsonResponse({'status':'error'})               
 
 
-class AuthorRequestView(LoginRequiredMixin,UserPassesTestMixin,ListView):
-    model = ReceivedAuthorshipRequest
-    context_object_name = 'request_authors'
-    template_name = 'events/bundle_requests.html'
-
-    def get_queryset(self):
-        obj_list = super().get_queryset()
-        return obj_list.filter(bundle=Bundle.objects.get(slug=self.kwargs['slug']))
-        
-    def test_func(self):
-        if Profile.objects.get(user=self.request.user) == Profile.objects.get(user=User.objects.get(username=self.kwargs['username'])):
-            return True
-        return False  

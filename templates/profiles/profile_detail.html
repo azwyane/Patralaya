@@ -5,8 +5,8 @@
 {% block body %}
 <!--custom template tag-->
 {% load profiles_tags %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script> -->
 <!-- <script src="{% static 'js/followbutton.js' %}"></script> -->
 <script>
     $(document).ready(function(){
@@ -41,12 +41,6 @@
 });
 </script>
 
-
-
-{% if request.user.is_authenticated %}
-<!--custom tag takes request.user and returns profile object as current_user variable-->
-{% profile_obj request.user as current_user%}
-{% endif %}
 
 {% block content %}
 <h1>{{ user}}</h1>
@@ -103,9 +97,9 @@ following{{ total_followings|pluralize }}
     {% endwith %}
     
     {% if request.user.is_authenticated %}
-    {% if current_user != user %}
-    <button id="follow" type="submit" data-action="{% if current_user in user.followers.all %}un{% endif %}follow">
-    {% if current_user not in user.followers.all %}
+    {% if user_profile != user %}
+    <button id="follow" type="submit" data-action="{% if user_profile in user.followers.all %}un{% endif %}follow">
+    {% if user_profile not in user.followers.all %}
     Follow
     {% else %}
     Unfollow

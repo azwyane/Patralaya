@@ -15,7 +15,7 @@
     $("button#comment").click(function(e){
         e.preventDefault();
            {% if request.user.is_authenticated %}
-        let s={% profile_obj request.user as current_user%}"{{current_user}}";
+        let s="{{user_profile}}";
            {% endif%}
         let comment=$("textarea.comment").val();
         $.post(
@@ -48,8 +48,8 @@
                                             <div class="comment-wrapper d-flex">
                                                 <!-- Comment Meta -->
                                                 <div class="comment-author">
-                                                    <a href="#"> {% if current_user.profile_picture %}
-                                                <img src="{{ current_user.profile_picture }}" alt="comment_creator" />
+                                                    <a href="#"> {% if user_profile.profile_picture %}
+                                                <img src="{{ user_profile.profile_picture }}" alt="comment_creator" />
                                                     {% else %}
                                                     <img  src="{% static 'images/default.png' %}" alt="comment_creator" style="background-color: white]; border:1px solid #ebebeb; padding: 5px;" />
                                                     {% endif %} </a>
@@ -187,10 +187,8 @@
                                 <div class="col-auto">
                                     <ul class=" bundle-action nav ">
                                         {% if request.user.is_authenticated %}
-<!--custom tag takes request.user and returns profile object as current_user variable-->
-{% profile_obj request.user as current_user%}
  
-  {% if object.creator == current_user or object.forkable == False %}
+  {% if object.creator == user_profile or object.forkable == False %}
     <li class="nav-item">
     <button class="nav-link" id="update" data-action="update"><i class='fas fa-edit mr-2'></i>update</button>
   </li>
@@ -214,7 +212,7 @@
     {% with total_claps=object.claps.count %}
 
   <li class="nav-item">
-    <button class="nav-link" id="clap" data-action="{% if current_user in object.claps.all %}un{% endif %}clap"><span class="count">{{ total_claps }}</span>   {% if current_user not in object.claps.all %}<img  id="clap-img" class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> {%else%}  <img id="clap-img" class="d-inline-block " src="{% static 'images/clap_clapped.svg' %}"> {%endif%}
+    <button class="nav-link" id="clap" data-action="{% if user_profile in object.claps.all %}un{% endif %}clap"><span class="count">{{ total_claps }}</span>   {% if user_profile not in object.claps.all %}<img  id="clap-img" class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> {%else%}  <img id="clap-img" class="d-inline-block " src="{% static 'images/clap_clapped.svg' %}"> {%endif%}
 </button>
 
 
@@ -438,10 +436,10 @@
 
 <!--request the bundle owner to be recognized as coauthor-->
 {% if request.user.is_authenticated %}
-{% if current_user != object.creator and current_user not in object.co_authors.all %}
+{% if user_profile != object.creator and user_profile not in object.co_authors.all %}
 <p>Request for authorship</p>
-<button id="authorship" type="submit" data-action="{% if current_user in object.co_authors_request.all %}cancle{% endif %}request">
-    {% if current_user in object.co_authors_request.all %}
+<button id="authorship" type="submit" data-action="{% if user_profile in object.co_authors_request.all %}cancle{% endif %}request">
+    {% if user_profile in object.co_authors_request.all %}
     cancel 
     {% endif %}
     request
@@ -466,7 +464,7 @@
 
 
 <!--link that redirects to co authorship requests-->
-{% if current_user == object.creator %}
+{% if user_profile == object.creator %}
 <p>
     
     <a href="{% url 'bundle_authorships' username=object.creator slug=object.slug%}">Requests</a>

@@ -210,31 +210,61 @@ class Clap(models.Model):
         return f'{self.profile} claped {self.bundle}'
 
 
-class AuthorshipRequestBase(models.Model):
+# class AuthorshipRequestBase(models.Model):
+#     bundle = models.ForeignKey(
+#         Bundle,
+#         on_delete=models.CASCADE, 
+#         related_name='%(app_label)s_%(class)s_bundle',
+#         )    
+#     profile = models.ForeignKey(
+#         Profile,
+#         on_delete=models.CASCADE,
+#         related_name='%(app_label)s_%(class)s_profile'
+#         )
+#     requested_on = models.DateTimeField(
+#                 auto_now_add=True,
+#                 db_index=True
+#                 )
+
+#     class meta:
+#         abstract = True
+
+
+class AcceptedAuthorshipRequest(models.Model):
     bundle = models.ForeignKey(
         Bundle,
         on_delete=models.CASCADE, 
-        # related_name='bundle',
+        related_name='accepted_bundle',
         )    
     profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
-        # related_name='profile'
+        related_name='accepted_profile'
+        )
+    accepted_on = models.DateTimeField(
+                auto_now_add=True,
+                db_index=True
+                )
+
+    def __str__(self):
+        return f"{self.profile} is co-author to {self.bundle}"
+
+class ReceivedAuthorshipRequest(models.Model):
+    bundle = models.ForeignKey(
+        Bundle,
+        on_delete=models.CASCADE, 
+        related_name='request_bundle',
+        )    
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='request_profile'
         )
     requested_on = models.DateTimeField(
                 auto_now_add=True,
                 db_index=True
                 )
 
-    class meta:
-        abstract = True
-
-
-class AcceptedAuthorshipRequest(AuthorshipRequestBase):
-    def __str__(self):
-        return f"{self.profile} is co-author to {self.bundle}"
-
-class ReceivedAuthorshipRequest(AuthorshipRequestBase):
     def __str__(self):
         return f"Received request of authorship to {self.bundle} from {self.profile}"
 

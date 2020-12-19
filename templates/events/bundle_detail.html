@@ -121,7 +121,7 @@
     $("button#authorship").click(function(e){
         e.preventDefault();
         $.post(
-            "#",
+            "{% url 'bundle_authorship_request' %}",
             {
                 pk:"{{object.pk}}",
                 action: $(this).data('action'),

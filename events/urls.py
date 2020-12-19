@@ -5,7 +5,8 @@ from events.views import (
     BundleUpdateView, BundleDeleteView,
     TagListView, SearchBundleListView,
     CommentBundle, ForkBundle,
-    ClapBundle,
+    ClapBundle, RequestAuthorshipBundle,
+    AcceptedAuthorshipRequest
     )
 
 # profile views is imported here to make url as example.com/<username>    
@@ -49,5 +50,8 @@ urlpatterns=[
 
     #fork bundles
     path('bundle/clap',ClapBundle.as_view(), name='bundle_clap'),
+
+    #request_authorship
+    path('bundle/authorship/request',RequestAuthorshipBundle.as_view(), name='bundle_authorship_request'),
 
 ]

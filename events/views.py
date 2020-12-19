@@ -27,10 +27,9 @@ from django.contrib.auth.models import User
 # local models
 from profiles.models import Profile
 from events.models import (
-    Bundle,
-    Comment,
-    Fork,
-    Clap
+    Bundle,Comment,
+    Fork,Clap,
+    AcceptedAuthorshipRequest, ReceivedAuthorshipRequest
     )
 
 #decorators for user comment
@@ -225,3 +224,60 @@ class ClapBundle(CreateActivityMixin, View):
             except Bundle.DoesNotExist:
                 return JsonResponse({'status':'error'})
         return JsonResponse({'status':'error'})
+
+@method_decorator(decorators, name='dispatch')
+class RequestAuthorshipBundle(CreateActivityMixin, View):
+    def post(self,request):
+        pk = request.POST['pk']
+        action = request.POST['action']
+        if pk and action:
+            try:
+                bundle_to_request = Bundle.objects.get(
+                    pk=pk
+                    )
+                if action == 'request':
+                    ReceivedAuthorshipRequest.objects.create(
+                        bundle = bundle_to_request,
+                        profile = Profile.objects.get(user=request.user)
+                        )
+                    # self.create_clap_action(bundle_to_clap)
+                else:
+                    ReceivedAuthorshipRequest.objects.filter(
+                        profile = Profile.objects.get(user=request.user),
+                        bundle = bundle_to_request
+                        ).delete()
+
+                return JsonResponse({'status':'ok'})
+                    
+            except Bundle.DoesNotExist:
+                return JsonResponse({'status':'error'})
+        return JsonResponse({'status':'error'}) 
+
+
+@method_decorator(decorators, name='dispatch')
+class AcceptAuthorshipBundle(CreateActivityMixin, View):
+    def post(self,request):
+        pk = request.POST['pk']
+        action = request.POST['action']
+        if pk and action:
+            try:
+                bundle_to_accept_for = Bundle.objects.get(
+                    pk=pk
+                    )
+                if action == 'accept':
+                    AcceptedAuthorshipRequest.objects.create(
+                        bundle = bundle_to_accept_for,
+                        profile = Profile.objects.get(user=request.user)
+                        )
+                    # self.create_clap_action(bundle_to_clap)
+                else:
+                    AcceptedAuthorshipRequest.objects.filter(
+                        profile = Profile.objects.get(user=request.user),
+                        bundle = bundle_to_accept_for
+                        ).delete()
+
+                return JsonResponse({'status':'ok'})
+                    
+            except Bundle.DoesNotExist:
+                return JsonResponse({'status':'error'})
+        return JsonResponse({'status':'error'})               

@@ -3,20 +3,88 @@
 {% load i18n %}
 
 {% block body %}
+{% load widget_tweaks %}
+      
+  <div class="container my-5">
+    <div class="row">
+      <div class="col">
+        <h1  >Update Profile</h1>
+      
+    <form  class="mt-5" method="POST"  enctype="multipart/form-data">
 
-<form method="POST" style="border:1px solid #ccc" enctype="multipart/form-data">
-    <div class="container">
-      <h1>Update user profile</h1>
-      <hr>
-      {% csrf_token %}
-      {{ user_form.as_p}}
-      {{profile_form.as_p}}
-      <button style="background-color: #4086e0; color: #ffffff" class="btn btn-outline-info" type="submit">Confirm</button>
+
+        {% csrf_token %}
+
+
+        <div class="form-group">
+        <label for="profile_pic">Avatar</label>
+        <div id="profile_pic">
+        
+          
+       {%if profile_form.profile_picture.value %}
+       <img class="mx-0 my-3" src="{{'/media/'}}{{profile_form.profile_picture.value}}" style="width:5rem; height:5rem; border-radius: 50%;object-fit: cover;"/>
+                      <div class="form-group custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="profile_picture-clear_id" name="profile_picture-clear" value="customEx">
+    <label class="custom-control-label" for="profile_picture-clear_id">Remove profile picture</label>
+  </div>
+  {%else%}
+   <img class="mx-0 my-3" src="{% static 'images/default.png' %}" style="width:5rem; height:5rem; border-radius: 50%;object-fit: cover; border: 1px solid #ddd; padding: .25rem;"/>
+  {%endif%}
+
+            <div class="custom-file">
+    <input type="file" class="custom-file-input" id="profile_picture" accept="image/*">
+    <label class="custom-file-label" for="profile_picture">Change profile picture</label>
+
+</div>
+</div>
+</div>
+
+
+
+
+     
+  <div class="form-group ">
+      <label for="{{form.username.id_for_label}}">Username</label>
+       {%render_field user_form.username  class="form-control"%}
+       <small id="usernameHelp" class="form-text text-muted" maxlength="150">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
     </div>
-    <div class="container">
-      <h6><a href="{% url 'password_update_form' %}">Change your password, here</a></h6>
+  <div class="form-group ">
+    <label for="{{form.email.id_for_label}}">Email address</label> {%render_field user_form.email class="form-control" placeholder="Enter email"%}
+  
+   
+  </div>
+
+
+   
+     <div class="form-group">
+  <label for="{{form.bio.id_for_label}}">Bio</label>
+  {%render_field profile_form.bio rows="5" class="form-control"%}
+
+</div> 
+   <div class="form-group">
+      <label class="mr-sm-2" for="{{form.current_status.id_for_label}}">Current status</label>
+      {%render_field profile_form.current_status class="custom-select mr-sm-2"%}
+
+  
     </div>
-    
-  </form> 
+       <div class="form-group">
+      <label class="mr-sm-2" for="{{form.interested_fields.id_for_label}}">Interested fields</label>
+      {%render_field profile_form.interested_fields class="custom-select mr-sm-2"%}
+    </div>
+
+
+
+  <button type="submit" class="btn btn-primary mt-2 px-5 ">Confirm</button>
+</form>
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+
+
 
 {% endblock %}  

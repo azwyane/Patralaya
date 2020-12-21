@@ -14,6 +14,10 @@
     $(document).ready(function(){
     $("button#comment").click(function(e){
         e.preventDefault();
+        let comment=$("textarea.comment").val();
+        if(comment){
+            $('#Comment').toggleClass('disabled');
+
            {% if request.user.is_authenticated %}
         let s="{{user_profile}}";
            {% endif%}
@@ -29,6 +33,7 @@
             function(data){
                 let d=new Date();
                 if (data['status'] == 'ok'){
+                    $('#Comment').toggleClass('disabled');
                     $('#message_container').prepend(`
   <div id="message-box" class="alert alert-success alert-dismissible fade show" role="alert">
  comment successfully added
@@ -68,7 +73,7 @@
             }
             
 
-        );
+        );}
     }),
     $("button#fork").click(function(e){
         e.preventDefault();
@@ -178,7 +183,7 @@
 
 
                                 <h2 class="post-title">{{ object.title|safe}}</h2>
-                                <!-- Post Meta -->
+                            
 
                                  <div class="row justify-content-between align-items-center my-3">
                                     <div class="col-auto">
@@ -263,7 +268,7 @@
 
 
                                     
-                                    <a class="user_image_holder border border-muted" href="#">
+                                    <a class="user_image_holder border border-muted" href="{{object.creator.get_absolute_url}}">
                                         {% if object.creator.profile_picture %}
 <img class="user_image" src="{{object.creator.profile_picture.url}}" alt="creator_profile_image" >
 {% else %}
@@ -309,6 +314,12 @@
   </table>
 </div>{% endif %}
                             </div>
+                            <hr class="mt-2">
+                              <div class="d-flex justify-content-center mb-3">
+                            {% for tag in object.tags.all %}
+                                        <a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="{% url 'list_tag' tag %}" >{{tag.name}} </a> 
+                                        {% endfor %}
+                                    </div>
                             
 
                             <!-- Post Text -->
@@ -320,11 +331,7 @@
                             </div>
                        
                         </div>
-                             <div class="d-flex justify-content-center mb-3">
-                            {% for tag in object.tags.all %}
-                                        <a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="{% url 'list_tag' tag %}" >{{tag.name}} </a> 
-                                        {% endfor %}
-                                    </div>
+                           
                     </div>
                 </div>
             </div>

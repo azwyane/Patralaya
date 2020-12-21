@@ -16,7 +16,7 @@
         e.preventDefault();
         let comment=$("textarea.comment").val();
         if(comment){
-            $('#Comment').toggleClass('disabled');
+            $('#Comment').attr('disabled');
 
            {% if request.user.is_authenticated %}
         let s="{{user_profile}}";
@@ -33,7 +33,7 @@
             function(data){
                 let d=new Date();
                 if (data['status'] == 'ok'){
-                    $('#Comment').toggleClass('disabled');
+                    
                     $('#message_container').prepend(`
   <div id="message-box" class="alert alert-success alert-dismissible fade show" role="alert">
  comment successfully added
@@ -68,6 +68,7 @@
                                             </div>
                                         </li>`);
                     $("textarea.comment").val('')
+                    $('#Comment').removeAttr('disabled');
 
                 }
             }

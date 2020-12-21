@@ -32,7 +32,7 @@
   {%endif%}
 
             <div class="custom-file">
-    <input type="file" class="custom-file-input" id="profile_picture" accept="image/*">
+    <input type="file" class="custom-file-input" id="profile_picture" name="profile_picture" accept="image/*">
     <label class="custom-file-label" for="profile_picture">Change profile picture</label>
 
 </div>
@@ -76,6 +76,7 @@
 
   <button type="submit" class="btn btn-primary mt-2 px-5 ">Confirm</button>
 </form>
+<h5 class="mt-2"><a  href="{% url 'password_update_form' %}">Change your password, here</a></h5>
         </div>
 
 

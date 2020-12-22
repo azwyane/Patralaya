@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from profiles.models import Profile
+from profiles.models import Profile,Interest
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -21,6 +21,14 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    interest = forms.ModelMultipleChoiceField(
+        queryset = Interest.objects.all(),
+        widget = forms.CheckboxSelectMultiple,
+        required = False
+    )
+    contact_email = forms.EmailField(required=False)
     class Meta:
         model = Profile
-        fields = ['profile_picture','bio','current_status','interested_fields']
+        fields = ['profile_picture','bio','current_status','interest','contact_email']
+    
+

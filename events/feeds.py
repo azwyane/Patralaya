@@ -5,8 +5,8 @@ from .models import Bundle
 
 
 class PublishedBundleFeed(Feed):
-    title = 'MY PUBLISHED BUNDLES ON PATRALAYA'
-    link = 'home'
+    title = 'PUBLISHED BUNDLES ON PATRALAYA'
+    link = ''
     description = 'Latest published bundles'
     
     def items(self):

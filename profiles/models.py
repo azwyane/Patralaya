@@ -16,6 +16,24 @@ from django.urls import reverse
 #PIL
 from PIL import Image
 
+
+class Interest(models.Model):
+    INTEREST_CHOICES =[
+        (0,'Science'),
+        (1,'Maths'),
+        (2,'Computer'),
+        (3,'History'),
+        (4,'Health'),
+    ]
+    interest_id = models.PositiveSmallIntegerField(
+        choices = INTEREST_CHOICES,
+        primary_key= True,
+        )
+
+    def __str__(self):
+        return self.get_interest_id_display()    
+
+
 class Profile(models.Model):
     '''
     Profile specifies the Profile table in the database.
@@ -31,15 +49,6 @@ class Profile(models.Model):
     ('teacher', 'Teacher'),
     ('none', 'Prefer no to say'),
     ]
-
-    INTERESTED_FIELDS_CHOICES =[
-        ('science','Science'),
-        ('maths','Maths'),
-        ('computer','Computer'),
-        ('history','History'),
-        ('health','Health'),
-    ]
-
 
     user = models.OneToOneField(
         User,
@@ -64,11 +73,10 @@ class Profile(models.Model):
         choices = WORKING_STATUS_CHOICES,
         blank = True, null = True
         )
-    interested_fields = models.CharField(
-        max_length=10,
-        choices = INTERESTED_FIELDS_CHOICES,
-        blank = True, null = True
-        )
+    interest = models.ManyToManyField(
+        Interest
+    )
+    contact_email = models.EmailField(max_length=255,blank=True,null=True)
 
     def get_absolute_url(self):
         '''

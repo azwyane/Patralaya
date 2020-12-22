@@ -13,7 +13,7 @@
     <form  class="mt-5" method="POST"  enctype="multipart/form-data">
 
 
-        {% csrf_token %}
+      {% csrf_token %}
 
 
         <div class="form-group">
@@ -49,7 +49,12 @@
        <small id="usernameHelp" class="form-text text-muted" maxlength="150">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
     </div>
   <div class="form-group ">
-    <label for="{{form.email.id_for_label}}">Email address</label> {%render_field user_form.email class="form-control" placeholder="Enter email"%}
+    <label for="{{form.email.id_for_label}}">Email address(private)</label> {%render_field user_form.email class="form-control" placeholder="Enter account recovery email"%}
+  
+   
+  </div>
+  <div class="form-group ">
+    <label for="{{form.email.id_for_label}}">Contact email address(public)</label> {%render_field profile_form.contact_email class="form-control" placeholder="Enter contact email"%}
   
    
   </div>
@@ -68,8 +73,8 @@
   
     </div>
        <div class="form-group">
-      <label class="mr-sm-2" for="{{form.interested_fields.id_for_label}}">Interested fields</label>
-      {%render_field profile_form.interested_fields class="custom-select mr-sm-2"%}
+      <label class="mr-sm-2" for="{{form.interest}}">Interested fields</label>
+      {%render_field profile_form.interest class="mr-sm-2"%}
     </div>
 
 

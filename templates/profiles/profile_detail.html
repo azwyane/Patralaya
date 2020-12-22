@@ -55,14 +55,27 @@
 </em>
 {% endif %}
 
+
+{% if  user.contact_email %}
+
+<p> Email: </p>    
+<em>{{ user.contact_email}}
+</em>
+{% endif %}
+
 {% if  user.current_status %}
 <p>CURRENT STATUS:</p>
 <p> {{user.current_status}} </p>
 {% endif %}
 
-{% if  user.interested_fields %}
+{% if  user.interest %}
 <p>INTERESTED IN:</p>
-<p> {{user.interested_fields}} </p>
+<ul>{% for interest in user.interest.all %}
+    <li>
+        {{interest}} 
+    </li>
+    {% endfor %}
+</ul>
 {% endif %}
 
 <!--get the profiles the user is following-->

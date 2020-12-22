@@ -97,7 +97,10 @@ def user_settings(request):
             )
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
-            profile_form.save()
+            profile_object = profile_form.save(commit=False)
+            # can do anything between here
+            profile_object.save()
+            profile_form.save_m2m()
             messages.success(request, "Your profile has been updated")
             return redirect('home')
     else:

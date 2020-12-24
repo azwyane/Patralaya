@@ -63,7 +63,7 @@
    
      <div class="form-group">
   <label for="{{form.bio.id_for_label}}">Bio</label>
-  {%render_field profile_form.bio rows="5" class="form-control"%}
+  {%render_field profile_form.bio rows="5" class="form-control" style="resize:none;"%}
 
 </div> 
    <div class="form-group">
@@ -87,7 +87,12 @@
 
       </div>
     </div>
-
+    <script type="text/javascript">
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
 
 
 

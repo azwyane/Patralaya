@@ -1,7 +1,7 @@
 from django.contrib.syndication.views import Feed
 from django.template.defaultfilters import truncatewords
 from django.urls import reverse_lazy,reverse
-from .models import Bundle
+from events.models import Bundle
 
 
 class PublishedBundleFeed(Feed):

@@ -1,6 +1,9 @@
 from django.urls import path
 
-from services.views import share,TagListView, SearchBundleListView
+from services.views import (
+    share,TagListView, 
+    SearchBundleListView,AutoSuggestions
+)
 
 #rss feed generator
 from .feeds import PublishedBundleFeed
@@ -18,4 +21,7 @@ urlpatterns=[
 
     #search public bundles
     path('bundle/public/search/',SearchBundleListView.as_view(), name='search_bundle_results'),
+
+    #ajax autosuggestions
+    path('bundle/search/auto/',AutoSuggestions.as_view(),name='auto_suggestions'),
 ]

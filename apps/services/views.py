@@ -1,24 +1,21 @@
 from django.core.mail import send_mail
-
 from django.shortcuts import render,get_object_or_404,redirect
-
 from services.forms import ShareForm
-
 from events.models import Bundle
-
-# generic CRUD views in django
+from profiles.models import Profile
 from django.views.generic import (
     ListView,DetailView,
     CreateView,UpdateView,
     DeleteView,TemplateView,
     View
     )
-
-#taggit
 from taggit.models import Tag
-
-#function based paginator
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
+
+
 
 def share(request,slug):
     bundle = Bundle.objects.get(
@@ -85,3 +82,32 @@ class SearchBundleListView(TemplateView):
         page = self.request.GET.get('page')
         published_bundles = paginator.get_page(page)
         return {'published_bundles':published_bundles,'query':query}
+
+
+#ajax views
+
+from django.utils.decorators import method_decorator
+
+decorators = [ajax_required]
+
+@method_decorator(decorators, name='dispatch')
+class AutoSuggestions(View):
+    def get(self):
+        query = self.request.GET.get("term", "")
+        from django.contrib.auth import get_user_model
+        users = [
+            get_user_model().objects.filter(
+                Q(username__icontains=query) | Q(name__icontains=query)
+                )
+            ]
+        bundles = [
+            Bundle.published.filter(
+                Q(title__icontains=query)
+                | Q(context__icontains=query)
+                | Q(tags__name__icontains=query),
+            )
+        ]
+        data_list = users + bundles
+        import json
+        data_list = json.dumps(data_list)
+        return JsonResponse(data_list)

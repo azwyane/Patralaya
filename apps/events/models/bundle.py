@@ -59,6 +59,14 @@ class Bundle(models.Model):
         ('Publish', 'Publish'),
         )
 
+    BUNDLE_TYPE_CHOICES = (
+        ('article','Article'),
+        ('thesis', 'Thesis'),
+        ('book','Book'),
+        ('report','Report'),
+        ('misc','Misc')
+    )
+
     creator = models.ForeignKey(
         Profile, 
         on_delete=models.CASCADE,
@@ -86,6 +94,12 @@ class Bundle(models.Model):
         choices = STATUS_CHOICES,
         default='Draft'
         )
+    bundle_type = models.CharField(
+        max_length=10,
+        choices = BUNDLE_TYPE_CHOICES,
+        null = True,
+        blank = True
+        )    
     media_image = models.ImageField(
         upload_to='bundle_image',
         blank=True,

@@ -2,7 +2,31 @@
 {% load static %}
 {% load i18n %}
 
-{%block body%}
+{%block body%} 
+<script>
+  $(document).ready(function(){
+    $("#search-box").keyup(function(){
+      $.ajax({
+        type: "POST",
+        url: "{% url 'auto_suggestions' %}",
+        data: {
+                query: $(this).val(),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+        beforeSend: function(){
+            $("#search-box").css("background","#FFF {% static 'gifs/LoaderIcon.gif' %} no-repeat 165px");
+        },
+        success: function(data){
+            for (value of data){
+              $("#suggesstion-box").text(value);
+            };
+              
+		    }
+		});
+      
+  });        
+});
+</script>
 {% with  query=view.published.query %}
 <section class="container">
 
@@ -11,6 +35,7 @@
             <div class="form-row "  >
               <div class="col-12 col-md-9 mb-2 mb-md-0">
                 <input id="search-box" name="query"type="text" class="form-control form-control-lg" placeholder="search bundles" value={{query}}>
+                <div id="suggesstion-box"></div>
               </div>
               <div class="col-12 col-md-3">
                 <button type="submit" class="btn btn-block btn-lg btn-primary">search</button>
@@ -192,5 +217,6 @@
 
 {% endif %}
 {% endwith %} 
-</section>                               
+</section>   
+
 {% endblock %}

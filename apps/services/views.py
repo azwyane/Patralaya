@@ -53,7 +53,7 @@ def share(request,slug):
 
 class TagListView(ListView):
     model = Bundle
-    template_name = 'events/tag_list.html'
+    template_name = 'services/tag_list.html'
     ordering = ['-created_on']
     paginate_by = 2
 
@@ -69,7 +69,7 @@ class TagListView(ListView):
 
 
 class SearchBundleListView(TemplateView):
-    template_name = 'events/search_list.html'
+    template_name = 'services/search_list.html'
 
     def published(self, *args, **kwargs):
         published_bundles = Bundle.published.all()
@@ -88,26 +88,25 @@ class SearchBundleListView(TemplateView):
 
 from django.utils.decorators import method_decorator
 
-decorators = [ajax_required]
+decorators = [ajax_required,require_POST]
 
 @method_decorator(decorators, name='dispatch')
 class AutoSuggestions(View):
-    def get(self):
-        query = self.request.GET.get("term", "")
+    def post(self,request):
+        query = request.POST['query']
         from django.contrib.auth import get_user_model
-        users = [
-            get_user_model().objects.filter(
-                Q(username__icontains=query) | Q(name__icontains=query)
-                )
-            ]
-        bundles = [
-            Bundle.published.filter(
-                Q(title__icontains=query)
-                | Q(context__icontains=query)
-                | Q(tags__name__icontains=query),
-            )
-        ]
-        data_list = users + bundles
-        import json
-        data_list = json.dumps(data_list)
-        return JsonResponse(data_list)
+        from django.db.models import Q
+        users = get_user_model().objects.filter(
+                    Q(username__icontains=query) | Q(first_name__icontains=query)
+                ).values_list('username',flat=True)
+            
+        bundles = Bundle.published.filter(
+                    Q(title__icontains=query)
+                    | Q(context__icontains=query)
+                    | Q(tags__name__icontains=query),
+                ).values_list('title',flat=True)
+        
+        from itertools import chain
+        data_list = list(chain(users,bundles))
+        return JsonResponse(data_list,safe=False)
+       

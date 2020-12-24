@@ -279,7 +279,11 @@
                                 </div>
                                 <h6 class="center text-muted mt-2">{{ object.creator }}</h6>
                             </div>
-
+      <div class=" mt-5 d-flex justify-content-center mb-3">
+                            {% for tag in object.tags.all %}
+                                        <a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="{% url 'list_tag' tag %}" >{{tag.name}} </a> 
+                                        {% endfor %}
+                                    </div>
 {% if object.media_file or object.media_image or object.git_url %}
                                     <div class="article-media mb-5">
                                  <table class="table table-hover border rounded" style="overflow: hidden; max-width: 100vw;">
@@ -315,12 +319,8 @@
   </table>
 </div>{% endif %}
                             </div>
-                            <hr class="mt-2">
-                              <div class="d-flex justify-content-center mb-3">
-                            {% for tag in object.tags.all %}
-                                        <a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="{% url 'list_tag' tag %}" >{{tag.name}} </a> 
-                                        {% endfor %}
-                                    </div>
+                            
+                        
                             
 
                             <!-- Post Text -->

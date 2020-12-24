@@ -1,13 +1,84 @@
+
 {% extends 'events/base.html' %}
 {% load static %}
 {% load i18n %}
 {% block body %}
-
-<form method="POST" enctype="multipart/form-data">
+{% load widget_tweaks %}
+  <div class="container my-5">
+    <div class="row">
+      <div class="col">
+      	  <h1  >Create Bundle</h1>
+ <form  class="mt-5" method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
-    {{form.media}}
-    {{ form.as_p }}
-    <button type="submit"> Submit </button>
+    
+ 
+
+    
+     <div class="form-group ">
+    <label for="{{form.title.id_for_label}}">{{form.title.label}}:</label> {%render_field form.title class="form-control" placeholder="Title of your bundle"%}
+  </div>
+       <div class="form-group ">
+    <label for="{{form.tags.id_for_label}}">{{form.tags.label}}:</label> {%render_field form.tags class="form-control" placeholder="Comma separated tags eg. mathematics, science, computer"%}
+    <small id="tagsHelp" class="form-text text-muted" >{{form.tags.help_text}}</small>
+  
+   
+  </div>
+  <div class="form-group ">
+    <label for="{{form.title.id_for_label}}">{{form.context.label}}:</label> <div>
+   {{form.context}}
+{{form.media}}</div>
+   
+  </div>
+  <div class="form-group ">
+    <label class="mr-sm-2" for="{{form.media_file.id_for_label}}">{{form.media_file.label}}</label>
+              <div class="custom-file" >
+   
+    {%render_field form.media_file class="custom-file-input"%}
+    <label class="custom-file-label overflow-hidden" for="{{form.media_file.id_for_label}} ">{{form.media_file.label}} eg: file.pdf file.mp4 </label>
+
+</div>
+</div>
+  <div class="form-group ">
+    <label class="mr-sm-2" for="{{form.media_file.id_for_label}}">{{form.media_image.label}}</label>
+              <div class="custom-file" >
+   
+    {%render_field form.media_image class="custom-file-input"%}
+    <label class="custom-file-label overflow-hidden" for="{{form.media_file.id_for_label}}">{{form.media_image.label}}  </label>
+
+</div>
+</div>
+     <div class="form-group">
+      <label class="mr-sm-2" for="{{form.status.id_for_label}}">{{form.status.label}}:</label>
+      {%render_field form.status class="custom-select mr-sm-2"%}
+
+  
+    </div>
+ <div class="form-group ">
+    <label for="{{form.git_url.id_for_label}}">{{form.git_url.label}}:</label> {%render_field form.git_url class="form-control" placeholder="git url"%}
+  </div>
+
+
+ <div class="form-group ">
+    
+ 
+      <label  for="{{form.forkable.id_for_label}}" class="mr-sm-2">{{form.forkable.label}}:</label>   {%render_field form.forkable %}
+    </div>
+  <button type="submit" class="btn btn-primary mt-2 px-5 ">Submit</button>
 </form>
+        </div>
+
+
+      </div>
+    </div>
+<script type="text/javascript">
+	$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+</script>
 
 {% endblock %}
+
+
+
+    

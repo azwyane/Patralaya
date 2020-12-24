@@ -478,6 +478,16 @@
     <a href="{% url 'bundle_authorships' username=object.creator slug=object.slug%}">Requests</a>
 </p>
 {% endif %}
+
+
+{% if object.origin_url %}
+<p>Original source: <a href="{{object.origin_url}}">{{object.origin_url}}</a></p>
+{% endif %}
+
+{% if object.bundle_type %}
+<p>Bundle Type: {{object.bundle_type}}</p>
+{% endif %}
+
 {% endblock %}
 
 

@@ -53,10 +53,20 @@
 
   
     </div>
+
+  <div class="form-group">
+   <label class="mr-sm-2" for="{{form.bundle_type.id_for_label}}">{{form.bundle_type.label}}:</label>
+   {%render_field form.bundle_type class="custom-select mr-sm-2"%}
+
+
+ </div>    
  <div class="form-group ">
     <label for="{{form.git_url.id_for_label}}">{{form.git_url.label}}:</label> {%render_field form.git_url class="form-control" placeholder="git url"%}
   </div>
 
+<div class="form-group ">
+   <label for="{{form.origin_url.id_for_label}}">{{form.origin_url.label}}:</label> {%render_field form.origin_url class="form-control" placeholder="origin url"%}
+ </div>
 
  <div class="form-group ">
     

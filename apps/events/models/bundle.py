@@ -86,6 +86,7 @@ class Bundle(models.Model):
         )       
     title = models.CharField(max_length=200)
     context = RichTextField(blank=True,null=True)
+    origin_url = models.URLField(blank=True,null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     published_on = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(auto_now=True)
@@ -164,6 +165,13 @@ class Bundle(models.Model):
 
     def get_co_authors(self):
         return self.co_authors.all()    
+
+    def get_dict(self):
+        return {
+            'title':self.title,
+            'context':self.context,
+            'slug':self.slug
+        }
 
     def save(self, *args, **kwargs): 
         '''

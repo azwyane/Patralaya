@@ -56,9 +56,10 @@ class CreateActivityMixin():
 class CreateForkMixin(): 
     def create_bundle_fork(self,bundle_from,new_owner):
         
-        title = bundle_from.__dict__['title']
-        slug = bundle_from.__dict__['slug'] + '-' + self.request.user.username
-        context = bundle_from.__dict__['context']
+        bundle_dict = bundle_from.get_dict()
+        title = bundle_dict['title']
+        slug = bundle_dict['slug'] + '-' + self.request.user.username
+        context = bundle_dict['context']
         status = 'Publish'
         bundle_to = Bundle.objects.create(
                             creator = new_owner,

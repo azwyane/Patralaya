@@ -64,7 +64,11 @@ class HomeView(TemplateView):
 class BundleCreateView(LoginRequiredMixin, CreateActivityMixin, SuccessMessageMixin, CreateView):
     model = Bundle
     template_name = 'events/bundle_form.html'
-    fields = ['title','tags','context','media_file','media_image','status','git_url','forkable']
+    fields = [
+        'title','tags','context','media_file',
+        'media_image','status','git_url','forkable',
+        'bundle_type','origin_url'
+        ]
     login_url = 'home'
     success_message = "You have successfully created %(title)s, Cheers!"
 
@@ -100,7 +104,11 @@ class BundleDetailView(UserIsOwnerMixin, DetailView):
 
 class BundleUpdateView(LoginRequiredMixin, BundleEditMixin,SuccessMessageMixin, UpdateView):
     model = Bundle
-    fields = ['title','tags','context','media_file','media_image','status','git_url','forkable']
+    fields = [
+        'title','tags','context','media_file',
+        'media_image','status','git_url','forkable',
+        'bundle_type','origin_url'
+        ]
     template_name = 'events/bundle_form.html'
     login_url = 'login'
     success_message = "%(title)s updated successfully"

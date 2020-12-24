@@ -2,7 +2,10 @@ from django.urls import path
 
 from services.views import (
     share,TagListView, 
-    SearchBundleListView,AutoSuggestions
+    SearchBundleListView,AutoSuggestions,
+    ReadingsListView,ReadingsDetailView,
+    ReadingsCreateView,ReadingsUpdateView,
+    ReadingsDeleteView
 )
 
 #rss feed generator
@@ -24,4 +27,13 @@ urlpatterns=[
 
     #ajax autosuggestions
     path('bundle/search/auto/',AutoSuggestions.as_view(),name='auto_suggestions'),
+
+    #readinglist urls
+    path('readinglists/list/',ReadingsListView.as_view(), name='readinglists_list'),
+    path('readinglists/<pk>/detail/',ReadingsDetailView.as_view(), name='readinglists_detail'),
+    path('readinglists/create/',ReadingsCreateView.as_view(), name='readinglists_create'),
+    path('readinglists/<pk>/update/',ReadingsUpdateView.as_view(), name='readinglists_update'),
+    path('readinglists/<pk>/delete/',ReadingsDeleteView.as_view(), name='readinglists_delete'),
+
+
 ]

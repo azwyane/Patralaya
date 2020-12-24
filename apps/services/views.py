@@ -3,6 +3,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from services.forms import ShareForm
 from events.models import Bundle
 from profiles.models import Profile
+from services.models import ReadingList
 from django.views.generic import (
     ListView,DetailView,
     CreateView,UpdateView,
@@ -14,6 +15,8 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse
 
 
 
@@ -82,6 +85,56 @@ class SearchBundleListView(TemplateView):
         page = self.request.GET.get('page')
         published_bundles = paginator.get_page(page)
         return {'published_bundles':published_bundles,'query':query}
+
+
+class ReadingsListView(ListView):
+    model = ReadingList
+    context_object_name = 'readings'
+    template_name = 'services/readings_list.html'
+
+
+class ReadingsDetailView(DetailView):
+    model = ReadingList
+    context_object_name = 'reading'
+    template_name = 'services/readings_detail.html'
+
+
+
+class ReadingsCreateView(SuccessMessageMixin,CreateView):
+    model = ReadingList
+    context_object_name = 'reading'
+    template_name = 'services/readings_form.html'
+    fields = [
+        'title','tags','bundles'
+        ]
+    success_message = "You have successfully created %(title)s ReadingList, Cheers!"
+    
+
+    def form_valid(self,form):
+        form.instance.creator  = Profile.objects.get(user=self.request.user)
+        form_saved = super().form_valid(form)
+        # self.create_published_action()
+        return form_saved    
+
+
+
+class ReadingsUpdateView(SuccessMessageMixin,UpdateView):
+    model = ReadingList
+    context_object_name = 'reading'
+    template_name = 'services/readings_form.html'
+    fields = [
+        'title','tags','bundles'
+        ]
+
+
+
+class ReadingsDeleteView(SuccessMessageMixin,DeleteView):
+    model = ReadingList
+    context_object_name = 'reading'
+    template_name = 'services/readings_delete.html'
+    success_url = 'readinglists_list'
+
+
 
 
 #ajax views

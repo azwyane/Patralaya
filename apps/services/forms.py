@@ -1,5 +1,6 @@
 from django import forms
 
+
 class ShareForm(forms.Form):
     sender = forms.EmailField()
     receiver = forms.EmailField()
@@ -7,3 +8,5 @@ class ShareForm(forms.Form):
         required=False,
         widget=forms.Textarea
         )
+
+  

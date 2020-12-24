@@ -1,0 +1,18 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+{%block body%}
+  {% load static %}
+
+<p>
+  Title:{{reading.title}}
+</p>
+<p>
+  Tags:{% for tag in reading.tags.all %}{{tag}}{% empty %}not tagged{% endfor %}
+</p>
+<p>
+  Bundles:{% for bundle in reading.bundles.all %}{{bundle.title}}{% endfor %}
+</p>
+{% endblock %}
+
+

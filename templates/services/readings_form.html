@@ -1,0 +1,17 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block body %}
+{% load widget_tweaks %}
+ 
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Create Reading List</button>
+</form>
+
+{% endblock %}
+
+
+
+    

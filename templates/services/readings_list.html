@@ -1,0 +1,18 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block body %}
+
+<ul>
+{% for reading in readings %}
+
+<li>
+    <a href="{{reading.get_absolute_url}}">{{reading.title}}</a>
+</li>
+
+
+{% endfor %}
+</ul>
+
+{% endblock %}

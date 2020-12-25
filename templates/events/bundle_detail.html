@@ -196,10 +196,10 @@
  
   {% if object.creator == user_profile or object.forkable == False %}
     <li class="nav-item">
-    <button class="nav-link" id="update" data-action="update"><i class='fas fa-edit mr-2'></i>update</button>
+    <a href="{% url 'update_bundle' creator=object.creator slug=object.slug %}" class="nav-link" id="update" data-action="update"><i class='fas fa-edit mr-2'></i>update</a>
   </li>
   <li class="nav-item">
-    <button class="nav-link" id="delete" data-action="delete"><i class='fas fa-trash-alt mr-2'></i>delete</button>
+    <a class="nav-link" id="delete" href="{% url 'delete_bundle' creator=object.creator slug=object.slug %}" data-action="delete"><i class='fas fa-trash-alt mr-2'></i>delete</a>
   </li>
 
   

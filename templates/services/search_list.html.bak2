@@ -1,0 +1,222 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{%block body%} 
+<script>
+  $(document).ready(function(){
+    $("#search-box").keyup(function(){
+      $.ajax({
+        type: "POST",
+        url: "{% url 'auto_suggestions' %}",
+        data: {
+                query: $(this).val(),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+        beforeSend: function(){
+            $("#search-box").css("background","#FFF {% static 'gifs/LoaderIcon.gif' %} no-repeat 165px");
+        },
+        success: function(data){
+            for (value of data){
+              $("#suggesstion-box").text(value);
+            };
+              
+		    }
+		});
+      
+  });        
+});
+</script>
+{% with  query=view.published.query %}
+<section class="container">
+
+  <div class="col-md-10 col-lg-8 col-xl-7 mx-auto my-5 py-5">
+          <form  action="{% url 'search_bundle_results' %}" method="GET">
+            <div class="form-row "  >
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input id="search-box" name="query"type="text" class="form-control form-control-lg" placeholder="search bundles" value={{query}}>
+                <div id="suggesstion-box"></div>
+              </div>
+              <div class="col-12 col-md-3">
+                <button type="submit" class="btn btn-block btn-lg btn-primary">search</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+{% if view.published.published_bundles %}
+                        <div class=" bundle-list mb-5 mx-auto">
+                            <!-- Start latest-post Area -->
+                            <div class="recently-pbulished-bundle-wrapper  p-0">
+                                
+                                
+                                <h4 class=" p-0">Search results</h4>
+                                  <div class="bundle-container border-top border-top-muted"> 
+
+{% for bundle in view.published.published_bundles %}
+
+
+
+
+
+                              
+                                
+                                
+                                
+                                
+
+                            <!-- this section is for card  ---->
+                        
+                               
+                                
+                                <div class="single-latest-post row  card mt-4 py-3 px-3 mx-auto">
+                                
+                                
+                                
+                                <!-- card title --->
+                                    
+                                        <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="">
+                                            <h4 class="card-title text-dark mb-2">{{ bundle.slug }}</h4>
+                                        </a>
+                                        <div class="tags d-flex mb-3">
+                                        
+                                        
+                                        <!-- card tag -->
+                                      {% for tag in bundle.tags.all %}
+                                        <button class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="" >{{tag.name}} </button> 
+                                        {% endfor %}
+
+                                        <!---    card tag end  -->
+                                        </div>
+                                        
+                                        
+                  
+                                        <p class="">
+                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.context |truncatechars:500 }}
+                                        </p>
+                                        <!-- content end --->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                        <div class="text-muted">
+                                        
+                                        <!--- created on -->
+                                         <span> {{bundle.published_on}}</span> <!-- created on deleted -->
+                       <a class="text-muted" href=""><span class="ml-3" >{{bundle.creator}}</span></a>
+                       
+                       {% for tag in bundle.tags.all %}<a href="{% url 'list_tag' tag %}">{{tag}},</a>{%endfor%}
+                                        </div>
+                                        <div class="ml-auto">
+                                        
+                                        
+                                        <!---- view  --->
+                    <i class="fa fa-eye text-muted"> <span id="total_views">253</span></i>
+                    <i class=""> <span id="total_claps">{{bundle.claps.count}} claps</span></i>
+                                      <i class="fa fa-share mx-3 text-muted"> </i>
+                                      <!--- view ended -->
+                                      
+                                     
+                                      
+                                       <button class=" btn text-muted" data-toggle="dropdown"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><i class="fa fa-ellipsis-v "  > </i></button> 
+
+                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                               
+                                              <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-code-branch align-self-center " style="width:24px"></i><span class="ml-2">Fork</span></li>
+                                                <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-download" style="width:24px"></i><span class="ml-2">Download</span></li>
+                                                    <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-star" style="width:24px"></i><span class="ml-2">Star</span></li>
+                                             
+
+                                            </div>
+
+                                        </div>
+                                        </div>
+                                        
+                                        <div>
+                                        </div>
+                                        </div>
+
+{% endfor %}
+
+
+
+                     
+                         <nav >
+  <ul class="pagination justify-content-center align-items-center mt-3">
+  
+  
+  <!-- prvioud buttons starts here   -->
+  {% if view.published.published_bundles.has_previous %}
+      <li class="page-item">
+    
+      <a class="page-link" href="?query={{query}}&page=1" tabindex="1">First</a>
+    </li>
+    <li class="page-item">
+    
+      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.previous_page_number }}" tabindex="1">Previous</a>
+    </li>
+    {%else%}
+        <li class="page-item disabled">
+    
+      <a class="page-link" href="#" tabindex="-1">Previous</a>
+    </li>
+    
+    {% endif %}
+    
+     <!--- previous buttons end here --->
+     
+     
+     
+    <li class="page-item disabled text-muted mx-2">Page {{ view.published.published_bundles.number }} of {{ view.published.published_bundles.paginator.num_pages }}</li>
+  
+
+  {% if view.published.published_bundles.has_next %}
+
+        <li class="page-item">
+    
+      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.next_page_number }}" tabindex="1">next</a>
+    </li>
+        <li class="page-item">
+    
+      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.paginator.num_pages }}" tabindex="1" >last</a>
+    </li>
+    {%else%}
+        <li class="page-item disabled">
+    
+      <a class="page-link"  >next</a>
+    </li>
+    
+    {% endif %}
+    
+  </ul>
+</nav>
+
+</div>
+</div>
+</div>
+
+
+{% else %}
+
+<!--if no result exists then follows this-->
+
+<div class="container">
+
+<div class="d-flex justify-content-center align-items-center " id="empty list">
+<div class="my-5 search-content text-center">
+    {% load static %}
+<img  class="my-3"src="{% static 'images/empty-search.svg' %}"  width="200px">
+<h2>Oops ! No results found</h2>
+<p class="text-muted">Sorry didn't found anything matching your query. Try again with different query</p>
+</div>
+
+
+</div>
+</div>
+
+
+
+
+{% endif %}
+{% endwith %} 
+</section>   
+
+{% endblock %}

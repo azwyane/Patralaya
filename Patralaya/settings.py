@@ -69,6 +69,14 @@ INSTALLED_APPS = [
     'taggit',
     'widget_tweaks'
 ]
+#ckeditor configuration
+CKEDITOR_CONFIGS = {
+'default': {
+    'height':'auto',
+    'width': 'auto',
+
+          },
+    }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

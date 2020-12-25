@@ -53,9 +53,54 @@
                                 
                                 <h4 class=" p-0">Search results</h4>
                                   <div class="bundle-container border-top border-top-muted"> 
-
+<table class="table table-bordered">
+	<tbody>
 {% for bundle in view.published.published_bundles %}
 
+
+<tr>
+<td>
+	<div class="row mx-2 mt-2">
+		<div class="col-auto  p-1 overflow-hidden">
+			<img class="rounded-circle " {% if object.creator.profile_picture %} src="{{bundle.creator.profile_picture}}" {%else %} src="{% static 'images/default.png' %}" height="60px" width="60px">
+		</div>
+		<div class="col">
+			<div class="d-flex">
+			<h6 class="mr-3 " style="font-weight: 700;">{{bundle.creator}}</h6><span class="text-muted font-italic h6">{{bundle.published_on}}</span>
+			</div>
+			<div><a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="h5 text-dark" style="font-weight: 400;">
+				
+				{{ bundle.title |safe }}
+			</a>
+			</div>
+			<div class="mt-2">
+				{% for tag in bundle.tags.all %}
+                                        <button class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="" >{{tag.name}} </button> 
+                                        {% endfor %}
+			</div>
+			
+				<ul class=" mt-2 bundle-action nav justify-content-between ">
+  <li class="nav-item h6" >
+    <button class="nav-link ml-0 pl-0" id="fork" data-action="fork" ><i class='fas fa-code-branch mr-2'></i>fork</button>
+  </li>
+
+  <li class="nav-item h6">
+    <button class="nav-link" id="views" data-action="delete"><i class='fas fa-eye mr-2'></i>256 views</button>
+  </li>
+  <li class="nav-item h6">
+    <button class="nav-link" id="clap" data-action="clap">26 <img  class="d-inline-block"src="clap_unclap.svg">
+</button>
+  </li>
+   <li class="nav-item h6">
+
+    <a class="nav-link" id="share" href="{% url 'share_by_email' slug=object.slug %}"><i class='fas fa-share mr-2'></i>share</a>
+  </li>
+</ul>
+			
+		</div>
+	</div>
+</td>
+</tr>
 
 
 
@@ -69,72 +114,10 @@
                             <!-- this section is for card  ---->
                         
                                
-                                
-                                <div class="single-latest-post row  card mt-4 py-3 px-3 mx-auto">
-                                
-                                
-                                
-                                <!-- card title --->
-                                    
-                                        <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="">
-                                            <h4 class="card-title text-dark mb-2">{{ bundle.slug }}</h4>
-                                        </a>
-                                        <div class="tags d-flex mb-3">
-                                        
-                                        
-                                        <!-- card tag -->
-                                      {% for tag in bundle.tags.all %}
-                                        <button class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="" >{{tag.name}} </button> 
-                                        {% endfor %}
-
-                                        <!---    card tag end  -->
-                                        </div>
-                                        
-                                        
-                  
-                                        <p class="">
-                                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.context |truncatechars:500 }}
-                                        </p>
-                                        <!-- content end --->
-                                        <div class="d-flex justify-content-between align-items-center">
-                                        <div class="text-muted">
-                                        
-                                        <!--- created on -->
-                                         <span> {{bundle.published_on}}</span> <!-- created on deleted -->
-                       <a class="text-muted" href=""><span class="ml-3" >{{bundle.creator}}</span></a>
-                       
-                       {% for tag in bundle.tags.all %}<a href="{% url 'list_tag' tag %}">{{tag}},</a>{%endfor%}
-                                        </div>
-                                        <div class="ml-auto">
-                                        
-                                        
-                                        <!---- view  --->
-                    <i class="fa fa-eye text-muted"> <span id="total_views">253</span></i>
-                    <i class=""> <span id="total_claps">{{bundle.claps.count}} claps</span></i>
-                                      <i class="fa fa-share mx-3 text-muted"> </i>
-                                      <!--- view ended -->
-                                      
-                                     
-                                      
-                                       <button class=" btn text-muted" data-toggle="dropdown"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><i class="fa fa-ellipsis-v "  > </i></button> 
-
-                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                               
-                                              <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-code-branch align-self-center " style="width:24px"></i><span class="ml-2">Fork</span></li>
-                                                <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-download" style="width:24px"></i><span class="ml-2">Download</span></li>
-                                                    <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-star" style="width:24px"></i><span class="ml-2">Star</span></li>
-                                             
-
-                                            </div>
-
-                                        </div>
-                                        </div>
-                                        
-                                        <div>
-                                        </div>
-                                        </div>
 
 {% endfor %}
+</tbody>
+</table>
 
 
 
@@ -220,3 +203,4 @@
 </section>   
 
 {% endblock %}
+

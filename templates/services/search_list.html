@@ -62,7 +62,7 @@
 <td>
 	<div class="row mx-2 mt-2">
 		<div class="col-auto  p-1 overflow-hidden">
-			<img class="rounded-circle " {% if object.creator.profile_picture %} src="{{bundle.creator.profile_picture}}" {%else %} src="{% static 'images/default.png' %}" height="60px" width="60px">
+			<img class="rounded-circle " {% if object.creator.profile_picture %} src="{{bundle.creator.profile_picture}}" {%else %} src="{% static 'images/default.png' %}" {% endif %} height="60px" width="60px">
 		</div>
 		<div class="col">
 			<div class="d-flex">

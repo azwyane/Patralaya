@@ -17,8 +17,9 @@ from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse,reverse_lazy
-
-
+from services.forms import ReadingsListForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from events.mixins import CreateActivityMixin,BundleEditMixin
 
 def share(request,slug):
     bundle = Bundle.objects.get(
@@ -100,13 +101,11 @@ class ReadingsDetailView(DetailView):
 
 
 
-class ReadingsCreateView(SuccessMessageMixin,CreateView):
+class ReadingsCreateView(LoginRequiredMixin, CreateActivityMixin,SuccessMessageMixin,CreateView):
     model = ReadingList
     context_object_name = 'reading'
     template_name = 'services/readings_form.html'
-    fields = [
-        'title','tags','bundles'
-        ]
+    form_class = ReadingsListForm
     success_message = "You have successfully created %(title)s ReadingList, Cheers!"
     
 
@@ -118,17 +117,20 @@ class ReadingsCreateView(SuccessMessageMixin,CreateView):
 
 
 
-class ReadingsUpdateView(SuccessMessageMixin,UpdateView):
+class ReadingsUpdateView(LoginRequiredMixin, BundleEditMixin, CreateActivityMixin,SuccessMessageMixin,UpdateView):
     model = ReadingList
     context_object_name = 'reading'
     template_name = 'services/readings_form.html'
-    fields = [
-        'title','tags','bundles'
-        ]
+    form_class = ReadingsListForm
+    success_message = "You have successfully updated %(title)s ReadingList"
+    
+    def form_valid(self,form):
+        form.instance.creator = Profile.objects.get(user=self.request.user)
+        return super().form_valid(form)
 
 
 
-class ReadingsDeleteView(SuccessMessageMixin,DeleteView):
+class ReadingsDeleteView(LoginRequiredMixin,BundleEditMixin,SuccessMessageMixin,CreateActivityMixin,DeleteView):
     model = ReadingList
     context_object_name = 'reading'
     template_name = 'services/readings_delete.html'

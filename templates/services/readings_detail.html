@@ -4,6 +4,17 @@
 {%block body%}
   {% load static %}
 
+  {% if user_profile == reading.creator %}
+  <ul>
+      <li>
+          <a href="{% url 'readinglists_update' pk=reading.pk uuid=reading.uuid %}">update</a>
+      </li>
+      <li>
+          <a href="{% url 'readinglists_delete' pk=reading.pk uuid=reading.uuid %}">delete</a>
+      </li>
+  </ul>
+  {% endif %}
+
 <p>
   Title:{{reading.title}}
 </p>

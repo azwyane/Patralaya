@@ -16,7 +16,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 
 
 
@@ -132,7 +132,7 @@ class ReadingsDeleteView(SuccessMessageMixin,DeleteView):
     model = ReadingList
     context_object_name = 'reading'
     template_name = 'services/readings_delete.html'
-    success_url = 'readinglists_list'
+    success_url = reverse_lazy('home')
 
 
 

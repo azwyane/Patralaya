@@ -11,7 +11,11 @@
   Tags:{% for tag in reading.tags.all %}{{tag}}{% empty %}not tagged{% endfor %}
 </p>
 <p>
-  Bundles:{% for bundle in reading.bundles.all %}{{bundle.title}}{% endfor %}
+  Bundles:{% for bundle in reading.bundles.all %}
+  <a href="{{bundle.get_absolute_url}}">
+  {{bundle.title}}
+</a>
+  {% endfor %}
 </p>
 {% endblock %}
 

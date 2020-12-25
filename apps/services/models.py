@@ -8,7 +8,7 @@ from taggit.managers import TaggableManager
 
 
 class ReadingList(models.Model):
-    uuid = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
+    uuid = models.SlugField(default=uuid.uuid4,editable=False,unique=True)
     title = models.CharField(max_length=200)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -27,7 +27,7 @@ class ReadingList(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('readinglists_detail', kwargs={'pk':self.uuid})
+        return reverse('readinglists_detail', kwargs={'pk':self.pk,'uuid':self.uuid})
 
     class Meta:
         ordering = ['-created_on']

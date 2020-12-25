@@ -30,10 +30,10 @@ urlpatterns=[
 
     #readinglist urls
     path('readinglists/list/',ReadingsListView.as_view(), name='readinglists_list'),
-    path('readinglists/<pk>/detail/',ReadingsDetailView.as_view(), name='readinglists_detail'),
+    path('readinglists/<pk>/<uuid>/detail/',ReadingsDetailView.as_view(), name='readinglists_detail'),
     path('readinglists/create/',ReadingsCreateView.as_view(), name='readinglists_create'),
-    path('readinglists/<pk>/update/',ReadingsUpdateView.as_view(), name='readinglists_update'),
-    path('readinglists/<pk>/delete/',ReadingsDeleteView.as_view(), name='readinglists_delete'),
+    path('readinglists/<pk>/<uuid>/update/',ReadingsUpdateView.as_view(), name='readinglists_update'),
+    path('readinglists/<pk>/<uuid>/delete/',ReadingsDeleteView.as_view(), name='readinglists_delete'),
 
 
 ]

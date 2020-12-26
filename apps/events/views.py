@@ -27,10 +27,11 @@ from django.contrib.auth.models import User
 # local models
 from profiles.models import Profile
 from events.models import (
-    Bundle,Comment,
+    Bundle,#Comment,
     Fork,Clap,
     AcceptedAuthorshipRequest, ReceivedAuthorshipRequest
     )
+from activities.models import Comment
 
 #decorators for user comment
 from django.http import JsonResponse
@@ -178,7 +179,7 @@ class CommentBundle(CreateActivityMixin, View):
             try: 
                 if action == 'comment':
                     Comment.objects.create(
-                        bundle = bundle_to_comment,
+                        content_object = bundle_to_comment,
                         creator=Profile.objects.get(user=request.user),
                         context=context
                         )

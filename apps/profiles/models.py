@@ -7,6 +7,9 @@ from django.conf import settings
 # User model from django auth app
 from django.contrib.auth.models import User
 
+#generic relation
+from django.contrib.contenttypes.fields import GenericRelation
+
 # timezone
 from django.utils import timezone
 

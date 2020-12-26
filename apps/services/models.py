@@ -5,7 +5,7 @@ from events.models import Bundle
 import uuid
 from django.urls import reverse
 from taggit.managers import TaggableManager
-
+from django.contrib.contenttypes.fields import GenericRelation
 
 class ReadingList(models.Model):
     uuid = models.SlugField(default=uuid.uuid4,editable=False,unique=True)

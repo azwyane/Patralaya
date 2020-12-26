@@ -22,6 +22,8 @@ from taggit.managers import TaggableManager
 #slugify
 from django.utils.text import slugify
 
+from django.contrib.contenttypes.fields import GenericRelation
+from activities.models import Comment
 
 class PublishManager(models.Manager):
     '''
@@ -126,6 +128,7 @@ class Bundle(models.Model):
         related_name='bundle_liked',
         blank=True
         )
+    comments = GenericRelation(Comment,related_name="comments")    
     #managers
     objects = models.Manager() 
     published = PublishManager() 

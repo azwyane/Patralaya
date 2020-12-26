@@ -107,12 +107,28 @@ class Clap(models.Model):
         return f'{self.profile} claped {self.content_object}'
 
 
+class CountBase(models.Model):
+    content_type  = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE
+        )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id') 
+    count = models.PositiveIntegerField(default=0)
 
-# class SharesCount(models.Model):
-#     pass
+    class Meta:
+        ordering =['-count'] 
+        abstract = True
 
-# class ViewsCount(models.Model):
-#     pass
 
+
+class SharesCount(CountBase):
+    def __str__(self):
+        return f"{self.content_object} shared {self.count} times"
+
+
+class ViewsCount(CountBase):
+    def __str__(self):
+        return f"{self.content_object} viewed {self.count} times"
 
  

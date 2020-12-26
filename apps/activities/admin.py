@@ -1,7 +1,7 @@
 from django.contrib import admin
 from activities.models import (
                                 Action,Comment,Clap,
-                                # ViewsCount,SharesCount
+                                ViewsCount,SharesCount
                             )
 
 
@@ -22,5 +22,5 @@ class CommentAdmin(admin.ModelAdmin):
         model = Comment
 
 admin.site.register(Clap)
-# admin.site.register(SharesCount)
-# admin.site.register(ViewsCount)    
+admin.site.register(SharesCount)
+admin.site.register(ViewsCount)    

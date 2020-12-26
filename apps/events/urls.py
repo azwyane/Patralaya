@@ -3,16 +3,12 @@ from events.views import (
     HomeView, BundleCreateView,
     BundleListView, BundleDetailView,
     BundleUpdateView, BundleDeleteView,
-    CommentBundle, ForkBundle,
-    ClapBundle, RequestAuthorshipBundle,
+    ForkBundle, RequestAuthorshipBundle,
     AcceptAuthorshipBundle, AuthorRequestView
     )
 
 # profile views is imported here to make url as example.com/<username>    
 from profiles.views import user_detail
-
-# #rss feed generator
-# from .feeds import PublishedBundleFeed
 
 # app_name = 'events'
 
@@ -31,18 +27,9 @@ urlpatterns=[
     path('<slug:creator>/<slug:slug>/update/',BundleUpdateView.as_view(),name='update_bundle'),
     path('<slug:creator>/<slug:slug>/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
     
-    #comment urls uses ajax 
-    path('bundle/create/comment/',CommentBundle.as_view(),name='comment_bundle'),
-
-
-    # #rss url
-    # path('bundle/published/all/feed.xml', PublishedBundleFeed(), name='bundle_feed'),
-    
     #fork bundles
     path('bundle/fork/new/',ForkBundle.as_view(), name='fork_bundle'),
 
-    #fork bundles
-    path('bundle/clap',ClapBundle.as_view(), name='bundle_clap'),
 
     #make POST request for authorship request
     path('bundle/authorship/request',RequestAuthorshipBundle.as_view(), name='bundle_authorship_request'),

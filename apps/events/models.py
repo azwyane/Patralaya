@@ -123,7 +123,7 @@ class Bundle(models.Model):
         symmetrical=False
         )
     claps = GenericRelation(Clap,related_name="claps",related_query_name="bundle_to_clap")    
-    comments = GenericRelation(Comment,related_name="comments")    
+    comments = GenericRelation(Comment,related_name="comments",related_query_name="bundle_to_comment")    
     #managers
     objects = models.Manager() 
     published = PublishManager() 

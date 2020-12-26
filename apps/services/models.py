@@ -2,6 +2,7 @@
 from django.db import models
 from profiles.models import Profile
 from events.models import Bundle
+from activities.models import Comment,Clap
 import uuid
 from django.urls import reverse
 from taggit.managers import TaggableManager
@@ -20,6 +21,8 @@ class ReadingList(models.Model):
     bundles = models.ManyToManyField(
         Bundle,
         )
+    comments = GenericRelation(Comment,related_query_name="readings_to_comment")
+    claps = GenericRelation(Clap,related_query_name="readings_to_clap")    
     tags = TaggableManager()
   
 

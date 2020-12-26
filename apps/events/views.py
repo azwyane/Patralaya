@@ -168,56 +168,56 @@ class ForkBundle(CreateForkMixin,CreateActivityMixin,View):
         return JsonResponse({'status':'error','fork_error':'No need to fork again'})
 
 
-@method_decorator(decorators, name='dispatch')
-class CommentBundle(CreateActivityMixin, View):
-    def post(self,request):
-        pk = request.POST['pk']
-        action = request.POST['action']
-        context = request.POST['context']
-        bundle_to_comment = Bundle.objects.get(pk=pk)
-        if bundle_to_comment and action and context:
-            try: 
-                if action == 'comment':
-                    Comment.objects.create(
-                        content_object = bundle_to_comment,
-                        creator=Profile.objects.get(user=request.user),
-                        context=context
-                        )
-                    self.create_comment_action(bundle_to_comment) 
-                return JsonResponse({'status':'ok'})
+# @method_decorator(decorators, name='dispatch')
+# class CommentBundle(CreateActivityMixin, View):
+#     def post(self,request):
+#         pk = request.POST['pk']
+#         action = request.POST['action']
+#         context = request.POST['context']
+#         bundle_to_comment = Bundle.objects.get(pk=pk)
+#         if bundle_to_comment and action and context:
+#             try: 
+#                 if action == 'comment':
+#                     Comment.objects.create(
+#                         content_object = bundle_to_comment,
+#                         creator=Profile.objects.get(user=request.user),
+#                         context=context
+#                         )
+#                     self.create_comment_action(bundle_to_comment) 
+#                 return JsonResponse({'status':'ok'})
                     
-            except Bundle.DoesNotExist:
-                return JsonResponse({'status':'error'})
-        return JsonResponse({'status':'error'})
+#             except Bundle.DoesNotExist:
+#                 return JsonResponse({'status':'error'})
+#         return JsonResponse({'status':'error'})
 
 
-@method_decorator(decorators, name='dispatch')
-class ClapBundle(CreateActivityMixin, View):
-    def post(self,request):
-        pk = request.POST['pk']
-        action = request.POST['action']
-        if pk and action:
-            try:
-                bundle_to_clap = Bundle.objects.get(
-                    pk=pk
-                    )
-                if action == 'clap':
-                    Clap.objects.create(
-                        content_object = bundle_to_clap,
-                        profile = Profile.objects.get(user=request.user)
-                        )
-                    self.create_clap_action(bundle_to_clap)
-                else:
-                    Clap.objects.filter(
-                        profile = Profile.objects.get(user=request.user),
-                        bundle_to_clap = bundle_to_clap
-                        ).delete()
+# @method_decorator(decorators, name='dispatch')
+# class ClapBundle(CreateActivityMixin, View):
+#     def post(self,request):
+#         pk = request.POST['pk']
+#         action = request.POST['action']
+#         if pk and action:
+#             try:
+#                 bundle_to_clap = Bundle.objects.get(
+#                     pk=pk
+#                     )
+#                 if action == 'clap':
+#                     Clap.objects.create(
+#                         content_object = bundle_to_clap,
+#                         profile = Profile.objects.get(user=request.user)
+#                         )
+#                     self.create_clap_action(bundle_to_clap)
+#                 else:
+#                     Clap.objects.filter(
+#                         profile = Profile.objects.get(user=request.user),
+#                         bundle_to_clap = bundle_to_clap
+#                         ).delete()
 
-                return JsonResponse({'status':'ok'})
+#                 return JsonResponse({'status':'ok'})
                     
-            except Bundle.DoesNotExist:
-                return JsonResponse({'status':'error'})
-        return JsonResponse({'status':'error'})
+#             except Bundle.DoesNotExist:
+#                 return JsonResponse({'status':'error'})
+#         return JsonResponse({'status':'error'})
 
 @method_decorator(decorators, name='dispatch')
 class RequestAuthorshipBundle(CreateActivityMixin, View):

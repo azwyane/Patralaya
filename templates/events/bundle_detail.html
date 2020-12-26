@@ -218,7 +218,7 @@
     {% with total_claps=object.claps.count %}
 
   <li class="nav-item">
-    <button class="nav-link" id="clap" data-action="{% if user_profile in object.claps.all %}un{% endif %}clap"><span class="count">{{ total_claps }}</span>   {% if user_profile not in object.claps.all %}<img  id="clap-img" class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> {%else%}  <img id="clap-img" class="d-inline-block " src="{% static 'images/clap_clapped.svg' %}"> {%endif%}
+    <button class="nav-link" id="clap" data-action="{% if request.user.id in object.get_clappers %}un{% endif %}clap"><span class="count">{{ total_claps }}</span>   {% if request.user.id not in object.get_clappers %}<img  id="clap-img" class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> {%else%}  <img id="clap-img" class="d-inline-block " src="{% static 'images/clap_clapped.svg' %}"> {%endif%}
 </button>
 
 
@@ -388,7 +388,7 @@
                                             <div class="comment-wrapper d-flex">
                                                 <!-- Comment Meta -->
                                                 <div class="comment-author">
-                                                    <a href="#"> {% if object.creator.profile_picture %}
+                                                    <a href="#"> {% if comment.creator.profile_picture %}
                                                 <img src="{{ comment.creator.profile_picture }}" alt="comment_creator" />
                                                     {% else %}
                                                     <img  src="{% static 'images/default.png' %}" alt="comment_creator" style="background-color: white]; border:1px solid #ebebeb; padding: 5px;" />

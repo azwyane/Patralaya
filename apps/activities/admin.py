@@ -1,8 +1,7 @@
 from django.contrib import admin
 from activities.models import (
                                 Action,Comment,Clap,
-                                Fork,Follow,ViewsCount,
-                                SharesCount
+                                # ViewsCount,SharesCount
                             )
 
 
@@ -12,9 +11,16 @@ class ActionAdmin(admin.ModelAdmin):
     list_filter = ('created',)
     search_fields = ('verb',)
 
-admin.site.register(Comment)
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display=["creator","content_object","created_on"]
+    list_display_links=["creator"]
+    list_filter=["created_on"]
+   
+    
+    class meta:
+        model = Comment
+
 admin.site.register(Clap)
-admin.site.register(Fork)
-admin.site.register(Follow)
-admin.site.register(SharesCount)
-admin.site.register(ViewsCount)    
+# admin.site.register(SharesCount)
+# admin.site.register(ViewsCount)    

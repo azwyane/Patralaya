@@ -23,7 +23,7 @@ from taggit.managers import TaggableManager
 from django.utils.text import slugify
 
 from django.contrib.contenttypes.fields import GenericRelation
-from activities.models import Comment
+from activities.models import Comment,Clap
 
 class PublishManager(models.Manager):
     '''
@@ -122,12 +122,7 @@ class Bundle(models.Model):
         related_name='forks',
         symmetrical=False
         )
-    claps = models.ManyToManyField(
-        Profile,
-        through='Clap',
-        related_name='bundle_liked',
-        blank=True
-        )
+    claps = GenericRelation(Clap,related_name="claps",related_query_name="bundle_to_clap")    
     comments = GenericRelation(Comment,related_name="comments")    
     #managers
     objects = models.Manager() 
@@ -175,6 +170,9 @@ class Bundle(models.Model):
             'context':self.context,
             'slug':self.slug
         }
+    
+    def get_clappers(self):
+        return self.claps.values_list('profile',flat=True)
 
     def save(self, *args, **kwargs): 
         '''
@@ -209,30 +207,6 @@ class Fork(models.Model):
 
     def __str__(self):
         return f'{self.bundle_from} forked into {self.bundle_to}'
-
-
-class Clap(models.Model):
-    bundle = models.ForeignKey(
-        Bundle,
-        on_delete=models.CASCADE,
-        related_name='bundle',
-    )
-    profile = models.ForeignKey(
-        Profile,
-        on_delete=models.CASCADE,
-        related_name='profile',
-    )
-    claped_on = models.DateTimeField(
-        auto_now_add=True,
-        db_index=True)
-
-        
-    class Meta:
-        ordering = ('-claped_on',)
-
-
-    def __str__(self):
-        return f'{self.profile} claped {self.bundle}'
 
 
 class AcceptedAuthorshipRequest(models.Model):

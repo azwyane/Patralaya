@@ -83,18 +83,36 @@ class Comment(models.Model):
         return f"{self.creator} : {self.context}"
 
 class Clap(models.Model):
-    pass
+    content_type  = models.ForeignKey(
+        ContentType,
+        on_delete=models.CASCADE
+        )
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')    
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='clapped_by',
+    )
+    claped_on = models.DateTimeField(
+        auto_now_add=True,
+        db_index=True)
 
-class Fork(models.Model):
-    pass
-
-class SharesCount(models.Model):
-    pass
-
-class ViewsCount(models.Model):
-    pass
+        
+    class Meta:
+        ordering = ('-claped_on',)
 
 
-#profile related actions
-class Follow(models.Model):
-    pass    
+    def __str__(self):
+        return f'{self.profile} claped {self.content_object}'
+
+
+
+# class SharesCount(models.Model):
+#     pass
+
+# class ViewsCount(models.Model):
+#     pass
+
+
+ 

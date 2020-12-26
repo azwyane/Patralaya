@@ -28,10 +28,10 @@ from django.contrib.auth.models import User
 from profiles.models import Profile
 from events.models import (
     Bundle,#Comment,
-    Fork,Clap,
+    Fork,#Clap,
     AcceptedAuthorshipRequest, ReceivedAuthorshipRequest
     )
-from activities.models import Comment
+from activities.models import Comment,Clap
 
 #decorators for user comment
 from django.http import JsonResponse
@@ -203,14 +203,14 @@ class ClapBundle(CreateActivityMixin, View):
                     )
                 if action == 'clap':
                     Clap.objects.create(
-                        bundle = bundle_to_clap,
+                        content_object = bundle_to_clap,
                         profile = Profile.objects.get(user=request.user)
                         )
                     self.create_clap_action(bundle_to_clap)
                 else:
                     Clap.objects.filter(
                         profile = Profile.objects.get(user=request.user),
-                        bundle = bundle_to_clap
+                        bundle_to_clap = bundle_to_clap
                         ).delete()
 
                 return JsonResponse({'status':'ok'})

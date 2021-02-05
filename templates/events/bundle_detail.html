@@ -442,6 +442,34 @@
 </ul>
 {% endif %}
 
+<!--citation placeholder-->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#citationModalCenter">
+    Cite this bundle
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="citationModalCenter" tabindex="-1" role="dialog" aria-labelledby="citationModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="citationModalCenterTitle">Cite {{object.title}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                   <p>
+                    APA: {{object.creator}}({{object.updated_on|date:'Y, M i'}}) "{{object.title}}". In Patralaya (online). Available: {{request.build_absolute_uri }} ({% now 'Y,M i'%})
+                   </p> 
+                   In-text Citation: ({{object.creator}},{{object.updated_on|date:'Y'}})
+               
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <!--request the bundle owner to be recognized as coauthor-->
 {% if request.user.is_authenticated %}
 {% if user_profile != object.creator and user_profile not in object.co_authors.all %}

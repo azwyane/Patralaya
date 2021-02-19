@@ -137,6 +137,19 @@ class ReadingsDeleteView(LoginRequiredMixin,BundleEditMixin,SuccessMessageMixin,
     success_url = reverse_lazy('home')
 
 
+def download_bundle(request,id):
+    if a:= Bundle.objects.get(id=id):
+        context = a.get_dict()['context']
+        import io
+        from django.http import FileResponse
+        from reportlab.pdfgen import canvas
+        buffer = io.BytesIO()
+        pdf_object = canvas.Canvas(buffer)
+        pdf_object.drawString(0,0, context )
+        pdf_object.showPage()
+        pdf_object.save()
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename='Patralaya_bundle_download.pdf')
 
 
 #ajax views

@@ -516,6 +516,9 @@
 <p>Bundle Type: {{object.bundle_type}}</p>
 {% endif %}
 
+{# download bundle #}
+<button><a href="{% url 'download_bundle' object.id %}">Download</a></button>
+
 {% endblock %}
 
 

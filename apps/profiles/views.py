@@ -68,6 +68,7 @@ def user_detail(request,username):
         bundles = bundles.filter(
                     creator=Profile.objects.get(user=User.objects.get(username=username))
                     )
+        
     else:
         '''
         if requesting user is not the owner of the bundle or
@@ -80,7 +81,12 @@ def user_detail(request,username):
     paginator = Paginator(bundles,3)
     page = request.GET.get('page')
     bundles = paginator.get_page(page)
-    return render(request,'profiles/profile_detail.html',{'user': profile, 'bundles':bundles})
+    #user_actions 
+    actions = None
+    from activities.models import Action
+    if actions:= Action.objects.filter(profile=Profile.objects.get(user=User.objects.get(username=username))):
+        actions = actions[:10]
+    return render(request,'profiles/profile_detail.html',{'user': profile, 'bundles':bundles, 'actions':actions})
 
 
 @login_required

@@ -8,15 +8,17 @@
 							<div class=" bg-gray-50 lg:border-gray-200 lg:bg-white my-5   p-4 rounded-xl ">
 								<div class="flex justify-between">
 									<div class="flex items-center">
-										<a class="block rounded-full mr-2 ring ring-gray-50 ring-offset-2" href="{{bundle.creator.get_absolute_url}}">
+										<a class="block rounded-full mr-2 ring ring-green-200 ring-offset-2" href="{{bundle.creator.get_absolute_url}}">
                                         
                                         {% if bundle.creator.profile_picture %}
                                             <img class="h-11 w-11 rounded-full" src="{{bundle.creator.profile_picture.url}}" alt="creator_profile_image"/>
 
 
                                             {% else %}
-                                            <img class="h-11 w-11 rounded-full" src="{% static 'images/default.png' %}" alt="creator_profile_image" >
-                                            {% endif %}
+											{% with bundle.creator|truncatechars:2|lower|first as alphabet %}
+                                            <img class="h-11 w-11 rounded-full" src="{% static 'images/profiles/'|add:alphabet|add:'.svg' %}" alt="" >
+                                            {% endwith %}
+											{% endif %}
 </a>
 
                                        

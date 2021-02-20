@@ -13,7 +13,7 @@
     $("button#follow").click(function(e){
         e.preventDefault();
         $.post(
-            "{% url 'user_follow' %}",
+            "{% url 'user_follow' %}",de
             {
                 username:"{{user}}",
                 action: $(this).data('action'),

@@ -144,8 +144,8 @@ def download_bundle(request,id):
         from django.http import FileResponse
         from reportlab.pdfgen import canvas
         buffer = io.BytesIO()
-        pdf_object = canvas.Canvas(buffer)
-        pdf_object.drawString(0,0, context )
+        pdf_object = canvas.Canvas(buffer,'A4')
+        pdf_object = pdf_object.report(context, 'Patralaya')
         pdf_object.showPage()
         pdf_object.save()
         buffer.seek(0)

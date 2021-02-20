@@ -39,6 +39,19 @@ def recent_activity(request):
    return render (request,'activities/actions.html',{'actions':actions})
 
 
+def user_specific_recent_activity(request,username):
+    '''
+    recent_activity is a display view that 
+    return actions of the profile 
+    '''
+    actions = None
+    # User model from django auth app
+    from django.contrib.auth.models import User
+    actions = Action.objects.filter(profile=Profile.objects.get(user=User.objects.get(username=username))) 
+    actions = actions[:10]
+    return render (request,'activities/actions.html',{'actions':actions})
+
+
 #ajax views
 from django.utils.decorators import method_decorator
 

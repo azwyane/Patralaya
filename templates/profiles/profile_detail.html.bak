@@ -1,0 +1,171 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block body %}
+<!--custom template tag-->
+{% load profiles_tags %}
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script> -->
+<!-- <script src="{% static 'js/followbutton.js' %}"></script> -->
+<script>
+    $(document).ready(function(){
+    $("button#follow").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'user_follow' %}",
+            {
+                username:"{{user}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    var previous_action = $('button#follow').data('action');
+                    // toggle data-action
+                    $('button#follow').data('action', previous_action == 'follow' ?
+                    'unfollow' : 'follow');
+                    // toggle link text
+                    $('button#follow').text(previous_action == 'follow' ? 'unfollow' :
+                    'follow');
+                    // update total likes
+                    var previous_follows = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'follow' ?
+                    previous_follows + 1 : previous_follows - 1);
+                }
+            }
+            
+
+        );
+    });
+});
+</script>
+
+
+{% block content %}
+<h1>{{ user}}</h1>
+{% if bundle.creator.profile_picture %}
+<img src='{{user.profile_picture.url}}' style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
+{% endif %}  
+
+{% if  user.bio %}
+
+<p> BIO: </p>    
+<em>{{ user.bio}}
+</em>
+{% endif %}
+
+
+{% if  user.contact_email %}
+
+<p> Email: </p>    
+<em>{{ user.contact_email}}
+</em>
+{% endif %}
+
+{% if  user.current_status %}
+<p>CURRENT STATUS:</p>
+<p> {{user.current_status}} </p>
+{% endif %}
+
+{% if  user.interest %}
+<p>INTERESTED IN:</p>
+<ul>{% for interest in user.interest.all %}
+    <li>
+        {{interest}} 
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!--get the profiles the user is following-->
+{% profile_followings user as followings %}
+{% with total_followings=followings.count %}
+<span>{{ total_followings}}</span>
+following{{ total_followings|pluralize }}
+{% endwith %}    
+
+<ul>
+    {% for profile in followings.all %}
+    <li>
+        <a href="{% url 'user_detail' profile %}">{{profile}}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+    {% with total_followers=user.followers.count %}
+    <span class="count">
+        <hr>
+    <span class="total">{{ total_followers }}</span>
+    follower{{ total_followers|pluralize }}
+    </span>
+    <ul class="followers">
+        {% for profile in user.followers.all %}
+
+        <li><a href="{% url 'user_detail' profile %}">{{ profile }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endwith %}
+    
+    {% if request.user.is_authenticated %}
+    {% if user_profile != user %}
+    <button id="follow" type="submit" data-action="{% if user_profile in user.followers.all %}un{% endif %}follow">
+    {% if user_profile not in user.followers.all %}
+    Follow
+    {% else %}
+    Unfollow
+    {% endif %}
+    </button>
+    {% endif %}
+    {% endif %}
+
+    
+
+
+{% endblock %}
+
+<hr>
+<h3>{{user}}'s Bundles</h3>
+{% block bundles %}
+<ul>
+{% for bundle in bundles %}
+<li>{{ bundle.slug|safe }}<a href='{{ bundle.get_absolute_url }}'>  Readmore</a></li>
+<p>Created by:</p>
+{% if bundle.creator.profile_picture %}
+<p><img src='{{bundle.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
+</p>
+{% endif %}
+<p>{{ bundle.creator }}</p>
+<p>Tags: </p>
+<ul>
+    {% for tag in bundle.tags.all %}
+    <li><a href="{% url 'list_tag' tag_slug=tag.slug %}">
+        {{ tag.name }}
+    </a>
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+{% endfor %}
+</ul>
+
+{% endblock %}
+
+
+{% if bundles.has_previous %}
+            <a href="?page=1" >&laquo; first</a>
+            <a href="?page={{ bundles.previous_page_number }}" >previous</a>
+{% endif %}
+  
+        <span class="current">
+            Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}.
+        </span>
+  
+{% if bundles.has_next %}
+    <a href="?page={{ bundles.next_page_number }}" >next</a>
+    <a href="?page={{ bundles.paginator.num_pages }}" >last &raquo;</a>
+{% endif %}
+
+{% endblock %}

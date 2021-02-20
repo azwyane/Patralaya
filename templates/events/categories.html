@@ -1,0 +1,24 @@
+{% block categories %}
+
+
+
+            <div class=" px-4 py-2 mt-5 max-w-sm w-full rounded-lg bg-white fixed ml-4 mr-20">
+
+            <div class="flex-1 m-2 ">
+            <h2 class=" text-xl w-48 font-semibold text-gray-800">Catagories</h2>
+            </div>
+
+
+            <div class=" mt-5 flex flex-wrap text-gray-500 dark:text-gray-400 text-xs py-1 my-0.5">
+             {% for category in categories %}	
+            <a class="border  px-4 py-1 hover:bg-gray-200 my-2 rounded-sm mr-4" href="">{{ category }}</a>
+            {% endfor %}
+            </div>
+            <a class="mx-auto block  text-green-500 my-2 cursor-pointer"> see more
+            </a>
+            </div>
+
+
+            </div>
+
+{% endblock categories %}

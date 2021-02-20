@@ -1,0 +1,205 @@
+{% extends 'events/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load humanize %}
+{% block body %}
+
+  <!-- Masthead -->
+  <header class="masthead text-white text-center" style="background-image: url({% static 'images/bg-masthead.jpg' %});">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-2">{% translate "All you need is a hungry eyes" %}</h1>
+           <p class="lead mb-5">{% translate "No matter your age and field, Learn and grow with patralaya" %}</p>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <form action="{% url 'search_bundle_results' %}" method="GET">
+            <div class="form-row" >
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input name="query"type="text" class="form-control form-control-lg" placeholder='{% translate "search bundles" %}'>
+              </div>
+              <div class="col-12 col-md-3">
+                <button type="submit" class="btn btn-block btn-lg btn-primary">{% translate "search" %}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+
+<section class="recently-post-area mt-5">
+				<div class="container no-padding">
+					<div class="row">
+						<div class="col-lg-8 bundle-list mb-5 ">
+							<!-- Start latest-post Area -->
+							<div class="recently-pbulished-bundle-wrapper  p-0">
+								
+								
+								<h4 class=" p-0">{% translate "Recently Published Bundle" %}</h4>
+								<div class="bundle-container border-top border-top-muted"> 
+								
+								
+								
+								
+
+							<!-- this section is for card  ---->
+						
+								 {% for bundle in view.bundles %}
+         
+								
+								<div class="single-latest-post row  card mt-4 py-3 px-3 mx-auto">
+								
+								
+								
+								<!-- card title --->
+									
+										<a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="">
+											<h4 class="card-title text-dark mb-2">{{ bundle.slug }}</h4>
+										</a>
+										<div class="tags d-flex mb-3">
+										
+										
+										<!-- card tag -->
+										{% for tag in bundle.tags.all %}
+                                        <a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="{% url 'list_tag' tag %}" >{{tag.name}} </a> 
+                                        {% endfor %}
+										<!---    card tag end  -->
+										</div>
+										
+										
+                    <!-- card content  line gatau hai shrawan -->
+                    <!--{{bundle.context |truncatechars:500 |safe}} brings weird cards consumed into card itself-->
+										<p class="">
+											&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{bundle.context |striptags|truncatechars:500 }}
+										</p>
+										<!-- content end --->
+										<div class="d-flex justify-content-between align-items-center">
+										<div class="text-muted">
+										
+										<!--- created on -->
+									     <span> {{bundle.published_on|naturaltime}}</span> <!-- created on deleted -->
+                       <a class="text-muted" href="{% url 'user_detail' username=bundle.creator %}"><span class="ml-3" >{{bundle.creator}}</span></a>
+                       
+                      <!-- {% for tag in bundle.tags.all %}<a href="{% url 'list_tag' tag %}">{{tag}},</a>{%endfor%} -->
+										</div>
+										<div class="ml-auto">
+										
+										
+										<!---- view  --->
+                    <i class="fa fa-eye text-muted"> <span id="total_views">253</span></i>
+                    <i class=""> <span id="total_claps">{{bundle.claps.count}} {% translate 'claps' %}</span></i>
+                                      <i class="fa fa-share mx-3 text-muted"> </i>
+                                      <!--- view ended -->
+                                      
+                                      
+                                      <!--- fork action haru handle garne parne xa yo kasari garne ajax request pathyera ki redirect garne download share ra star pani implement garnu parne xa  ---->
+                                      
+                                       <button class=" btn text-muted" data-toggle="dropdown"  id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><i class="fa fa-ellipsis-v "  > </i></button> 
+
+                                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                               
+                                              <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-code-branch align-self-center " style="width:24px"></i><span class="ml-2">Fork</span></li>
+                                                <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-download" style="width:24px"></i><span class="ml-2">Download</span></li>
+                                                    <li style="cursor: pointer;" class=" dropdown-item d-flex align-items-center text-muted"><i class="fa fa-star" style="width:24px"></i><span class="ml-2">Star</span></li>
+                                             
+
+                                            </div>
+
+										</div>
+										</div>
+										</div>
+										
+				
+						 {% endfor %}	
+						 <!----              card sectioin ends here ... card is inside loop  --->
+						 
+
+
+						 
+<!----paginaition  --->
+						 
+						 
+						 <nav >
+  <ul class="pagination justify-content-center align-items-center mt-3">
+  
+  
+  <!-- prvioud buttons starts here   -->
+  {% if view.bundles.has_previous %}
+      <li class="page-item">
+    
+      <a class="page-link" href="?page=1" tabindex="1">First</a>
+    </li>
+    <li class="page-item">
+    
+      <a class="page-link" href="?page={{ view.bundles.previous_page_number }}" tabindex="-1">Previous</a>
+    </li>
+    {%else%}
+        <li class="page-item disabled">
+    
+      <a class="page-link" href="#" tabindex="-1">Previous</a>
+    </li>
+    
+    {% endif %}
+    
+     <!--- previous buttons end here --->
+     
+     
+     
+    <li class="page-item disabled text-muted mx-2">Page {{ view.bundles.number }} of {{ view.bundles.paginator.num_pages }}</li>
+  
+
+  {% if view.bundles.has_next %}
+
+        <li class="page-item">
+    
+      <a class="page-link" href="?page={{ view.bundles.next_page_number }}" tabindex="+1">next</a>
+    </li>
+        <li class="page-item">
+    
+      <a class="page-link" href="?page={{ view.bundles.paginator.num_pages }}" >last</a>
+    </li>
+    {%else%}
+        <li class="page-item disabled">
+    
+      <a class="page-link"  >next</a>
+    </li>
+    
+    {% endif %}
+    
+  </ul>
+</nav>
+
+
+<!--pagination ends herw --->
+	
+								
+								
+								
+					</div>
+					</div>
+					</div>
+											<div class="col-lg-4 mt-lg-6 ">
+							
+									<h4 class="cat-title">{% translate 'Categories' %}</h4>
+									<div class="bundle-container border-top border-top-muted"> 
+									
+									<div class="catagories-container mx-auto">
+									
+	
+	  {% for category in view.categories %}								<ul class="list-group list-group-flush">
+  <li class="list-group-item"><a href="{% url 'list_tag' tag_slug=category %}"> #{{ category }}</a></li>
+  {% endfor %}
+
+</ul>
+									</div>
+									</div>
+									</div>
+									</div>
+									</div>
+									</section>
+								
+{% endblock %}

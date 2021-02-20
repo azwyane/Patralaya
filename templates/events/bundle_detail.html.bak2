@@ -1,0 +1,521 @@
+{% extends 'events/base.html' %}
+{%block body%}
+  {% load static %}
+
+<!--custom template tag-->
+{% load profiles_tags %}
+
+
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script> -->
+
+<script type="text/javascript"> 
+
+    $(document).ready(function(){
+    $("button#comment").click(function(e){
+        e.preventDefault();
+        let comment=$("textarea.comment").val();
+        if(comment){
+            $('#Comment').attr('disabled');
+
+           {% if request.user.is_authenticated %}
+        let s="{{user_profile}}";
+           {% endif%}
+        let comment=$("textarea.comment").val();
+        $.post(
+            "{% url 'comment_bundle' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                context: comment,
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                let d=new Date();
+                if (data['status'] == 'ok'){
+                    
+                    $('#message_container').prepend(`
+  <div id="message-box" class="alert alert-success alert-dismissible fade show" role="alert">
+ comment successfully added
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                        `);
+                    $('#no_comment').remove();
+
+                    $('#comments').prepend(`    
+
+
+
+
+                         <li class="single_comment_area">
+                                            <div class="comment-wrapper d-flex">
+                                                <!-- Comment Meta -->
+                                                <div class="comment-author">
+                                                    <a href="#"> {% if user_profile.profile_picture %}
+                                                <img src="{{ user_profile.profile_picture }}" alt="comment_creator" />
+                                                    {% else %}
+                                                    <img  src="{% static 'images/default.png' %}" alt="comment_creator" style="background-color: white]; border:1px solid #ebebeb; padding: 5px;" />
+                                                    {% endif %} </a>
+                                                </div>
+                                                <!-- Comment Content -->
+                                                <div class="comment-content">
+                                                    <span class="comment-date">${d.toLocaleString()}</span>
+                                                    <h5>${s}</h5>
+                                                    <p class="comment-description"> ${comment}</p>
+                                                                                                  </div>
+                                            </div>
+                                        </li>`);
+                    $("textarea.comment").val('')
+                    $('#Comment').removeAttr('disabled');
+
+                }
+            }
+            
+
+        );}
+    }),
+    $("button#fork").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'fork_bundle' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    alert('Congrats, the Bundle is forked');
+                }
+                if (data['status'] == 'error'){
+                    alert(data['fork_error']);
+                }
+            });
+    }),
+    $("button#clap").click(function(e){
+        e.preventDefault();
+       
+        $.post(
+            "{% url 'bundle_clap' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    var previous_action = $('button#clap').data('action');
+                    // toggle data-action
+                    $('button#clap').data('action', previous_action == 'clap' ?
+                    'unclap' : 'clap');
+                    // toggle link text
+                    var previous_claps = parseInt($('#clap span.count').text());
+                    $('#clap span.count').text(previous_action == 'clap' ?
+                    previous_claps + 1 : previous_claps - 1);
+
+
+                    $('button#clap img').attr("src",previous_action == 'clap' ? "{% static 'images/clap_clapped.svg' %}" :
+                    "{% static 'images/clap_unclap.svg' %}");
+
+                    // update total claps
+                    
+                }
+            });
+    }),
+    $("button#authorship").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'bundle_authorship_request' %}",
+            {
+                pk:"{{object.pk}}",
+                action: $(this).data('action'),
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                if (data['status'] == 'ok'){
+                    var previous_action = $('button#authorship').data('action');
+                    // toggle data-action
+                    $('button#authorship').data('action', previous_action == 'request' ?
+                    'cancle' : 'request');
+                    // toggle link text
+                    $('button#authorship').text(previous_action == 'request' ?
+                    'cancle' : 'request' );
+                }
+            });
+    });
+});
+</script>
+
+<style>
+    td { overflow:hidden;max-width: 90vw;  } 
+    #clap-img{
+
+        transition: all .5s;
+    }
+    img.animate{
+        animation: scaleImg 0.3s ease-in-out;
+
+    }
+    @keyframes scaleImg{
+        0%{}
+        50%{transform: scale(1.5)}
+        100%{transform: scale(1)}
+    }
+
+</style>
+
+
+    <section class="container">
+        <div >
+            <div class="row justify-content-center">
+                <!-- Blog Posts Area -->
+                <div class="col-12">
+
+                    <!-- Post Details Area -->
+                    <div class="single-post-details-area">
+                        <div class="post-content">
+
+                            <div class="text-center mb-5 pt-5">
+                                <p class="post-date text-muted mb-2 mt-5"> {{ object.updated_on|date }} </p>
+
+
+
+
+                                <h2 class="post-title">{{ object.title|safe}}</h2>
+                            
+
+                                 <div class="row justify-content-between align-items-center my-3">
+                                    <div class="col-auto">
+                                         
+                                    </div>
+                                <div class="col-auto">
+                                    <ul class=" bundle-action nav ">
+                                        {% if request.user.is_authenticated %}
+ 
+  {% if object.creator == user_profile or object.forkable == False %}
+    <li class="nav-item">
+    <a href="{% url 'update_bundle' creator=object.creator slug=object.slug %}" class="nav-link" id="update" data-action="update"><i class='fas fa-edit mr-2'></i>update</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="delete" href="{% url 'delete_bundle' creator=object.creator slug=object.slug %}" data-action="delete"><i class='fas fa-trash-alt mr-2'></i>delete</a>
+  </li>
+
+  
+
+{%else %}
+
+
+
+
+
+   <li class="nav-item">
+    <button class="nav-link ml-0 pl-0" id="fork" data-action="fork" ><i class='fas fa-code-branch mr-2'></i>fork</button>
+  </li>
+  {%endif%}
+
+    {% with total_claps=object.claps.count %}
+
+  <li class="nav-item">
+    <button class="nav-link" id="clap" data-action="{% if request.user.id in object.get_clappers %}un{% endif %}clap"><span class="count">{{ total_claps }}</span>   {% if request.user.id not in object.get_clappers %}<img  id="clap-img" class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> {%else%}  <img id="clap-img" class="d-inline-block " src="{% static 'images/clap_clapped.svg' %}"> {%endif%}
+</button>
+
+
+
+  </li>
+  {% endwith %}
+
+{%else%}
+  {% with total_claps=object.claps.count %}
+  <li class="nav-item">
+    <button class="nav-link" ><span class="count">{{ total_claps }}</span>   <img  id="clap-img"class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> 
+</button>
+
+
+
+  </li>
+
+
+
+  {% endwith %}
+
+
+
+{%endif %}
+
+
+  <li class="nav-item">
+
+    <a class="nav-link" id="share" href="{% url 'share_by_email' slug=object.slug %}"><i class='fas fa-share mr-2'></i>share</a>
+  </li>
+</ul>
+
+
+
+
+
+
+                                </div>
+                            </div>
+                                <div class="post-meta mt-5">
+
+
+
+
+
+
+
+
+
+                                    
+                                    <a class="user_image_holder border border-muted" href="{{object.creator.get_absolute_url}}">
+                                        {% if object.creator.profile_picture %}
+<img class="user_image" src="{{object.creator.profile_picture.url}}" alt="creator_profile_image" >
+{% else %}
+<img class="user_image" src="{% static 'images/default.png' %}" style="background-color: white;padding: 5px;" >
+{% endif %}</a>
+                                  
+                                </div>
+                                <h6 class="center text-muted mt-2">{{ object.creator }}</h6>
+                            </div>
+      <div class=" mt-5 d-flex justify-content-center mb-3">
+                            {% for tag in object.tags.all %}
+                                        <a class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="{% url 'list_tag' tag %}" >{{tag.name}} </a> 
+                                        {% endfor %}
+                                    </div>
+{% if object.media_file or object.media_image or object.git_url %}
+                                    <div class="article-media mb-5">
+                                 <table class="table table-hover border rounded" style="overflow: hidden; max-width: 100vw;">
+    <thead class="bg-light" >
+      <tr >
+        <th >Medias</th>
+    
+
+      </tr>
+    </thead>
+    <tbody>
+        {% if object.media_file %}
+            <tr>
+        <td>  PAPER:<a class="text-secondary" href='{{object.media_file.url}}'>{{object.media_file.name|slice:"25:" |truncatechars:60}}..</a></td>
+
+      </tr>
+
+{% endif %}
+{% if object.media_image %}
+      <tr>
+        <td>IMAGE:<a class="text-secondary" href='{{object.media_image.url}}' download>{{object.media_image.name|slice:"25:" |truncatechars:60}}..</a></td>
+      
+      </tr>
+{% endif %}
+{% if object.git_url %}
+      <tr>
+        <td>GIT URL:<a class="text-secondary" href="{{object.git_url}}">{{object.git_url|truncatechars:60}}..</a></td>
+      
+      </tr>
+{% endif %}
+
+    </tbody>
+  </table>
+</div>{% endif %}
+                            </div>
+                            
+                        
+                            
+
+                            <!-- Post Text -->
+                            <div class="article-content">
+
+
+&nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;{{ object.context|safe }}
+                                
+                            </div>
+                       
+                        </div>
+                           
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+<section  class="container">
+                        
+
+                                
+                                <div class="comment_area clearfix">
+                                    <h4 class="headline">Comments</h4>
+                                        {% if request.user.is_authenticated %}
+
+
+<form>
+
+                                    <div class="leave-comment-area row align-items-center mb-5">
+                                         <div class="col ">
+                                                  <div class="form-group mb-2">
+    
+    <textarea class="form-control comment" id="bundle-commment-box" placeholder="leave a comment here..."rows="1"></textarea>
+  </div>
+                                                </div>
+                                                <div class="col-12 col-md-auto mb-2">
+                                                    <button id="comment" type="submit" class="btn btn-primary btn-block d-md-inline-block px-4"  id="comment" data-action="comment" style=" ">leave comment</button>
+                                                </div>
+
+                                    </div>
+                                </form>
+    
+    {% endif %}
+
+<ol style="list-style-type: none; " id="comments">
+    {% for comment in object.comments.all %}
+    <li class="single_comment_area">
+                                            <div class="comment-wrapper d-flex">
+                                                <!-- Comment Meta -->
+                                                <div class="comment-author">
+                                                    <a href="#"> {% if comment.creator.profile_picture %}
+                                                <img src="{{ comment.creator.profile_picture }}" alt="comment_creator" />
+                                                    {% else %}
+                                                    <img  src="{% static 'images/default.png' %}" alt="comment_creator" style="background-color: white]; border:1px solid #ebebeb; padding: 5px;" />
+                                                    {% endif %} </a>
+                                                </div>
+                                                <!-- Comment Content -->
+                                                <div class="comment-content">
+                                                    <span class="comment-date">{{ comment.created_on}}</span>
+                                                    <h5>{{ comment.creator }}</h5>
+                                                    <p class="comment-description"> {{ comment.context}}</p>
+                                                                                                  </div>
+                                            </div>
+                                        </li>
+{% empty %}
+<p id="no_comment">No comments till now :(</p>
+
+{% endfor %}
+      </ol>   
+                           
+
+
+                                 
+
+
+
+
+                                </div>
+    </section>
+
+
+<!--display parent of the bundle -->    
+{% if object.get_forked_from.count == 1 %}
+{% with object.get_forked_from.0 as parent %}
+<p><h3>Bundle Forked From:</h3></p>
+<ul>
+    <li>
+        <a href="{{ parent.get_absolute_url }}">{{parent.slug}}</a>
+    </li>
+</ul>
+{% endwith %}
+{% endif %}
+
+
+<!--display child of the bundle-->
+{% if object.forks.count > 0 %}
+<p><h3>Bundle Forked Into</h3></p>
+<ul>
+{% for forked in object.forks.all %}
+<li><a href="{{ forked.get_absolute_url }}">{{ forked.slug }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<!--citation placeholder-->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#citationModalCenter">
+    Cite this bundle
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="citationModalCenter" tabindex="-1" role="dialog" aria-labelledby="citationModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="citationModalCenterTitle">Cite {{object.title}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+                   <p>
+                    APA: {{object.creator}}({{object.updated_on|date:'Y, M i'}}) "{{object.title}}". In Patralaya (online). Available: {{request.build_absolute_uri }} ({% now 'Y,M i'%})
+                   </p> 
+                   In-text Citation: ({{object.creator}},{{object.updated_on|date:'Y'}})
+               
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--request the bundle owner to be recognized as coauthor-->
+{% if request.user.is_authenticated %}
+{% if user_profile != object.creator and user_profile not in object.co_authors.all %}
+<p>Request for authorship</p>
+<button id="authorship" type="submit" data-action="{% if user_profile in object.co_authors_request.all %}cancle{% endif %}request">
+    {% if user_profile in object.co_authors_request.all %}
+    cancel 
+    {% endif %}
+    request
+</button>
+{% endif %}
+{% endif %}
+
+
+<!--display co-authors of the bundle-->
+{% if object.co_authors.all %}
+<h3>Co-Authors</h3>
+<ul>
+    {% for author in object.co_authors.all %}
+    <li>
+        
+        <a href="{% url  'user_detail' username=author %}">{{author}}</a>
+    </li>
+</ul>
+
+{% endfor %}
+{% endif %}
+
+
+<!--link that redirects to co authorship requests-->
+{% if user_profile == object.creator %}
+<p>
+    
+    <a href="{% url 'bundle_authorships' username=object.creator slug=object.slug%}">Requests</a>
+</p>
+{% endif %}
+
+
+{% if object.origin_url %}
+<p>Original source: <a href="{{object.origin_url}}">{{object.origin_url}}</a></p>
+{% endif %}
+
+{% if object.bundle_type %}
+<p>Bundle Type: {{object.bundle_type}}</p>
+{% endif %}
+
+{% endblock %}
+
+

@@ -1,0 +1,52 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block body %}
+
+{% if tag %}
+<h2>Posts tagged with "{{ tag.name }}"</h2>
+{% endif %}
+<ul>
+{% for bundle in page_obj %}
+     
+<li>{{ bundle.title|safe }}<a href='{{ bundle.get_absolute_url }}'>Readmore</a></li>
+<p>Created by:</p>
+{% if bundle.creator.profile_picture %}
+<p><img src='{{bundle.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
+</p>
+{% endif %}
+<p>{{ bundle.creator }}</p>
+<p>Tags: </p>
+<ul>
+    {% for tag in bundle.tags.all %}
+    <li><a href="{% url 'list_tag' tag_slug=tag.slug %}">
+        {{ tag.name }}
+    </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% load i18n %}
+{% block topNavigation %}
+
+
+<div  class=" w-full bg-white sticky top-0 z-40 border border-b-2">
+	<div class="mx-auto max-w-screen-2xl flex justify-between items-center  ">
+		<div class="py-2">
+			<h1 class="text-2xl lg:text-4xl font-semibold text-green-500 pl-2 lg:pl-8 "><a href="{% url 'home' %}"> {% translate "Patralaya" %}</a></h1>  
+		</div>
+
+		<div class="hidden lg:block w-full max-w-sm ">
+
+
+
+
+         <div class="flex border rounded-lg pl-2 py-2 my-1 bg-gray-50 border-gray-50    items-center">
+           <span><svg class=" h-6 text-gray-800 w-auto " fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+             </svg></span>
+           <h3 class="ml-4  text-sm  font-medium text-gray-500" onclick="toggleSearchBoxClass()">Quick search Bundles here....</h3>
+
+         </div>
+			
+
+
+		</div>
+
+
+
+
+	</div>
+</div>
+
+
+{% endblock  %}

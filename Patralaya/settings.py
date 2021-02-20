@@ -50,6 +50,7 @@ sys.path.insert(0,os.path.join(BASE_DIR,'apps'))
 # Application definition
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -67,7 +68,8 @@ INSTALLED_APPS = [
     #(3rd party)
     'ckeditor',
     'taggit',
-    'widget_tweaks'
+    'widget_tweaks',
+    'mathfilters'
 ]
 #ckeditor configuration
 CKEDITOR_CONFIGS = {

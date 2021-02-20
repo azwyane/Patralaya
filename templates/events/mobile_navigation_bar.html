@@ -1,0 +1,270 @@
+{% load i18n %}
+ {% block mobile_navigation_bar  %}
+<div  class=" w-full bg-white fixed z-20 bottom-0 left:0 border border-b-2 lg:hidden">
+	<div id="extended_navigation" class="hidden w-full bg-white  ">
+
+
+
+
+
+		<ul class="flex flex-col mb-2 " >
+			<li class="my-px">
+				<a href="#"
+				class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100 hover:bg-gray-100">
+				<span class="flex items-center justify-center text-lg text-gray-400">
+					<svg class="fill-current h-5 w-auto" viewBox="0 0 24 24" class="" style=""><g><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.255 0 5.74 7.034 11.596 8.55 11.658 1.518-.062 8.55-5.917 8.55-11.658 0-2.267-1.823-4.255-3.903-4.255-2.528 0-3.94 2.936-3.952 2.965-.23.562-1.156.562-1.387 0-.014-.03-1.425-2.965-3.954-2.965z"></path></g></svg>
+				</span>
+				<span class="ml-3">Activity Stream</span>
+
+			</a>
+		</li> 
+
+
+
+
+
+
+{% if user.is_authenticated %}
+
+
+<li class="my-px">
+	<a href="{% url 'create_bundle' creator=user %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg fill="none"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		stroke-width="2"
+		viewBox="0 0 24 24"
+		stroke="currentColor"
+		class="h-6 w-6">
+		<path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+	</svg>
+</span>
+<span class="ml-3">{% translate "Create New" %}</span>
+</a>
+</li>
+{% endif %}
+
+<li class="my-px">
+	<a href="{% url 'readinglists_list' %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg 
+		class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+	</svg>
+</span>
+<span class="ml-3">{% translate "Reading Lists" %}</span>
+</a>
+</li>
+
+{% if user.is_authenticated %}
+<li class="my-px">
+	<a href="{% url 'user_detail' user.username %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg fill="none"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		stroke-width="2"
+		viewBox="0 0 24 24"
+		stroke="currentColor"
+		class="h-6 w-6">
+		<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+	</svg>
+</span>
+<span class="ml-3">{% translate "Profile" %}</span>
+</a>
+</li>
+
+<li class="my-px">
+	<a href="{% url 'profile_settings' %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg fill="none"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		stroke-width="2"
+		viewBox="0 0 24 24"
+		stroke="currentColor"
+		class="h-6 w-6">
+		<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+		<path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+	</svg>
+</span>
+<span class="ml-3">{% translate "Settings" %}</span>
+</a>
+</li> 
+<li class="my-px ">
+	<a href="{% url 'logout' %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg fill="none"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		stroke-width="2"
+		viewBox="0 0 24 24"
+		stroke="currentColor"
+		class="h-6 w-6">
+		<path d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+	</svg>
+</span>
+<span class="ml-3">{% translate "Log Out" %}</span>
+</a>
+</li>
+{% else %}
+
+<li class="">
+	<a href="{% url 'login' %}"
+	class="flex flex-row items-center h-12   px-4 rounded-lg text-gray-600">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg fill="none"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		stroke-width="2"
+		viewBox="0 0 24 24"
+		stroke="currentColor"
+		class="h-6 w-6">
+		<path d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+	</svg>
+</span>
+<span class="ml-3">{% translate "Sign In" %}</span>
+</a>
+</li>
+<li class="my-px ">
+	<a href="{% url 'signup' %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg fill="none"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		stroke-width="2"
+		viewBox="0 0 24 24"
+		stroke="currentColor"
+		class="h-6 w-6">
+		<path d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+	</svg>
+</span>
+<span class="ml-3">{% translate "Sign Up" %}</span>
+</a>
+</li>
+{% endif %}
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+<div class="border border-gray-200 "></div>
+
+<div class="">
+
+
+	<ul class="flex  items-center justify-between w-full">
+		<li class=" has-tooltip my-px ">
+			<a href="{% url 'home' %}"
+			class="hover:bg-gray-100 flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 ">
+			<span class="flex items-center justify-center text-lg text-gray-400">
+
+
+
+
+				<svg class="text-green-500" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"  >
+					<path d="M13.3333 0V8H24V0H13.3333ZM13.3333 24H24V10.6667H13.3333V24ZM0 24H10.6667V16H0V24ZM0 13.3333H10.6667V0H0V13.3333Z" />
+				</svg>
+
+
+			</span>
+			<span class=" tooltip ml-3 navigation_label">home</span>
+
+
+		</a>
+	</li>
+
+	<li class=" has-tooltip my-px navigation_block">
+		<a href="#"
+		class="flex flex-row items-center h-12 w-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100" onclick="toggleSearchBoxClass()">
+		<span class="flex items-center justify-center text-lg text-gray-400 navigation-icon">
+
+
+			<svg class="" width="19" height="18" viewBox="0 0 19 18" fill="none" >
+				<path d="M9.48376 0C14.2612 0 18.1341 3.78737 18.1341 8.45933C18.1341 10.6641 17.2716 12.6719 15.8585 14.1776L18.6376 16.8873C18.8981 17.1413 18.8987 17.5538 18.6389 17.8086C18.4027 18.0402 18.0326 18.0617 17.7715 17.8728L17.6967 17.8098L14.8848 15.0676C13.4047 16.2259 11.527 16.9187 9.48376 16.9187C4.70628 16.9187 0.833374 13.1313 0.833374 8.45933C0.833374 3.78737 4.70628 0 9.48376 0ZM9.48376 1.30296C5.44214 1.30296 2.16577 4.50698 2.16577 8.45933C2.16577 12.4117 5.44214 15.6157 9.48376 15.6157C13.5254 15.6157 16.8018 12.4117 16.8018 8.45933C16.8018 4.50698 13.5254 1.30296 9.48376 1.30296Z" fill="#200E32"/>
+			</svg>
+
+		</span>
+		<span class=" tooltip ml-3 navigation_label">search</span>
+
+	</a>
+</li>
+
+<li class="my-px has-tooltip">
+	<a href="#"
+	class="flex items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg width="25" height="18" viewBox="0 0 25 18" fill="none">
+			<path d="M17.4667 15.6V18H0.666748V15.6C0.666748 15.6 0.666748 10.8 9.06672 10.8C17.4667 10.8 17.4667 15.6 17.4667 15.6ZM13.2667 4.20005C13.2667 3.36937 13.0204 2.55735 12.5589 1.86666C12.0974 1.17598 11.4414 0.637655 10.674 0.319768C9.90654 0.00188121 9.06206 -0.0812925 8.24734 0.0807648C7.43262 0.242822 6.68426 0.642832 6.09688 1.23021C5.5095 1.81759 5.10949 2.56595 4.94743 3.38067C4.78538 4.19539 4.86855 5.03987 5.18644 5.80731C5.50433 6.57476 6.04265 7.23071 6.73333 7.69221C7.42402 8.15371 8.23604 8.40003 9.06672 8.40003C10.1806 8.40003 11.2489 7.95754 12.0366 7.16989C12.8242 6.38224 13.2667 5.31395 13.2667 4.20005ZM17.3947 10.8C18.1324 11.3709 18.736 12.0965 19.1631 12.9258C19.5902 13.7551 19.8303 14.6679 19.8667 15.6V18H24.6667V15.6C24.6667 15.6 24.6667 11.244 17.3947 10.8ZM16.2667 6.30946e-05C15.4407 -0.00453615 14.6329 0.242409 13.9507 0.708061C14.6796 1.72654 15.0716 2.9476 15.0716 4.20005C15.0716 5.4525 14.6796 6.67356 13.9507 7.69204C14.6329 8.15769 15.4407 8.40463 16.2667 8.40003C17.3806 8.40003 18.4489 7.95754 19.2365 7.16989C20.0242 6.38224 20.4667 5.31395 20.4667 4.20005C20.4667 3.08614 20.0242 2.01786 19.2365 1.23021C18.4489 0.44256 17.3806 6.30946e-05 16.2667 6.30946e-05Z" fill="#200E32"/>
+		</svg>
+
+	</span>
+	<span class=" tooltip ml-3 navigation_label">community</span>
+
+
+
+</a>
+</li> 
+<li class="my-px has-tooltip">
+	<a href="{% url 'readinglists_list' %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100 ">
+	<span class="flex items-center justify-center text-lg text-gray-400">
+		<svg class="fill-current h-5 w-auto" viewBox="0 0 24 24" class="r-1re7ezh r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr" style=""><g><path d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.255 0 5.74 7.034 11.596 8.55 11.658 1.518-.062 8.55-5.917 8.55-11.658 0-2.267-1.823-4.255-3.903-4.255-2.528 0-3.94 2.936-3.952 2.965-.23.562-1.156.562-1.387 0-.014-.03-1.425-2.965-3.954-2.965z" fill="#200E32"></path></g></svg>
+	</span>
+
+	<span class=" tooltip ml-3 navigation_label">Reading lists</span>
+
+
+</a>
+</li> 
+
+
+<li class="my-px has-tooltip">
+	<a href="#"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100 " onclick="toggleNavigation()">
+	<span class="flex items-center justify-center text-lg ">
+		<svg width="6" height="24" viewBox="0 0 6 24" fill="currentColor" >
+			<path d="M3 18C3.79565 18 4.55871 18.3161 5.12132 18.8787C5.68393 19.4413 6 20.2044 6 21C6 21.7956 5.68393 22.5587 5.12132 23.1213C4.55871 23.6839 3.79565 24 3 24C2.20435 24 1.44129 23.6839 0.87868 23.1213C0.316071 22.5587 0 21.7956 0 21C0 20.2044 0.316071 19.4413 0.87868 18.8787C1.44129 18.3161 2.20435 18 3 18ZM3 9C3.79565 9 4.55871 9.31607 5.12132 9.87868C5.68393 10.4413 6 11.2044 6 12C6 12.7956 5.68393 13.5587 5.12132 14.1213C4.55871 14.6839 3.79565 15 3 15C2.20435 15 1.44129 14.6839 0.87868 14.1213C0.316071 13.5587 0 12.7956 0 12C0 11.2044 0.316071 10.4413 0.87868 9.87868C1.44129 9.31607 2.20435 9 3 9V9ZM3 0C3.79565 0 4.55871 0.31607 5.12132 0.87868C5.68393 1.44129 6 2.20435 6 3C6 3.79565 5.68393 4.55871 5.12132 5.12132C4.55871 5.68393 3.79565 6 3 6C2.20435 6 1.44129 5.68393 0.87868 5.12132C0.316071 4.55871 0 3.79565 0 3C0 2.20435 0.316071 1.44129 0.87868 0.87868C1.44129 0.31607 2.20435 0 3 0Z" fill="#200E32"/>
+		</svg>
+
+	</span>
+
+	<span class=" tooltip ml-3 navigation_label">menu</span>
+
+
+</a>
+</li> 
+
+
+
+</ul>
+</div>
+
+
+</div>
+</div>
+
+
+
+{% endblock %}

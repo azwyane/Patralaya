@@ -1,128 +1,26 @@
 {% extends 'events/base.html' %}
 {% load static %}
-{% load i18n %}
 
-{%block body%} 
-<script>
-  $(document).ready(function(){
-    $("#search-box").keyup(function(){
-      $.ajax({
-        type: "POST",
-        url: "{% url 'auto_suggestions' %}",
-        data: {
-                query: $(this).val(),
-                csrfmiddlewaretoken: "{{csrf_token}}"
-            },
-        beforeSend: function(){
-            $("#search-box").css("background","#FFF {% static 'gifs/LoaderIcon.gif' %} no-repeat 165px");
-        },
-        success: function(data){
-            for (value of data){
-              $("#suggesstion-box").text(value);
-            };
-              
-		    }
-		});
-      
-  });        
-});
-</script>
-{% with  query=view.published.query %}
-<section class="container">
+{%block title%}  search:{{view.published.queryde}}   {%endblock%}
+{% block body %}
+	
+	<div class="flex" >
+		<div class="lg:w-3/5 bg-gray-50 px-2"> 
 
-  <div class="col-md-10 col-lg-8 col-xl-7 mx-auto my-5 py-5">
-          <form  action="{% url 'search_bundle_results' %}" method="GET">
-            <div class="form-row "  >
-              <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input id="search-box" name="query"type="text" class="form-control form-control-lg" placeholder="search bundles" value={{query}}>
-                <div id="suggesstion-box"></div>
-              </div>
-              <div class="col-12 col-md-3">
-                <button type="submit" class="btn btn-block btn-lg btn-primary">search</button>
-              </div>
-            </div>
-          </form>
-        </div>
+			<div class="flex-1  mt-6 pb-4">
+            {% if view.published.published_bundles %}
+				<h1 class=" text-2xl  font-semibold text-gray-800">Results related to '{{view.published.query}}'</h1>
+					{% for bundle in view.published.published_bundles %}
 
+					{% include 'events/bundles.html' with bundle=bundle %}
 
-{% if view.published.published_bundles %}
-                        <div class=" bundle-list mb-5 mx-auto">
-                            <!-- Start latest-post Area -->
-                            <div class="recently-pbulished-bundle-wrapper  p-0">
-                                
-                                
-                                <h4 class=" p-0">Search results</h4>
-                                  <div class="bundle-container border-top border-top-muted"> 
-<table class="table table-bordered">
-	<tbody>
-{% for bundle in view.published.published_bundles %}
-
-
-<tr>
-<td>
-	<div class="row mx-2 mt-2">
-		<div class="col-auto  p-1 overflow-hidden">
-			<img class="rounded-circle " {% if object.creator.profile_picture %} src="{{bundle.creator.profile_picture}}" {%else %} src="{% static 'images/default.png' %}" style="border: 1px #ddd; border-radius:50%; padding: 2px; " {% endif %} height="60px" width="60px">
-		</div>
-		<div class="col">
-			<div class="d-flex">
-			<h6 class="mr-3 " style="font-weight: 700;">{{bundle.creator}}</h6><span class="text-muted font-italic h6">{{bundle.published_on}}</span>
-			</div>
-			<div><a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="h5 text-dark" style="font-weight: 400;">
-				
-				{{ bundle.title |safe }}
-			</a>
-			</div>
-			<div class="mt-2">
-				{% for tag in bundle.tags.all %}
-                                        <button class="btn btn-sm btn-light px-2 py-0 mr-2 text-muted" href="" >{{tag.name}} </button> 
-                                        {% endfor %}
-			</div>
-			
-				<ul class=" mt-2 bundle-action nav justify-content-between ">
-  <li class="nav-item h6" >
-    <button class="nav-link ml-0 pl-0" id="fork" data-action="fork" ><i class='fas fa-code-branch mr-2'></i>fork</button>
-  </li>
-
-  <li class="nav-item h6">
-    <button class="nav-link" id="views" data-action="delete"><i class='fas fa-eye mr-2'></i>256 views</button>
-  </li>
-  <li class="nav-item h6">
-    <button class="nav-link" id="clap" data-action="clap"> <span class="count">{{ total_claps }}</span>   {% if user_profile not in bundle.claps.all %}<img  id="clap-img" class="d-inline-block " src="{% static 'images/clap_unclap.svg' %}"> {%else%}  <img id="clap-img" class="d-inline-block " src="{% static 'images/clap_clapped.svg' %}"> {%endif%}
-</button>
-  </li>
-   <li class="nav-item h6">
-
-    <a class="nav-link" id="share" href=""><i class='fas fa-share mr-2'></i>share</a>
-  </li>
-</ul>
-			
-		</div>
-	</div>
-</td>
-</tr>
+					{% endfor %}
 
 
 
 
-                              
-                                
-                                
-                                
-                                
 
-                            <!-- this section is for card  ---->
-                        
-                               
-
-{% endfor %}
-</tbody>
-</table>
-
-
-
-                     
-                         <nav >
+                                             <nav >
   <ul class="pagination justify-content-center align-items-center mt-3">
   
   
@@ -143,38 +41,14 @@
     </li>
     
     {% endif %}
-    
-     <!--- previous buttons end here --->
-     
-     
-     
-    <li class="page-item disabled text-muted mx-2">Page {{ view.published.published_bundles.number }} of {{ view.published.published_bundles.paginator.num_pages }}</li>
-  
+    </ul>
+    </nav>
 
-  {% if view.published.published_bundles.has_next %}
 
-        <li class="page-item">
-    
-      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.next_page_number }}" tabindex="1">next</a>
-    </li>
-        <li class="page-item">
-    
-      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.paginator.num_pages }}" tabindex="1" >last</a>
-    </li>
-    {%else%}
-        <li class="page-item disabled">
-    
-      <a class="page-link"  >next</a>
-    </li>
-    
-    {% endif %}
-    
-  </ul>
-</nav>
 
-</div>
-</div>
-</div>
+
+
+
 
 
 {% else %}
@@ -199,8 +73,15 @@
 
 
 {% endif %}
-{% endwith %} 
-</section>   
 
-{% endblock %}
+			</div>
 
+
+
+		</div>
+		<div class=" hidden lg:block lg:w-2/5 h-64 pr-2 py-4">
+			{% include 'events/categories.html' with categories=view.categories %}
+		</div>
+
+	</div>
+{% endblock body %}

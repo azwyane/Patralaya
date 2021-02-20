@@ -5,7 +5,7 @@ from services.views import (
     SearchBundleListView,AutoSuggestions,
     ReadingsListView,ReadingsDetailView,
     ReadingsCreateView,ReadingsUpdateView,
-    ReadingsDeleteView
+    ReadingsDeleteView, #download_bundle
 )
 
 #rss feed generator
@@ -34,6 +34,10 @@ urlpatterns=[
     path('readinglists/create/',ReadingsCreateView.as_view(), name='readinglists_create'),
     path('readinglists/<pk>/<uuid>/update/',ReadingsUpdateView.as_view(), name='readinglists_update'),
     path('readinglists/<pk>/<uuid>/delete/',ReadingsDeleteView.as_view(), name='readinglists_delete'),
+
+    #download bundle
+    # path('download/<id>',download_bundle, name='download_bundle'),
+
 
 
 ]

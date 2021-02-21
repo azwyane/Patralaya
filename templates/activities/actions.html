@@ -4,17 +4,21 @@
 {%block title%} Activity Streams {%endblock%}
 {% block body %}
 {% load static %}
+.action:nth-child(even){
+    background-color:white;
+}
+
 
 <div class="flex">
     <div class="lg:w-3/5 bg-gray-50 px-2">
 {% if actions %}
         <div class="flex-1  mt-6 pb-4">
 
-            <h1 id="article-content"class=" text-2xl  font-semibold text-gray-800">Recent Actions</h1>
+            <h1 id=""class=" text-2xl  font-semibold text-gray-800">Recent Actions</h1>
                {% for action in actions %}
-                   <div class="action mt-2 py-2 px-2 ">
-                    <span class="text-gray-500 dark:text-gray-400 text-sm font-normal block font-medium ">{{action.created}}</span>
-                    <h3 class="font-medium">  <a href="{{ action.profile.get_absolute_url }}">{{action.profile}}</a>{{action.verb}}  <a
+                   <div id="article-content" class="action mt-2 py-2 px-2 ">
+                    <span class="text-gray-500  text-sm font-normal block font-medium ">{{action.created}}</span>
+                    <h3 class="font-medium">  <a href="{{ action.profile.get_absolute_url }}">{{action.profile}}</a>{{action.verb|rjust:"2"}}  <a
             href="{{ action.target.get_absolute_url }}">
             {% if action.target.slug %}
             {{action.target.slug}}

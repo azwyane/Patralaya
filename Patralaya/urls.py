@@ -25,5 +25,5 @@ urlpatterns = [
     path('', include('events.urls')),
     path('activity/', include('activities.urls')),
     path('services/', include('services.urls')),
-    path('feedparser/', include('feedparser.urls')),
+    path('feedparser/', include('feedaggregate.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

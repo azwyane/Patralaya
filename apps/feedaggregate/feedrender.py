@@ -4,11 +4,11 @@ import requests
 class Render():
 
     def __init__(self,*args,**kwargs):
-        pass
+        self.uri = kwargs['uri']
 
-    def fetch(self,uri):
+    def fetch(self):
         try:
-            response = requests.get(uri).text
+            response = requests.get(self.uri).text
         except:
             return None
 

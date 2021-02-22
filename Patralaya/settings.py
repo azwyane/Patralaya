@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'services.apps.ServicesConfig',
     'profiles.apps.ProfilesConfig',
     'activities.apps.ActivitiesConfig',
+    'feedparser.apps.FeedparserConfig',
 
     #(3rd party)
     'ckeditor',

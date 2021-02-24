@@ -1,3 +1,18 @@
 feed list
-{{feed_uri}}
-{{feed_rendered}}
+<br>
+<div>
+    <h1>{{ feed_info.title }}</h1>
+</div>
+<br>
+<ul>
+    {% for post in feed_body %}
+    <li>
+        <div>
+            <h2><a href="{{ post.link }}">{{ post.title }}</a></h2>
+            <p>{{ post.summary }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+

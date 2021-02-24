@@ -1,18 +1,42 @@
-feed list
-<br>
-<div>
-    <h1>{{ feed_info.title }}</h1>
-</div>
-<br>
-<ul>
-    {% for post in feed_body %}
-    <li>
-        <div>
-            <h2><a href="{{ post.link }}">{{ post.title }}</a></h2>
-            <p>{{ post.summary }}</p>
-        </div>
-    </li>
-    {% endfor %}
-</ul>
 
+
+{% extends 'events/base.html' %}
+
+{%block title%}  Home  page  {%endblock%}
+{% block body %}
+	
+	<div class="flex" >
+		<div class="lg:w-3/5 bg-gray-50 px-2"> 
+
+			<div class="flex-1  mt-6 pb-4">
+				<h1 class=" text-2xl  font-semibold text-gray-800">{{ feed_info.title }}</h1>
+					
+                <ul>
+
+                {% for post in feed_body %}
+
+					
+                    <li>
+                        <div>
+                            <h2><a href="{{ post.link }}">{{ post.title }}</a></h2>
+                            <p>{{ post.summary }}</p>
+                            
+                            <hr>
+                        </div>
+                    </li>
+
+					{% endfor %}
+                </ul>
+
+			</div>
+
+
+
+		</div>
+		<div class=" hidden lg:block lg:w-2/5 h-64 pr-2 py-4">
+			{% include 'events/categories.html' with categories=view.categories %}
+		</div>
+
+	</div>
+{% endblock body %}
 

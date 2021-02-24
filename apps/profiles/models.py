@@ -19,6 +19,8 @@ from django.urls import reverse
 #PIL
 from PIL import Image
 
+from feedaggregate.models import RemoteFeed
+
 
 class Interest(models.Model):
     INTEREST_CHOICES =[
@@ -80,6 +82,8 @@ class Profile(models.Model):
         Interest
     )
     contact_email = models.EmailField(max_length=255,blank=True,null=True)
+
+    remote_feed = GenericRelation(RemoteFeed,related_name="remotefeed",related_query_name="feed_creator") 
 
     def get_absolute_url(self):
         '''

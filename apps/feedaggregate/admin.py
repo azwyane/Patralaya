@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from feedaggregate.models import RemoteFeed
+
+admin.site.register(RemoteFeed)

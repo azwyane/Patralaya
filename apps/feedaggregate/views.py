@@ -26,7 +26,7 @@ class FeedHomeView(LoginRequiredMixin, ListView):
     model = RemoteFeed
     template_name = "feedaggregate/feed_home.html"
     context_object_name = "remote_feeds"
-    
+
     def get_queryset(self):
         obj_list = super().get_queryset()
         obj_list = obj_list.filter(feed_creator=Profile.objects.get(user=self.request.user))
@@ -83,18 +83,18 @@ class UpdateRemoteFeedView(View):
         url = request.POST['url']
         feed_id = request.POST['id']
         creator = Profile.objects.get(user=request.user)
-        feed = RemoteFeed.objects.get(id=feed_id)
-        if feed and (feed.creator == creator):
-            if source and action and url:
-                try: 
-                    if action == 'update':
-                        feed.set(
-                            source = source,
-                            url = url
-                            )
-                    return JsonResponse({'status':'ok'})
-                except RemoteFeed.DoesNotExist:
-                    return JsonResponse({'status':'error'})
+        feed = RemoteFeed.objects.get(id=feed_id,feed_creator=creator)
+        
+        if source and action and url:
+            try: 
+                if action == 'update':
+                    feed.source = source
+                    feed.url  = url
+                    feed.save()
+
+                return JsonResponse({'status':'ok'})
+            except RemoteFeed.DoesNotExist:
+                return JsonResponse({'status':'error'})
         
         return JsonResponse({'status':'error'})
 
@@ -102,20 +102,18 @@ class UpdateRemoteFeedView(View):
 @method_decorator(decorators, name='dispatch')
 class DeleteRemoteFeedView(View):
     def post(self,request):
-        source = request.POST['source']
         action = request.POST['action']
-        url = request.POST['url']
         feed_id = request.POST['id']
         creator = Profile.objects.get(user=request.user)
-        feed = RemoteFeed.objects.get(id=feed_id)
-        if feed and (feed.creator == creator):
-            if source and action and url:
-                try: 
-                    if action == 'delete':
-                        feed.delete()
-                    return JsonResponse({'status':'ok'})
-                except RemoteFeed.DoesNotExist:
-                    return JsonResponse({'status':'error'})
+        feed = RemoteFeed.objects.get(id=feed_id,feed_creator=creator)
+        
+        if feed and action:
+            try: 
+                if action == 'delete':
+                    feed.delete()
+                return JsonResponse({'status':'ok'})
+            except RemoteFeed.DoesNotExist:
+                return JsonResponse({'status':'error'})
         
         return JsonResponse({'status':'error'})
 

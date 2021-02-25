@@ -31,7 +31,59 @@
             
 
         );
+    }),
+    {% for rfj in remote_feeds %}
+    $("button#update-{{rfj.id}}").click(function(e){
+        e.preventDefault();
+        let s=$("#edit-source-{{rfj.id}}").val();
+        let u=$("#edit-url-{{rfj.id}}").val();
+        let i="{{rfj.id}}";
+        $.post(
+            "{% url 'feed_update' %}",
+            {
+                source: s,
+                action: "update",
+                url: u,
+                id: i,
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                
+                if (data['status'] == 'ok'){
+                    
+                   alert("updated");
+                   
+                }
+            }
+            
+
+        );
+    }),
+    $("button#delete-{{rfj.id}}").click(function(e){
+        e.preventDefault();
+        let s=$("#edit-source-{{rfj.id}}").val();
+        let u=$("#edit-url-{{rfj.id}}").val();
+        let i="{{rfj.id}}";
+        $.post(
+            "{% url 'feed_delete' %}",
+            {
+                id: i,
+                action: "delete",
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                
+                if (data['status'] == 'ok'){
+                    
+                   alert("deleted");
+                   
+                }
+            }
+            
+
+        );
     });
+    {% endfor %}
     });
 </script>
  
@@ -51,15 +103,16 @@
 <ul>
     {% for rf in remote_feeds %}
     <li>
+        
         <a href="{% url 'feed_list_from_remote' rf.id %}"> {{rf}} </a>
-        <input id="edit-source" type="text" value="{{rf.source}}">
-        <input id="edit-url" type="url" value="{{rf.url}}">
+        <input id="edit-source-{{rf.id}} " class="{{rf.id}}" type="text" value="{{rf.source}}">
+        <input id="edit-url-{{rf.id}} " type="url" value="{{rf.url}}">
 
-        <button  id="delete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">delete</button>
-        <button id="update" class="bg-blue-500 hover:bg-grey-700 text-white font-bold py-2 px-4 rounded">update</button>
+        <button  id="delete-{{rf.id}}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">delete</button>
+        <button id="update-{{rf.id}}" data-id="{{rf.id}}" class="bg-blue-500 hover:bg-grey-700 text-white font-bold py-2 px-4 rounded">update</button>
 
        <hr>
-
+       
     </li>
     {% endfor %}
 </ul>

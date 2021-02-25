@@ -1,15 +1,66 @@
-Home for remote feed
+{% extends 'events/base.html' %}
 
+{%block title%} Remote Feed  {%endblock%}
+{% load humanize %}
+{% load i18n %}
+{% load static %}
+{% block body %}
+<script type="text/javascript"> 
 
+    $(document).ready(function(){
+    $("button#create").click(function(e){
+        e.preventDefault();
+        let s=$("#source").val();
+        let u=$("#url").val();
+        $.post(
+            "{% url 'feed_create' %}",
+            {
+                source: s,
+                action: "create",
+                url: u,
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                
+                if (data['status'] == 'ok'){
+                    
+                   alert("created");
+                   
+                }
+            }
+            
 
+        );
+    });
+    });
+</script>
+ 
+<p>
+<h4>ADD</h4>
+<input id="source" type="text" placeholder="SourceName">
+<input id="url" type="url" placeholder="Url">
+
+<button id="create" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">create</button>
+</p>
+<br>
 <br>
 
-<button>create</button>
 
-<hr>
 
-<button>delete</button>
+{# get list of user created remote feeds #}
+<ul>
+    {% for rf in remote_feeds %}
+    <li>
+        <a href="{% url 'feed_list_from_remote' rf.id %}"> {{rf}} </a>
+        <input id="edit-source" type="text" value="{{rf.source}}">
+        <input id="edit-url" type="url" value="{{rf.url}}">
 
-<hr>
+        <button  id="delete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">delete</button>
+        <button id="update" class="bg-blue-500 hover:bg-grey-700 text-white font-bold py-2 px-4 rounded">update</button>
 
-<button>update</button>
+       <hr>
+
+    </li>
+    {% endfor %}
+</ul>
+{% endblock body %}

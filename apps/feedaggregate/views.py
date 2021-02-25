@@ -25,6 +25,7 @@ class FetchFeedMixin():
 class FeedHomeView(LoginRequiredMixin, ListView):
     model = RemoteFeed
     template_name = "feedaggregate/feed_home.html"
+    context_object_name = "remote_feeds"
     
     def get_queryset(self):
         obj_list = super().get_queryset()
@@ -58,6 +59,7 @@ class CreateRemoteFeedView(View):
         action = request.POST['action']
         url = request.POST['url']
         creator = Profile.objects.get(user=request.user)
+        print(source)
         if source and action and url and creator :
             try: 
                 if action == 'create':

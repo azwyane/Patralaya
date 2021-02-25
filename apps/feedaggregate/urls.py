@@ -11,7 +11,7 @@ urlpatterns=[
     path('fetch/feed/<id>/',RemoteFeedListView.as_view(),name='feed_list_from_remote'),
    
     #ajaxviews
-    path('fetch/feed/create/',CreateRemoteFeedView.as_view(),name='feed_create'),
-    path('fetch/feed/update/',UpdateRemoteFeedView.as_view(),name='feed_update'),
-    path('fetch/feed/delete/',DeleteRemoteFeedView.as_view(),name='feed_delete'),
+    path('fetch/feed/remote/create/',CreateRemoteFeedView.as_view(),name='feed_create'),
+    path('fetch/feed/remote/update/',UpdateRemoteFeedView.as_view(),name='feed_update'),
+    path('fetch/feed/remote/delete/',DeleteRemoteFeedView.as_view(),name='feed_delete'),
 ]

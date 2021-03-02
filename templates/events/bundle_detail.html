@@ -571,7 +571,7 @@
 {% if request.user.is_authenticated %}
 {% if object.creator == user_profile %}
            <div class="flex items-center sm:mr-6 ">
-             <a href="{% url 'update_bundle' creator=object.creator slug=object.slug %}" " id="update" data-action="update"
+             <a href="{% url 'update_bundle' creator=object.creator slug=object.slug %}"  id="update" data-action="update"
                class=" w-full  hover:bg-gray-100 text-gray-6   flex transition duration-500 ease-in-out active:bg-gray-300 py-2 px-4 hover:text-gray-800 hover:bg-gray-50 border border-gray-200  rounded-2xl ">
 
                <svg class=" h-5 w-5 " fill="none" viewBox="0 0 24 24" stroke="currentColor">

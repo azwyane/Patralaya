@@ -1,0 +1,17 @@
+  <div class=" px-2 my-2 mx-auto sm:px-5">
+        <div
+            class="flex-col w-full py-4 mx-auto mt-3 bg-white  border-b-2 border-r-2 border-gray-200 sm:px-4 sm:py-4 md:px-4 sm:rounded-lg sm:border md:w-2/3">
+            <div class="flex flex-row md-10">
+                <span class="w-10 h-10  rounded-full ring ring-green-300 ring-offset-2">
+                {% include 'components/profile-picture-container.html' with user=comment.creator %}
+                <div class="flex-col mt-1">
+                    <div class="flex items-center flex-1 px-4 font-bold leading-tight">{{comment.creator}}
+                        <span class="ml-2 text-xs font-normal text-gray-500">{{comment.created_on}}</span>
+                    </div>
+                    <div class="flex-1 px-2 ml-2 text-sm font-medium leading-loose text-gray-600">{{comment.context}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

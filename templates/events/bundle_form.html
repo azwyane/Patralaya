@@ -2,6 +2,7 @@
 {% extends 'events/base.html' %}
 {% load static %}
 {% load i18n %}
+{% block title %}Create new bundle{% endblock  %}
 {% block body %}
 {% load widget_tweaks %}
   <div class="container my-5">
@@ -38,6 +39,34 @@
 
 
 
+
+     <div class="overflow-hidden relative max-w-xs sm:max-w-sm ">
+                            <label for="{{form.media_file.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.media_file.label}}:</label>
+                             {%render_field form.media_file class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring" style="overflow:hidden; text-overflow:ellipsis;"%}
+                        
+                    </div>
+
+
+
+
+
+     <div class="overflow-hidden relative max-w-xs sm:max-w-sm ">
+                            <label for="{{form.media_image.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.media_image.label}}:</label>
+                             {%render_field form.media_image class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring"%}
+                        
+                    </div>
+
+
+
+
+
+
+
+
+
+<!--
+
+
  <div class="form-group ">
     <label class="mr-sm-2" for="{{form.media_file.id_for_label}}">{{form.media_file.label}}:</label>
               
@@ -51,7 +80,7 @@
         {%render_field form.media_file class="hidden file_upload"%} 
     </label>
 
-   <label  class="flex-1 file-label text-green-700  overflow-hidden" style=" overflow:hidden; text-overflow:clip;"></label>
+   <label  class="flex-1 file-label text-green-700  overflow-hidden" style=" overflow:hidden; text-overflow:clip;">{{form.media_file.value}}</label>
   </div>
        <span  id="media_file_help" class="flex-auto mt-2 text-gray-600 text-xs">
 Select media file eg file.pdf file.mp4 
@@ -61,21 +90,29 @@ Select media file eg file.pdf file.mp4
 
 </div>
 
+-->
 
 
 
+
+
+
+
+<!--
  <div class="form-group ">
     <label class="mr-sm-2" for="{{form.media_image.id_for_label}}">{{form.media_image.label}}:</label>
-              
+            {%render_field form.media_image %}  
 
-<div class="flex gap-2 items-center">
+<div class="flex gap-2 items-center max-w-sm">
     <label id="media_image"  class="flex-none flex items-center px-4 gap-2  py-1 anim border rounded-md hove:bg-green-50 active:bg-green-200 cursor-pointer ">
+       
+       <div class="flex flex-col"> {%render_field form.media_image class="hidden file_upload" accept="image/*"%} </div>
          <svg class="w-8 h-8 text-green-500" viewBox="0 0 20 20" fill="currentColor">
  
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
 </svg>
         <span class="mt-2 text-base leading-normal  max-h-6" >Select a image: </span>
-        {%render_field form.media_image class="hidden file_upload" accept="image/*"%} 
+        
     </label>
 
    <label  class="flex-1 file-label text-green-700  overflow-hidden" style=" overflow:hidden; text-overflow:ellipsis;"></label>
@@ -85,12 +122,12 @@ Select media file eg file.pdf file.mp4
 </div>
 
 
-
+-->
 
 
      <div>
                             <label for="{{form.status.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.status.label}}</label>
-                             {%render_field form.status class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+                             {%render_field form.status class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring"%}
                         
                     </div>
 
@@ -98,7 +135,7 @@ Select media file eg file.pdf file.mp4
 
  <div>
                             <label for="{{form.bundle_type.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.bundle_type.label}}</label>
-                             {%render_field form.bundle_type class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+                             {%render_field form.bundle_type class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring"%}
                         
                     </div>
 
@@ -112,7 +149,7 @@ Select media file eg file.pdf file.mp4
 
 <div>
                             <label for="{{form.git_url.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.git_url.label}}:</label>
-                             {%render_field form.git_url class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" placeholder="git url"%}
+                             {%render_field form.git_url class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring" placeholder="git url"%}
                         
                     </div>
 
@@ -121,7 +158,7 @@ Select media file eg file.pdf file.mp4
 
                 <div>
                             <label for="{{form.origin_url.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.origin_url.label}}:</label>
-                             {%render_field form.origin_url class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" placeholder="origin url"%}
+                             {%render_field form.origin_url class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring" placeholder="origin url"%}
                         
                     </div>
 

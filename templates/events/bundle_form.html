@@ -10,70 +10,143 @@
       	  <h1  >Create Bundle</h1>
  <form  class="mt-5" method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
-    
- 
+         
+    <section class="max-w-4xl p-6  border rounded-2xl bg-gray-50">
+         <div class="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-2">
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200"for="{{form.title.id_for_label}}">{{form.title.label}}:</label> {%render_field form.title  placeholder="Title of your bundle"  class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring"%}
+                </div>
 
-    
-     <div class="form-group ">
-    <label for="{{form.title.id_for_label}}">{{form.title.label}}:</label> {%render_field form.title class="form-control" placeholder="Title of your bundle"%}
-  </div>
-       <div class="form-group ">
-    <label for="{{form.tags.id_for_label}}">{{form.tags.label}}:</label> {%render_field form.tags class="form-control" placeholder="Comma separated tags eg. mathematics, science, computer"%}
-    <small id="tagsHelp" class="form-text text-muted" >{{form.tags.help_text}}</small>
-  
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200"for="{{form.tags.id_for_label}}">{{form.tags.label}}:</label>
    
-  </div>
-  <div class="form-group ">
+           {%render_field form.tags class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring" placeholder="Comma separated tags eg. mathematics, science, computer"%}
+   
+ <span  id="tag_help" class="mt-2 text-gray-600 text-xs">
+  {{form.tags.help_text}}
+    </span>
+                </div>
+
+
+
+                 <div class="col-span-2  ">
     <label for="{{form.title.id_for_label}}">{{form.context.label}}:</label> <div>
    {{form.context}}
 {{form.media}}</div>
-   
-  </div>
-  <div class="form-group ">
-    <label class="mr-sm-2" for="{{form.media_file.id_for_label}}">{{form.media_file.label}}</label>
-              <div class="custom-file" >
-   
-    {%render_field form.media_file class="custom-file-input"%}
-    <label class="custom-file-label overflow-hidden" for="{{form.media_file.id_for_label}} ">{{form.media_file.label}} eg: file.pdf file.mp4 </label>
-
 </div>
-</div>
-  <div class="form-group ">
-    <label class="mr-sm-2" for="{{form.media_file.id_for_label}}">{{form.media_image.label}}</label>
-              <div class="custom-file" >
-   
-    {%render_field form.media_image class="custom-file-input"%}
-    <label class="custom-file-label overflow-hidden" for="{{form.media_file.id_for_label}}">{{form.media_image.label}}  </label>
-
-</div>
-</div>
-     <div class="form-group">
-      <label class="mr-sm-2" for="{{form.status.id_for_label}}">{{form.status.label}}:</label>
-      {%render_field form.status class="custom-select mr-sm-2"%}
-
-  
-    </div>
-
-  <div class="form-group">
-   <label class="mr-sm-2" for="{{form.bundle_type.id_for_label}}">{{form.bundle_type.label}}:</label>
-   {%render_field form.bundle_type class="custom-select mr-sm-2"%}
 
 
- </div>    
+
+
  <div class="form-group ">
-    <label for="{{form.git_url.id_for_label}}">{{form.git_url.label}}:</label> {%render_field form.git_url class="form-control" placeholder="git url"%}
+    <label class="mr-sm-2" for="{{form.media_file.id_for_label}}">{{form.media_file.label}}:</label>
+              
+
+<div class="flex gap-2 items-center">
+    <label id="media_file"  class="flex-none flex items-center px-4 gap-2  py-1 anim border rounded-md hove:bg-green-50 active:bg-green-200 cursor-pointer ">
+         <svg class="w-8 h-8 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+ <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z" clip-rule="evenodd" />
+</svg>
+        <span class="mt-2 text-base leading-normal  max-h-6" >Select a file: </span>
+        {%render_field form.media_file class="hidden file_upload"%} 
+    </label>
+
+   <label  class="flex-1 file-label text-green-700  overflow-hidden" style=" overflow:hidden; text-overflow:clip;"></label>
+  </div>
+       <span  id="media_file_help" class="flex-auto mt-2 text-gray-600 text-xs">
+Select media file eg file.pdf file.mp4 
+    </span>
+
+
+
+</div>
+
+
+
+
+ <div class="form-group ">
+    <label class="mr-sm-2" for="{{form.media_image.id_for_label}}">{{form.media_image.label}}:</label>
+              
+
+<div class="flex gap-2 items-center">
+    <label id="media_image"  class="flex-none flex items-center px-4 gap-2  py-1 anim border rounded-md hove:bg-green-50 active:bg-green-200 cursor-pointer ">
+         <svg class="w-8 h-8 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+ 
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+</svg>
+        <span class="mt-2 text-base leading-normal  max-h-6" >Select a image: </span>
+        {%render_field form.media_image class="hidden file_upload" accept="image/*"%} 
+    </label>
+
+   <label  class="flex-1 file-label text-green-700  overflow-hidden" style=" overflow:hidden; text-overflow:ellipsis;"></label>
   </div>
 
-<div class="form-group ">
-   <label for="{{form.origin_url.id_for_label}}">{{form.origin_url.label}}:</label> {%render_field form.origin_url class="form-control" placeholder="origin url"%}
+
+</div>
+
+
+
+
+
+     <div>
+                            <label for="{{form.status.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.status.label}}</label>
+                             {%render_field form.status class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+                        
+                    </div>
+
+
+
+ <div>
+                            <label for="{{form.bundle_type.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.bundle_type.label}}</label>
+                             {%render_field form.bundle_type class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+                        
+                    </div>
+
+
+
+
+
+
+
+
+
+<div>
+                            <label for="{{form.git_url.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.git_url.label}}:</label>
+                             {%render_field form.git_url class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" placeholder="git url"%}
+                        
+                    </div>
+
+
+
+
+                <div>
+                            <label for="{{form.origin_url.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.origin_url.label}}:</label>
+                             {%render_field form.origin_url class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" placeholder="origin url"%}
+                        
+                    </div>
+
+
+
+<div >
+    
+       <label for="{{form.forkable.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.forkable.label}}:</label>
+{%render_field form.forkable %}
  </div>
 
- <div class="form-group ">
-    
- 
-      <label  for="{{form.forkable.id_for_label}}" class="mr-sm-2">{{form.forkable.label}}:</label>   {%render_field form.forkable %}
-    </div>
-  <button type="submit" class="btn btn-primary mt-2 px-5 ">Submit</button>
+
+
+
+
+
+            </div>
+
+            <div class="flex justify-start mt-6">
+                <button type="submit" class="anim px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-green-500 mt-6 rounded-md hover:bg-green-400 focus:outline-none focus:bg-green-700">Create a new bundle</button>
+            </div>
+   
+    </section>
+
+
 </form>
         </div>
 
@@ -81,9 +154,9 @@
       </div>
     </div>
 <script type="text/javascript">
-	$(".custom-file-input").on("change", function() {
+	$(".file_upload").on("change", function() {
   var fileName = $(this).val().split("\\").pop();
-  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  $(this).parent().siblings(".file-label").html(fileName);
 });
 </script>
 

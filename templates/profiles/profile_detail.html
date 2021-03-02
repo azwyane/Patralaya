@@ -1,203 +1,537 @@
 {% extends 'events/base.html' %}
 {% load static %}
 {% load i18n %}
-
+{%block title%}{{user}} {%endblock%}
 {% block body %}
-<!--custom template tag-->
+{% load static %}
 {% load profiles_tags %}
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script> -->
-<!-- <script src="{% static 'js/followbutton.js' %}"></script> -->
-<script>
-    $(document).ready(function(){
-    $("button#follow").click(function(e){
-        e.preventDefault();
-        $.post(
-            "{% url 'user_follow' %}",de
-            {
-                username:"{{user}}",
-                action: $(this).data('action'),
-                csrfmiddlewaretoken: "{{csrf_token}}"
-            },
-            function(data){
-                if (data['status'] == 'ok'){
-                    var previous_action = $('button#follow').data('action');
-                    // toggle data-action
-                    $('button#follow').data('action', previous_action == 'follow' ?
-                    'unfollow' : 'follow');
-                    // toggle link text
-                    $('button#follow').text(previous_action == 'follow' ? 'unfollow' :
-                    'follow');
-                    // update total likes
-                    var previous_follows = parseInt($('span.count .total').text());
-                    $('span.count .total').text(previous_action == 'follow' ?
-                    previous_follows + 1 : previous_follows - 1);
-                }
-            }
-            
+<style>
+	.action:nth-child(even) {
+		background-color: white;
+	}
 
-        );
-    });
-});
+	.hover-background {
+
+		cursor: pointer;
+		position: relative;
+
+
+	}
+
+	.hover-background:before {
+
+		background: #ace0ee;
+		position: absolute;
+		content: "";
+		display: block;
+		width: 100%;
+		height: 15%;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+		transition: all 0.2s ease-in-out;
+
+
+
+
+
+	}
+
+
+	.hover-background:hover::before {
+		height: 100%;
+
+	}
+</style>
+
+
+<script>
+	$(document).ready(function () {
+		$("button#follow").click(function (e) {
+			e.preventDefault();
+			$.post(
+				"{% url 'user_follow' %}",de={
+					username: "{{user}}",
+					action: $(this).data('action'),
+					csrfmiddlewaretoken: "{{csrf_token}}"
+				},
+				function (data) {
+					if (data['status'] == 'ok') {
+						var previous_action = $('button#follow').data('action');
+						// toggle data-action
+						$('button#follow').data('action', previous_action == 'follow' ?
+							'unfollow' : 'follow');
+						// toggle link text
+						$('button#follow').text(previous_action == 'follow' ? 'unfollow' :
+							'follow');
+						// update total likes
+						var previous_follows = parseInt($('span.count .total').text());
+						$('span.count .total').text(previous_action == 'follow' ?
+							previous_follows + 1 : previous_follows - 1);
+					}
+				}
+
+
+			);
+		});
+	});
 </script>
 
 
-{% block content %}
-<h1>{{ user}}</h1>
-{% if bundle.creator.profile_picture %}
-<img src='{{user.profile_picture.url}}' style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
-{% endif %}  
-
-{% if  user.bio %}
-
-<p> BIO: </p>    
-<em>{{ user.bio}}
-</em>
-{% endif %}
-
-
-{% if  user.contact_email %}
-
-<p> Email: </p>    
-<em>{{ user.contact_email}}
-</em>
-{% endif %}
-
-{% if  user.current_status %}
-<p>CURRENT STATUS:</p>
-<p> {{user.current_status}} </p>
-{% endif %}
-
-{% if  user.interest %}
-<p>INTERESTED IN:</p>
-<ul>{% for interest in user.interest.all %}
-    <li>
-        {{interest}} 
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
-
-<!--get the profiles the user is following-->
-{% profile_followings user as followings %}
-{% with total_followings=followings.count %}
-<span>{{ total_followings}}</span>
-following{{ total_followings|pluralize }}
-{% endwith %}    
-
-<ul>
-    {% for profile in followings.all %}
-    <li>
-        <a href="{% url 'user_detail' profile %}">{{profile}}</a>
-    </li>
-    {% endfor %}
-</ul>
 
 
 
-    {% with total_followers=user.followers.count %}
-    <span class="count">
-        <hr>
-    <span class="total">{{ total_followers }}</span>
-    follower{{ total_followers|pluralize }}
-    </span>
-    <ul class="followers">
-        {% for profile in user.followers.all %}
 
-        <li><a href="{% url 'user_detail' profile %}">{{ profile }}</a></li>
-        {% endfor %}
-    </ul>
-    {% endwith %}
-    
-    {% if request.user.is_authenticated %}
-    {% if user_profile != user %}
-    <button id="follow" type="submit" data-action="{% if user_profile in user.followers.all %}un{% endif %}follow">
-    {% if user_profile not in user.followers.all %}
-    Follow
-    {% else %}
-    Unfollow
-    {% endif %}
-    </button>
-    {% endif %}
-    {% endif %}
+<div class="flex flex-col-reverse lg:flex-row">
+	<div class=" w-full lg:w-3/5 bg-gray-50 px-2">
 
-    
+		<div class="flex-1  mt-6 pb-4">
 
-
-{% endblock %}
-
-<hr>
-<h3>{{user}}'s Bundles</h3>
-{% block bundles %}
-<ul>
-{% for bundle in bundles %}
-<li>{{ bundle.slug|safe }}<a href='{{ bundle.get_absolute_url }}'>  Readmore</a></li>
-<p>Created by:</p>
-{% if bundle.creator.profile_picture %}
-<p><img src='{{bundle.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
-</p>
-{% endif %}
-<p>{{ bundle.creator }}</p>
-<p>Tags: </p>
-<ul>
-    {% for tag in bundle.tags.all %}
-    <li><a href="{% url 'list_tag' tag_slug=tag.slug %}">
-        {{ tag.name }}
-    </a>
-    </li>
-    <br>
-    {% endfor %}
-</ul>
-{% endfor %}
-</ul>
-
-{% endblock %}
-
-
-{% if bundles.has_previous %}
-            <a href="?page=1" >&laquo; first</a>
-            <a href="?page={{ bundles.previous_page_number }}" >previous</a>
-{% endif %}
-  
-        <span class="current">
-            Page {{ bundles.number }} of {{ bundles.paginator.num_pages }}.
-        </span>
-  
-{% if bundles.has_next %}
-    <a href="?page={{ bundles.next_page_number }}" >next</a>
-    <a href="?page={{ bundles.paginator.num_pages }}" >last &raquo;</a>
-{% endif %}
-
-<h3>RECENT ACTIONS</h3>
-
-{% if actions %}
-<ul>
-{% for action in actions %}
-<p>
-    <a href="{{ action.profile.get_absolute_url }}"> {{action.profile}}</a> {{action.verb}} <a href="{{ action.target.get_absolute_url }}">
-        {% if action.target.slug %}
-        {{action.target.slug}}
-        {% else %}
-        {{action.target}}
-        {% endif %}
-    </a>
-   
-</p>
-<p>Time at: {{action.created}}</p>
-<hr>
-
-{% endfor %}
-</ul>
-
-{% else %}
-
-<em>Sorry no actions to show</em>
-<p>
-    User has no recent activities created with their account. 
-</p>
-
-{% endif %}
+			<h1 id="" class=" text-2xl  font-semibold text-gray-800">{{user}}'s Bundles</h1>
+			{% for bundle in bundles %}
+			{% include 'events/bundles.html' with bundle=bundle %}
+			{%endfor%}
 
 
 
-{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<!-- paginations-->
+			<div class="w-full">
+				<ul class=" flex pl-0 list-none rounded my-2 mx-ato justify-center">
+
+					{% if bundles.has_previous %}
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 border-r-0 ml-0 rounded-l hover:bg-gray-200">
+						<a class="anim page-link" href="?page=1">&laquo; first</a></li>
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
+						<a class="anim page-link" href="?page={{ bundles.previous_page_number }}">previous</a></li>
+					{% else %}
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300 border-r-0 ml-0 rounded-l ">
+						&laquo; first</li>
+					<li class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300  ">
+						previous</li>
+					{% endif %}
+					{% if bundles.number > 1 %}
+
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
+						<a class="anim page-link"
+							href="?page={{ bundles.number|add:'-2' }}">{{ bundles.number|add:'-2' }}</a></li>
+					{% endif %}
+					{% if bundles.number >  2 %}
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
+						<a class="anim page-link"
+							href="?page={{ bundles.number|add:'-1' }}">{{ bundles.number|add:'-1' }}</a></li>
+					{% endif %}
+
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
+						<a class="anim page-link" href="?page={{ bundles.number }}">{{ bundles.number }}</a></li>
+
+					{% if bundles.number < bundles.paginator.num_pages|add:'-1' %}
+
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
+						<a class="anim page-link"
+							href="?page={{ bundles.next_page_number }}">{{ bundles.next_page_number }}</a></li>
+					{% if bundles.number < bundles.paginator.num_pages|add:'-2' %}
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 border-r-0 hover:bg-gray-200">
+						<a class="anim page-link"
+							href="?page={{ bundles.next_page_number|add:'+1' }}">{{ bundles.next_page_number|add:'+1' }}</a>
+					</li>
+					{% endif %}
+					{% endif %}
+
+					{% if bundles.has_next %}
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 border-r-0 hover:bg-gray-200">
+						<a class="anim page-link" href="?page={{ bundles.previous_page_number }}">next</a></li>
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 rounded-r hover:bg-gray-200">
+						<a class="anim page-link" href="?page={{ bundles.paginator.num_pages }}"></a>last &raquo;</li>
+					{% else %}
+
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300 border-r-0">
+						next</li>
+					<li
+						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300 rounded-r ">
+						last &raquo;</li>
+
+					{% endif %}
+
+				</ul>
+			</div>
+			<!--paginations ends here-->
+
+
+
+
+
+
+		</div>
+	</div>
+
+
+	<div class=" w-full  lg:w-2/5  pr-2 py-4">
+
+		<!-- profile cards starts here-->
+
+
+
+		<div class="lg:max-w-sm w-full  pb-5 mx-auto mt-4 overflow-hidden rounded-lg border">
+			<div class=" bg-gradient-to-br pt-8   pb-5 from-green-500  to-green-800">
+
+				<div class="flex justify-center">
+					<span class="object-cover w-24 h-24 mt-4 border-4 border-green-200 rounded-full">
+						{% include 'components/profile-picture-container.html' with user=user %}</span>
+				</div>
+				<div class="flex flex-col items-center px-4 overflow-hidden">
+					<h2 class="mt-2 mb-1 text-2xl font-semibold text-white">{{user}}</h2>
+					{% if  user.bio %}
+
+					<p class="mx-4 text-center font-medium text-gray-300 text-md">{{ user.bio}} </p>
+
+
+					{% endif %}
+
+				</div>
+			</div>
+			<div class=" mt-4 w-full space-x-2 card-actions divide-x flex justify-between">
+
+
+				<div class="flex flex-row flex-1 flex-col items-center">
+					<p class="text-gray-600">Bundles</p>
+					<h2>{{user.bundles.count}}</h2>
+				</div>
+				<div class="flex flex-row flex-1 flex-col items-center">
+					<p class="text-gray-600">Claps</p>
+					<h2>29</h2>
+				</div>
+			</div>
+			<div class="px-6 ">
+
+
+
+
+
+				<div class="mt-8 divide-y divide-gray-100">
+
+
+
+
+
+
+
+
+
+
+
+
+					{% if  user.contact_email %}
+					<div class="py-2">
+						<span class="font-medium text-gray-700 text-md">Email: </span>
+						<p class="text-gray-500 text-sm"> {{user.contact_email}}</p>
+					</div>
+
+					{% endif %}
+
+
+
+
+
+
+
+
+
+					{% profile_followings user as followings %}
+					{% with total_followings=followings.count %}
+					<div class="py-2">
+						<div class="flex justify-between w-full">
+							<div class="flex items-center ">
+								<span class="font-medium text-gray-700 text-md">
+									Following{{ total_followings|pluralize }}</span>
+								<span
+									class=" flex-auto rounded-full py-1 px-2 leading-tight ml-3 font-semibold text-sm">{{total_followings}}</span>
+							</div>
+							<button class="anim h-8 w-8 m-0 p-0 hover:bg-gray-100 rounded-full  anim" type="button"
+								data-toggle="collapse" data-target="#collapseFollower" aria-expanded="false"
+								aria-controls="collapseFollowing"><svg class=" h-4 w-4" fill="none" viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										d="M19 9l-7 7-7-7" />
+								</svg></button>
+						</div>
+						<ul class="collapse px-2" id="collapseFollowing">
+							{% for profile in followings.all %}
+
+
+
+							<p class="font-medium text-gray-500 text-sm pt-1"> <a
+									href="{% url 'user_detail' profile %}">{{ profile }}</a></p>
+							{% endfor %}
+						</ul>
+
+					</div>
+
+					{% endwith %}
+
+
+
+
+
+
+
+					{% with total_followers=user.followers.count %}
+					<div class="py-2">
+						<div class="flex justify-between w-full">
+							<div class="flex items-center ">
+								<span class="font-medium text-gray-700 text-md">
+									Follower{{ total_followers|pluralize }}</span>
+								<span
+									class=" flex-auto rounded-full py-1 px-2 leading-tight ml-3 font-semibold text-sm">{{total_followers}}</span>
+							</div>
+							<button class=" anim h-8 w-8 m-0 p-0 hover:bg-gray-100 rounded-full  anim" type="button"
+								data-toggle="collapse" data-target="#collapseFollower" aria-expanded="false"
+								aria-controls="collapseFollower"><svg class=" h-4 w-4" fill="none" viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										d="M19 9l-7 7-7-7" />
+								</svg></button>
+						</div>
+						<ul class="collapse px-2" id="collapseFollower">
+							{% for profile in user.followers.all %}
+							<p class="font-medium text-gray-500 text-sm pt-1"> <a
+									href="{% url 'user_detail' profile %}">{{ profile }}</a></p>
+							{% endfor %}
+						</ul>
+
+					</div>
+
+					{% endwith %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					{% if  user.interest %}
+
+					<div class="py-2">
+						<div class="flex justify-between w-full">
+
+							<span class="font-medium text-gray-700 text-md">Interested in</span>
+
+
+							<button class=" anim h-8 w-8 m-0 p-0 hover:bg-gray-100 rounded-full  anim" type="button"
+								data-toggle="collapse" data-target="#collapseFollower" aria-expanded="false"
+								aria-controls="collapseFollower"><svg class=" h-4 w-4" fill="none" viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										d="M19 9l-7 7-7-7" />
+								</svg></button>
+						</div>
+						<ul class="collapse px-2" id="collapseFollower">
+							{% for interest in user.interest.all %}
+
+
+
+							<p class="font-medium text-gray-500 text-sm pt-1">{{ interest }}</p>
+							{% endfor %}
+						</ul>
+
+					</div>
+
+
+					{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					{% if  user.current_status %}
+					<div class="py-2">
+						<span class="font-medium text-gray-700 text-md">Current Status: </span>
+						<p class="text-gray-500 text-sm"> {{user.current_status}}</p>
+					</div>
+
+					{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				</div>
+				<div class="flex justify-around mt-4">
+
+
+
+
+
+					{% if request.user.is_authenticated %}
+					{% if user_profile != user %}
+
+					<button id="follow" type="submit"
+						data-action="{% if user_profile in user.followers.all %}un{% endif %}follow"
+						class="btn transition duration-500 anim text-white rounded-xl px-6 py-2   active:outline-none   focus:outline-none   {% if user_profile in user.followers.all %}bg-red-500 active:bg-red-300 {% else %}active:bg-green-400 bg-green-500{% endif %}">
+
+						{% if user_profile not in user.followers.all %}
+						Follow
+						{% else %}
+						Unfollow
+						{% endif %}
+					</button>
+					{% endif %}
+					{% endif %}
+
+
+
+
+					<button type="button"
+						class=" btn transition duration-500 anim  text-gray-600 rounded-xl px-6 py-2  active:bg-gray-100 active:outline-none   focus:outline-none "
+						data-toggle="modal" data-target="#exampleModal">
+						User actions
+					</button>
+
+				</div>
+			</div>
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog modal-box">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="font-semibold modal-title" id="exampleModalLabel">{{user}}'s recent
+								actions</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							{% if actions %}
+							{% for action in actions %}
+							<div id="article-content" class="action mt-2 py-2 px-2 ">
+								<span
+									class="text-gray-500  text-sm font-normal block font-medium ">{{action.created}}</span>
+								<h3 class="text-lg font-medium"> <a class="hover-background"
+										href="{{ action.profile.get_absolute_url }}">{{action.profile}}</a>&nbsp;{{action.verb|rjust:"2"}}
+									<a class="hover-background" href="{{ action.target.get_absolute_url }}">
+										{% if action.target.slug %}
+										{{action.target.slug}}
+										{% else %}
+										{{action.target}}
+										{% endif %}
+									</a></h3>
+							</div>
+							{% endfor %}
+
+
+
+
+							{% else %}
+							<div class="flex flex-col justify-center items-center mt-64 ">
+								<h1 class="text-gray-800 mt-5 font-semibold text-xl lg:text-2xl">Sorry no
+									actions to show!</h1>
+								<p class="text-gray-600">
+									User has no recent activities created with their account.
+								</p>
+							</div>
+							{% endif %}
+
+
+						</div>
+						<div class="modal-footer modal-action">
+							<button type="button"
+								class="anim px-4 py-2 text-sm font-medium text-gray-700 transition bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700"
+								data-dismiss="modal">Close</button>
+
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<!-- profile cars ends here-->
+		</div>
+
+	</div>
+</div>
+	{% endblock body %}

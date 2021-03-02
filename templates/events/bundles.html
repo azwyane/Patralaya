@@ -1,29 +1,24 @@
  {% load mathfilters %}
 {% load humanize %}
 {% load i18n %}
-{% load static %}
+{%load static %}
 {% block bundles %}
-
+<!--
 
 							<div class=" bg-gray-50 lg:border-gray-200 lg:bg-white my-5   p-4 rounded-xl ">
 								<div class="flex justify-between">
 									<div class="flex items-center">
-										<a class="block rounded-full mr-2 ring ring-gray-100 ring-offset-2" href="{{bundle.creator.get_absolute_url}}">
+										<a class=" anim block rounded-full mr-2 ring ring-gray-100 ring-offset-2" href="{{bundle.creator.get_absolute_url}}">
                                         
-                                        {% if bundle.creator.profile_picture %}
-                                            <img class="h-10 w-10 rounded-full" src="{{bundle.creator.profile_picture.url}}" alt="creator_profile_image"/>
 
-
-                                            {% else %}
-											{% with bundle.creator|truncatechars:2|lower|first as alphabet %}
-                                            <img class="h-10 w-10 rounded-full" src="{% static 'images/profiles/'|add:alphabet|add:'.svg' %}" alt="" >
-                                            {% endwith %}
-											{% endif %}
+										<div class=" h-10 w-10 ">
+										{% include 'components/profile-picture-container.html' with user=bundle.creator %}
+											</div>
 </a>
 
                                        
 										<div class="ml-1.5 text-sm leading-tight">
-											<a href="{% url 'user_detail' username=bundle.creator %}" class="text-black dark:text-white font-bold block ">{{bundle.creator}}</an>
+											<a href="{% url 'user_detail' username=bundle.creator %}" class="anim text-black dark:text-white font-bold block ">{{bundle.creator}}</a>
 											<span class="text-gray-500 dark:text-gray-400 text-xs font-normal block text-itlaic">{{bundle.published_on|naturaltime}}</span>
 										</div>
 									</div>
@@ -32,7 +27,7 @@
 								<a class=" block text-black dark:text-white block text-2xl leading-tight font-semibold tracking-loose mt-3 mb-3" href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}">{{ bundle.title|safe}}</a>
 
 								<div class=" flex flex-wrap text-gray-500 dark:text-gray-400 text-xs py-1 my-0.5">
-                            {% for tag in bundle.tags.all %}<a class="border bg-green-50 px-2 hover:bg-gray-200 my-1 rounded-sm mr-2" href="#">{{tag}}</a> {% endfor %}</div>
+                            {% for tag in bundle.tags.all %}  {% with tag|slugify as tag_slug  %}<a class="anim border bg-green-50 px-2 hover:bg-gray-200 my-1 rounded-sm mr-2" href="{% url 'list_tag' tag_slug %}">{{tag}}</a>{% endwith %} {% endfor %}</div>
 
 									<div class="text-gray-500 dark:text-gray-400 flex justify-between mt-3">
 										<div class="flex ">
@@ -76,6 +71,35 @@
 
 								<div class="lg:hidden w-full border border-gray-300 my-2 bg-gray-300"></div>
 
+
+-->
+
+
+ <div class=" my-4  mx-auto overflow-hidden bg-white rounded-lg border dark:bg-gray-800">
+   
+        <div class="p-6">
+            <div>
+			<div class="flex flex-wrap gap-x-2 gap-y-2 ">
+                {% for tag in bundle.tags.all %}  {% with tag|slugify as tag_slug  %}<a class="anim text-gren-600  bg-green-50 px-2 hover:bg-gray-200 rounded-sm  text-xs font-medium " href="{% url 'list_tag' tag_slug %}">{{tag}}</a>{% endwith %} {% endfor %}
+				</div>
+				<div class=" w-full  flex justify-end">
+				<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{% if bundle.context|striptags|length|intdiv:1500 is 0 %}1 {% else %} {{bundle.context|striptags|length|intdiv:1500}} {% endif %} min read &nbsp;&nbsp;&nbsp;&nbsp;{{bundle.claps.count}} {% translate 'claps' %} &nbsp;&nbsp;&nbsp;&nbsp; {{bundle.fork.count}} {% translate 'forks' %}</p>
+  
+				</div>
+                <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="block mt-2 text-2xl font-semibold text-gray-800 dark:text-white hover:text-gray-600 ">{{ bundle.title|safe}}</a>
+                  </div>
+       
+            <div class="mt-4">
+                <div class="flex items-center">
+                    <div class="flex items-center">
+                        <span class="object-cover h-10 rounded-full ring ring-green-200 ring-offset-2">{% include 'components/profile-picture-container.html' with user=bundle.creator %}</span>
+                        <a href="{% url 'user_detail' username=bundle.creator %}" class="mx-2 font-semibold text-gray-700 dark:text-gray-200">{{bundle.creator}}</a>
+                    </div>
+                    <span class="mx-1 text-xs text-gray-600 dark:text-gray-300">{{bundle.created_on|naturaltime}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

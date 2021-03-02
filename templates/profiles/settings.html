@@ -16,72 +16,95 @@
       {% csrf_token %}
 
 
-        <div class="form-group">
+
+
+
+
+         
+    <section class="max-w-4xl p-6 mx-auto border rounded-2xl bg-gray-50">
+ <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white mt-4 mb-4">Profile Picture</h2>
+                    <div class="form-group">
         <label for="profile_pic">Avatar</label>
         <div id="profile_pic">
         
+        <div class="flex flex-col items-start justify-center">
+					<div class="object-cover relative w-24 h-24 mt-4 border-4 border-green-200 rounded-full">
+						{% include 'components/profile-picture-container.html' with profile_picture=profile_picture.value user=user_form.username.value %}
+            
+            <span class=" absolute inset-0 -left-2 -top-2 h-8 w-8 bg-white rounded-full p-1 rounded border border-green-300 border-2  text-red-600" ><svg class="fillCurrent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+</svg></span>
+            </div>
           
-       {%if profile_form.profile_picture.value %}
-       <img class="mx-0 my-3" src="{{'/media/'}}{{profile_form.profile_picture.value}}" style="width:5rem; height:5rem; border-radius: 50%;object-fit: cover;"/>
-                      <div class="form-group custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="profile_picture-clear_id" name="profile_picture-clear" value="customEx">
-    <label class="custom-control-label" for="profile_picture-clear_id">Remove profile picture</label>
-  </div>
-  {%else%}
-   <img class="mx-0 my-3" src="{% static 'images/default.png' %}" style="width:5rem; height:5rem; border-radius: 50%;object-fit: cover; border: 1px solid #ddd; padding: .25rem;"/>
-  {%endif%}
 
+
+				
+          
+       
             <div class="custom-file">
-    <input type="file" class="custom-file-input" id="profile_picture" name="profile_picture" accept="image/*">
-    <label class="custom-file-label" for="profile_picture">Change profile picture</label>
-
+     <label class="" for="profile_picture"></label>
+<input type="file" class="ml-4 mt-2" id="profile_picture" name="profile_picture" accept="image/*">
+   
 </div>
 </div>
 </div>
+</div>
+
+ <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white mt-8 mb-4">Account settings</h2>
+            <div class="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-2">
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="{{form.username.id_for_label}}">Username</label>
+                    {%render_field user_form.username  class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+   <span  id="usernameHelp" class="mt-2 text-gray-600 text-xs">
+  Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.
+    </span>
+                </div>
+
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="{{form.email.id_for_label}}">Email address(private)</label>
+                    {%render_field user_form.email placeholder="Enter account recovery email" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+                   
+                </div>
+
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="{{form.email.id_for_label}}">Contact email address(public)</label>
+                    {%render_field profile_form.contact_email placeholder="Enter your contact email" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+                    
+                </div>
+
+   <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="{{form.bio.id_for_label}}">Bio</label>
+                      {%render_field profile_form.bio rows="5" class="w-full border border-gray-300 rounded-sm px-4 py-3 h-32 rounded-md outline-none transition-colors duration-150 ease-in-out focus:border-blue-400 resize-none" style="resize:none;"%}
+                </div>
+                
 
 
+     <div>
+                            <label for="{{form.current_status.id_for_label}}"  class="text-gray-700 dark:text-gray-200">Current status</label>
+                             {%render_field profile_form.current_status class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
+                        
+                    </div>
 
-
-     
-  <div class="form-group ">
-      <label for="{{form.username.id_for_label}}">Username</label>
-       {%render_field user_form.username  class="form-control"%}
-       <small id="usernameHelp" class="form-text text-muted" maxlength="150">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
+<div >
+      <label  class="text-gray-700 dark:text-gray-200" for="{{form.interest}}">Interested fields</label>
+      {%render_field profile_form.interest class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"%}
     </div>
-  <div class="form-group ">
-    <label for="{{form.email.id_for_label}}">Email address(private)</label> {%render_field user_form.email class="form-control" placeholder="Enter account recovery email"%}
-  
+
+
+
+
+
+            </div>
+
+            <div class="flex justify-start mt-6">
+                <button type="submit" class="anim px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-green-500 mt-6 rounded-md hover:bg-green-400 focus:outline-none focus:bg-green-700">Confirm changes</button>
+            </div>
    
-  </div>
-  <div class="form-group ">
-    <label for="{{form.email.id_for_label}}">Contact email address(public)</label> {%render_field profile_form.contact_email class="form-control" placeholder="Enter contact email"%}
-  
-   
-  </div>
+    </section>
 
 
-   
-     <div class="form-group">
-  <label for="{{form.bio.id_for_label}}">Bio</label>
-  {%render_field profile_form.bio rows="5" class="form-control" style="resize:none;"%}
-
-</div> 
-   <div class="form-group">
-      <label class="mr-sm-2" for="{{form.current_status.id_for_label}}">Current status</label>
-      {%render_field profile_form.current_status class="custom-select mr-sm-2"%}
-
-  
-    </div>
-       <div class="form-group">
-      <label class="mr-sm-2" for="{{form.interest}}">Interested fields</label>
-      {%render_field profile_form.interest class="mr-sm-2"%}
-    </div>
-
-
-
-  <button type="submit" class="btn btn-primary mt-2 px-5 ">Confirm</button>
 </form>
-<h5 class="mt-2"><a  href="{% url 'password_update_form' %}">Change your password, here</a></h5>
+<h5 class="anim flex justify-center mt-2 text-green-500 "><a  href="{% url 'password_update_form' %}"><i class="fa fa-key mr-3"></i>Change your password, here</a></h5>
         </div>
 
 
@@ -93,9 +116,5 @@ $(".custom-file-input").on("change", function() {
   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 </script>
-
-
-
-
 
 {% endblock %}  

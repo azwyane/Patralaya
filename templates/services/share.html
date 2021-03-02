@@ -1,5 +1,52 @@
+{% load i18n %}
+{% block body %}
+{% load widget_tweaks %}
+
+
 <form method="POST">
+
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit"> Submit </button>
+
+
+
+
+
+
+    <section class="w-full max-w-lg px-6 py-4 mx-auto bg-white">
+        <h2 class="text-2xl font-semibold text-center text-gray-800 dark:text-white">Share Bundle</h2>
+       
+        
+       
+        
+        <div class="mt-6 flex flex-col gap-y-4 ">
+            
+                <div class="w-full mx-2 mt-4 md:mt-0">
+                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="{{form.sender.id_for_label}}">{{form.sender.label}}</label>
+{%render_field form.sender class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring" placeholder="Sender email address"%}
+                   
+                </div>
+                 <div class="w-full mx-2 mt-4 md:mt-0">
+                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="{{form.receiver.id_for_label}}">{{form.receiver.label}}</label>
+{%render_field form.receiver class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 focus:outline-none focus:ring" placeholder="Sender email address"%}
+                   
+                </div>
+       
+
+           
+
+            <div class="w-full mx-2 mt-4 md:mt-0">
+                    <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="{{form.description.id_for_label}}">{{form.description.label}}</label>
+{%render_field form.description class="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 focus:outline-none focus:ring" placeholder="Sender email address"%}
+                   
+                </div>
+
+            <div class="flex justify-center mt-6">
+                <button class="anim px-4 py-2 text-white transition-colors duration-200 transform bg-green-500 rounded-md hover:bg-green-400 focus:outline-none focus:bg-green-500">Share</button>
+            </div>
+        </div>
+    </section>
+
 </form>
+
+
+    {% endblock %}

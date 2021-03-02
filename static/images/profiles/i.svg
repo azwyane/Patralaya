@@ -1,14 +1,14 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="200" height="200" fill="#91E525"/>
-<path d="M104.459 78V139.042" stroke="#9921CC" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+<rect width="200" height="200" fill="black"/>
+<path d="M104.459 78V139.042" stroke="black" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
 <g style="mix-blend-mode:multiply" opacity="0.15">
 <path d="M104.459 80.8868V141.929" stroke="#000014" stroke-width="15.16" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
-<path opacity="0.2" d="M104.459 78V139.042" stroke="#FF00FF" stroke-width="13.55" stroke-linecap="round" stroke-linejoin="round"/>
-<path opacity="0.15" d="M104.459 78V139.042" stroke="#FF42FC" stroke-width="11.74" stroke-linecap="round" stroke-linejoin="round"/>
-<path opacity="0.3" d="M104.459 78V139.042" stroke="#FB7DFF" stroke-width="9.03" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M104.459 78V139.042" stroke="#FF82FF" stroke-width="6.77" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M104.459 78V139.042" stroke="#FFB8FF" stroke-width="4.52" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M104.459 78V139.042" stroke="#FFD7FF" stroke-width="2.26" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M104.459 78V139.042" stroke="#FFF2FF" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
+<path opacity="0.2" d="M104.459 78V139.042" stroke="black" stroke-width="13.55" stroke-linecap="round" stroke-linejoin="round"/>
+<path opacity="0.15" d="M104.459 78V139.042" stroke="black" stroke-width="11.74" stroke-linecap="round" stroke-linejoin="round"/>
+<path opacity="0.3" d="M104.459 78V139.042" stroke="black" stroke-width="9.03" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M104.459 78V139.042" stroke="white" stroke-width="6.77" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M104.459 78V139.042" stroke="white" stroke-width="4.52" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M104.459 78V139.042" stroke="white" stroke-width="2.26" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M104.459 78V139.042" stroke="black" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

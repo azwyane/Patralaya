@@ -192,9 +192,11 @@
                                     </div>
                                 <div class="col-auto">
                                     <ul class=" bundle-action nav ">
+
                                         {% if request.user.is_authenticated %}
  
-  {% if object.creator == user_profile or object.forkable == False %}
+  
+  
     <li class="nav-item">
     <a href="{% url 'update_bundle' creator=object.creator slug=object.slug %}" class="nav-link" id="update" data-action="update"><i class='fas fa-edit mr-2'></i>update</a>
   </li>

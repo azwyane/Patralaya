@@ -1,0 +1,23 @@
+{% load static %}
+{% block body %}
+
+
+
+{% with 'mp4 mpeg wav avi flv h264 m4v mkv mov mp4 mpg mpeg rm swf vob wmv 3g2 3gp' as video  %}
+{% with '.aif .cda 	.iff 	.mid .midi.mp3 	.mpa 	.wav 	.wma 	.wpl' as audio  %}
+{% with 'pdf epub mobi' as ebook  %}
+
+          <div class="flex flex-col items-center ">
+                             <a  href='{{object.media_image.url}}' download class="anim">
+                             <div class="h-20 w-20 bg-green-50  flex items-center justify-center rounded-xl">
+                               <img class="h-12  object-center" src="{% static 'images/images.svg' %}" alt="image-icon" />
+                             </div>
+                             <p class="w-20 max-h-5 overflow-hidden text-gray-700 text-sm py-1"> {{object.media_image.name|slice:"25:" |truncatechars:60}}..</p>
+             </a>
+                           </div>
+                           
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+{% endblock %}

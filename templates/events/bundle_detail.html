@@ -162,10 +162,13 @@
     }),
         $("button#share").click(function(e){
         e.preventDefault();
-        $.get(
-            "{% url 'share_by_email' slug=object.slug %}",
+        $.post(
+            "{% url 'share_by_email' %}",
               {
-                             
+                slug: "{{object.slug}}",
+                sender: "dummyemail" ,
+                receiver: "dummyemail", 
+                description: "dummy",              
                 csrfmiddlewaretoken: "{{csrf_token}}"
             },
             function(data){
@@ -174,8 +177,12 @@
               document.getElementById('share-modal-body').innerHTML=data
               $("#shareModal").modal();
           
-                if (data){
-                    
+                if (data['status'] == 'ok'){
+                  alert("deleted");
+                  //hari
+                  //edit the dummy by keeping value typed in share model
+                  //for values sender, receiver and description
+                   
                 }
             });
     }),

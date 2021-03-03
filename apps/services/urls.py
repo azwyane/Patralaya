@@ -1,7 +1,7 @@
 from django.urls import path
 
 from services.views import (
-    share,TagListView, 
+    Share,TagListView, 
     SearchBundleListView,AutoSuggestions,
     ReadingsListView,ReadingsDetailView,
     ReadingsCreateView,ReadingsUpdateView,
@@ -14,7 +14,7 @@ from .feeds import PublishedBundleFeed
 urlpatterns=[
 
     # shareform
-    path('share/<slug:slug>/',share,name='share_by_email'),
+    path('share/bundle/',Share.as_view(),name='share_by_email'),
 
     #rss url
     path('bundle/published/all/feed.xml', PublishedBundleFeed(), name='bundle_feed'),

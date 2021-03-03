@@ -41,17 +41,21 @@ from django.urls import reverse,reverse_lazy
 from services.forms import ReadingsListForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from events.mixins import CreateActivityMixin,BundleEditMixin
+from django.utils.decorators import method_decorator
 
-def share(request,slug):
-    bundle = Bundle.objects.get(
-        slug=slug, status='Publish')
-    if request.method == 'POST':
-        form = ShareForm(request.POST)
-        if form.is_valid():
-            form_data = form.cleaned_data
-            sender = form_data['sender']
-            receiver = form_data['receiver']
-            description = form_data['description'] 
+decorators = [ajax_required, require_POST]
+
+@method_decorator(decorators, name='dispatch')
+class Share(View):
+    def post(self,request):
+        try:
+
+            bundle = Bundle.objects.get(
+                slug=slug, status='Publish')
+            
+            sender = request.POST['sender']
+            receiver = request.POST['receiver']
+            description = request.POST['description'] 
             get_bundle_url = request.build_absolute_uri(bundle.get_absolute_url())
             
             #preparing msg template
@@ -69,11 +73,12 @@ def share(request,slug):
             '''
             
             send_mail(subject, message, 'tunechibaral@gmail.com', [receiver])
-            return redirect('home')
-    else:
-        form = ShareForm()
-    
-    return render(request, 'services/share.html', {'bundle': bundle,'form': form})
+            return JsonResponse({'status':'ok'})
+        
+        except Exception as e:
+                    return JsonResponse({'status':'error'})
+        
+        return JsonResponse({'status':'error'})
 
 
 class TagListView(ListView):

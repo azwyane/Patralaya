@@ -77,18 +77,18 @@
         <div class="hidden  sm:flex  w-full my-4">
         	<div class=" flex flex-col flex-1 items-center">
         		<span class="">Bundles</span>
-        		<span class=""> 26 </span>
+        		<span class=""> {{public_profile.bundle_creator.count}} </span>
 
         	</div>
         	<div class=" flex  border-l-gray-200 border-l-2  flex-col flex-1 items-center">
         		<span class="">claps</span>
-        		<span class=" "> 26 </span>
+        		<span class=" "> {{public_profile.clapped_by.count}}  </span>
 
         	</div>
 
         </div>
   </div>
 
-
+{% endif %}
 {% endfor %}
 {% endblock %}

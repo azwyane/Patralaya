@@ -145,7 +145,7 @@ class BundleUpdateView(LoginRequiredMixin, BundleEditMixin,SuccessMessageMixin, 
         form.instance.creator = Profile.objects.get(user=self.request.user)
         return super().form_valid(form)
 
-
+@method_decorator(decorators, name='dispatch')
 class BundleDeleteView(View):
     def post(self,request):
         pk = request.POST['pk']

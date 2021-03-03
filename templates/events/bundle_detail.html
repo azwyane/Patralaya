@@ -198,9 +198,6 @@
 
          $("button#delete").click(function (e) {
            e.preventDefault();
-
-
-
            $.post(
              "{% url 'delete_bundle' %}", {
                pk: "{{object.pk}}",
@@ -220,7 +217,39 @@
 
 
            );
-         });
+         }),
+         $("button#create-list").click(function (e) {
+           e.preventDefault();
+           $.post(
+             "{% url 'readinglists_create_js' %}", {
+               bundle_id: "{{object.id}}",
+               reading_list_name: "//get the title here",
+               csrfmiddlewaretoken: "{{csrf_token}}"
+             },
+             function (data) {
+
+               if (data['status'] == 'ok') {
+
+                 alert("created reading list");
+
+               } else {
+                 alert("error");
+               }
+             }
+
+
+           );
+         }),
+         $("button#dummydummy").click(function (e) {
+          $("#reading-list_box").keyup(function(){
+            $.ajax({
+              type: "POST",
+              url: "{% url 'readinglists_available_js' %}",
+              data: {
+                      query: $(this).val(),
+                      csrfmiddlewaretoken: "{{csrf_token}}"
+                  },
+              });
 
      });
      

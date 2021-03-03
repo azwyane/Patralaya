@@ -36,6 +36,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from common.decorators import ajax_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse,reverse_lazy
 from services.forms import ReadingsListForm
@@ -205,4 +206,56 @@ class AutoSuggestions(View):
         from itertools import chain
         data_list = list(chain(users,bundles))
         return JsonResponse(data_list,safe=False)
+
+
+
+@method_decorator([ajax_required,require_POST,login_required], name='dispatch')
+class ReadingListAvailable(View):
+    def post(self,request):
+        query = request.POST['query']
+        profile = Profile.objects.get(user=request.user)
+        from django.db.models import Q
+        readinglist = profile.readinglist_creator.filter(
+                    Q(title__icontains=query)
+                ).values_list('title',flat=True)
+            
+        bundles = Bundle.published.filter(
+                    Q(title__icontains=query)
+                    | Q(context__icontains=query)
+                    | Q(tags__name__icontains=query),
+                ).values_list('title',flat=True)
+        
+        from itertools import chain
+        data_list = list(chain(users))
+        return JsonResponse(data_list,safe=False)
+
+
+@method_decorator([ajax_required,require_POST,login_required], name='dispatch')
+class AddToList(View):
+    def post(self,request):
+        bundle_id = request.POST['bundle_id']
+        reading_list_name = request.POST['reading_list_name']
+        bundle = Bundle.published.filter(id=bundle_id)
+        profile = Profile.objects.get(user=request.user)
+        try:
+
+            if reading_list_name in profile.readinglist_creator.values_list('title',flat=True):
+                readinglist = profile.readinglist.filter(title=reading_list_name)
+                readinglist.bundles.add(bundle)
+                readinglist.save()
+                return JsonResponse({'status':'ok'})
+                
+            else:
+                new_list = ReadingList.objects.create(title=reading_list_name,creator=profile)
+                new_list.bundles.add(bundle)
+                new_list.save()
+                return JsonResponse({'status':'ok'})
+
+        except Profile.DoesNotExist:
+            return JsonResponse({'status':'error'})
+        return JsonResponse({'status':'error'})   
+        
+        
        
+                
+        

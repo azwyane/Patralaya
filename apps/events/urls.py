@@ -25,7 +25,7 @@ urlpatterns=[
     path('<slug:creator>/all/',BundleListView.as_view(),name='list_bundle'),
     path('<slug:creator>/<slug:slug>/',BundleDetailView.as_view(),name='detail_bundle'),
     path('<slug:creator>/<slug:slug>/update/',BundleUpdateView.as_view(),name='update_bundle'),
-    path('<slug:creator>/<slug:slug>/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
+    path('confirm/bundle/delete/',BundleDeleteView.as_view(),name='delete_bundle'), 
     
     #fork bundles
     path('bundle/fork/new/',ForkBundle.as_view(), name='fork_bundle'),

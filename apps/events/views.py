@@ -70,6 +70,11 @@ from events.mixins import (       #custom mixins
     )
 from django.contrib.messages.views import SuccessMessageMixin
 
+#ajax_views
+from django.utils.decorators import method_decorator
+
+decorators = [ajax_required, require_POST, login_required]
+
 class HomeView(TemplateView):
     template_name = "events/home.html"
 
@@ -141,12 +146,29 @@ class BundleUpdateView(LoginRequiredMixin, BundleEditMixin,SuccessMessageMixin, 
         return super().form_valid(form)
 
 
-class BundleDeleteView(LoginRequiredMixin, BundleEditMixin,SuccessMessageMixin, DeleteView):
+class BundleDeleteView(View):
     model = Bundle
     template_name = 'events/bundle_delete.html'
     success_url = reverse_lazy('home')
     login_url = 'home'
     success_message = "%(title)s deleted successfully"
+
+    def post(self,request):
+        pk = request.POST['pk']
+        action = request.POST['action']
+        profile = Profile.objects.get(user=request.user)
+        bundle = Bundle.objects.get(pk=pk,creator=profile)            
+        
+        if bundle and action:
+            try:
+                if action == 'delete':
+                    bundle.delete()
+                return JsonResponse({'status':'ok'})
+                    
+            except Exception as e:
+                return JsonResponse({'status':'error'})
+        
+        return JsonResponse({'status':'error'})
 
 
 class AuthorRequestView(LoginRequiredMixin,UserPassesTestMixin,ListView):
@@ -164,10 +186,7 @@ class AuthorRequestView(LoginRequiredMixin,UserPassesTestMixin,ListView):
         return False  
 
 
-#ajax_views
-from django.utils.decorators import method_decorator
 
-decorators = [ajax_required, require_POST, login_required]
 
 @method_decorator(decorators, name='dispatch')
 class ForkBundle(CreateForkMixin,CreateActivityMixin,View):

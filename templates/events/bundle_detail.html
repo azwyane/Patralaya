@@ -159,7 +159,7 @@
                     'cancle' : 'request' );
                 }
             });
-    });
+    }),
         $("button#share").click(function(e){
         e.preventDefault();
         $.get(
@@ -178,6 +178,31 @@
                     
                 }
             });
+    }),
+
+    $("button#delete").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'delete_bundle' %}",
+            {
+                pk: "{{object.pk}}",
+                action: "delete",
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                
+                if (data['status'] == 'ok'){
+                    
+                  alert("deleted");
+                  
+                }
+                else{
+                  alert("error");
+                }
+            }
+            
+
+        );
     });
 
 });
@@ -583,14 +608,14 @@
            </div>
 
            <div class="flex items-center sm:mr-6 ">
-             <a id="delete" href="{% url 'delete_bundle' creator=object.creator slug=object.slug %}" data-action="delete"
+             <button id="delete" data-action="delete"
                class=" w-full  hover:bg-gray-100 text-gray-6   flex transition duration-500 ease-in-out active:bg-gray-300 py-2 px-4 hover:text-gray-800 hover:bg-gray-50 border border-gray-200  rounded-2xl ">
                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                </svg>
                <span class="ml-1 sm:ml-3">delete</span>
-             </a>
+             </button>
            </div>
 
 

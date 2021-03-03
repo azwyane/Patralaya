@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-03 23:32+0545\n"
+"POT-Creation-Date: 2021-03-04 00:23+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,14 +37,14 @@ msgid "Reading lists"
 msgstr "पठन सूची"
 
 #: templates/events/bundle_detail.html:351
-#: templates/events/mobile_navigation_bar.html:77
-#: templates/events/sidebar.html:123
+#: templates/events/mobile_navigation_bar.html:79
+#: templates/events/sidebar.html:125
 msgid "Profile"
 msgstr "प्रोफाइल"
 
 #: templates/events/bundle_detail.html:366
-#: templates/events/mobile_navigation_bar.html:96
-#: templates/events/sidebar.html:142
+#: templates/events/mobile_navigation_bar.html:98
+#: templates/events/sidebar.html:144
 msgid "Settings"
 msgstr "सेटिङ्स्"
 
@@ -54,7 +54,7 @@ msgstr "सेटिङ्स्"
 msgid "Log out"
 msgstr "बाहिर प्रवेश गर्नुहोस्"
 
-#: templates/events/bundle_detail.html:408 templates/events/sidebar.html:22
+#: templates/events/bundle_detail.html:408 templates/events/sidebar.html:24
 msgid "Home"
 msgstr "घर"
 
@@ -64,7 +64,7 @@ msgstr "घर"
 msgid "Search"
 msgstr "खोज"
 
-#: templates/events/bundle_detail.html:442 templates/events/sidebar.html:54
+#: templates/events/bundle_detail.html:442 templates/events/sidebar.html:56
 msgid "Community"
 msgstr "समुदाय"
 
@@ -89,7 +89,7 @@ msgid "share"
 msgstr "सेयर"
 
 #: templates/events/bundle_detail.html:719
-#: templates/events/top_navigation_bar.html:9
+#: templates/events/top_navigation_bar.html:10
 msgid "Patralaya"
 msgstr "पत्रालय"
 
@@ -188,11 +188,11 @@ msgstr "टिप्पणीहरू"
 msgid "Create new bundle"
 msgstr "नयाँ बन्डल निर्माण गर्नुहोस्"
 
-#: templates/events/bundle_list.html:3
+#: templates/events/bundle_list.html:6
 msgid "Home  page"
 msgstr "गृह पृष्ठ"
 
-#: templates/events/bundle_list.html:11 templates/services/tag_list.html:12
+#: templates/events/bundle_list.html:14 templates/services/tag_list.html:12
 msgid "Posts tagged with"
 msgstr "सँग पोष्ट गरिएको ट्याग"
 
@@ -212,7 +212,11 @@ msgstr "ताली"
 msgid "forks"
 msgstr "फर्कहरू"
 
-#: templates/events/categories.html:19
+#: templates/events/categories.html:11
+msgid "Catagories"
+msgstr ""
+
+#: templates/events/categories.html:22
 msgid "see more"
 msgstr "थप हेर्नुहोस्"
 
@@ -222,32 +226,32 @@ msgstr "थप हेर्नुहोस्"
 msgid "Recent Bundles"
 msgstr "भर्खर प्रकाशन गरिएका बन्डलहरु"
 
-#: templates/events/mobile_navigation_bar.html:44
-#: templates/events/sidebar.html:88
+#: templates/events/mobile_navigation_bar.html:46
+#: templates/events/sidebar.html:90
 msgid "Create New"
 msgstr "नयाँ बन्डल निर्माण गर्नुहोस्"
 
-#: templates/events/mobile_navigation_bar.html:58
-#: templates/events/sidebar.html:102
+#: templates/events/mobile_navigation_bar.html:60
+#: templates/events/sidebar.html:104
 msgid "Reading Lists"
 msgstr "पढ्ने सूचि"
 
-#: templates/events/mobile_navigation_bar.html:113
-#: templates/events/sidebar.html:159
+#: templates/events/mobile_navigation_bar.html:115
+#: templates/events/sidebar.html:161
 msgid "Log Out"
 msgstr "बाहिर प्रवेश गर्नुहोस्"
 
-#: templates/events/mobile_navigation_bar.html:132
-#: templates/events/sidebar.html:177
+#: templates/events/mobile_navigation_bar.html:134
+#: templates/events/sidebar.html:179
 msgid "Sign In"
 msgstr "प्रवेस गर्नुहोस"
 
-#: templates/events/mobile_navigation_bar.html:149
-#: templates/events/sidebar.html:194
+#: templates/events/mobile_navigation_bar.html:151
+#: templates/events/sidebar.html:196
 msgid "Sign Up"
 msgstr "नयाँ खाता बनाउनुहोस"
 
-#: templates/events/mobile_navigation_bar.html:164
+#: templates/events/mobile_navigation_bar.html:166
 msgid "Subscribe through Rss"
 msgstr "RSS मार्फत सदस्यता लिनुहोस् "
 
@@ -257,13 +261,19 @@ msgstr "RSS मार्फत सदस्यता लिनुहोस् "
 msgid "search bundles"
 msgstr "बन्डल खोज"
 
-#: templates/events/sidebar.html:37
+#: templates/events/sidebar.html:39
 msgid "search"
 msgstr "खोज"
 
-#: templates/events/sidebar.html:64
+#: templates/events/sidebar.html:66
 msgid "Activities Stream"
 msgstr "गतिबिधि"
+
+#: templates/events/top_navigation_bar.html:23
+#, fuzzy
+#| msgid "search"
+msgid "Quick search Bundleshere...."
+msgstr "बन्डल खोज"
 
 #: templates/events/top_navigation_bar.html:39
 msgid "rss"
@@ -314,13 +324,20 @@ msgstr "इम्बेड गर्न छवि छान्नुहोस्
 
 #: venv/lib/python3.9/site-packages/ckeditor_uploader/templates/ckeditor/browse.html:27
 msgid "Browse for the image you want, then click 'Embed Image' to continue..."
-msgstr "तपाईले चाहानु भएको तस्विरका लागि ब्राउज गर्नुहोस्, त्यसपछि जारी राख्न 'इम्बेड छवि' क्लिक गर्नुहोस् ..."
+msgstr ""
+"तपाईले चाहानु भएको तस्विरका लागि ब्राउज गर्नुहोस्, त्यसपछि जारी राख्न 'इम्बेड छवि' क्लिक "
+"गर्नुहोस् ..."
 
 #: venv/lib/python3.9/site-packages/ckeditor_uploader/templates/ckeditor/browse.html:29
+#, fuzzy
+#| msgid ""
+#| "No images found. Upload images using the 'Image Button' dialog's Upload "
+#| "tab."
 msgid ""
 "No images found. Upload images using the 'Image Button' dialog's 'Upload' "
 "tab."
-msgstr "कुनै छविहरू फेला परेन। 'छवि बटन' संवादको 'अपलोड' "प्रयोग गरेर छविहरू अपलोड गर्नुहोस् ट्याब।"
+msgstr ""
+"कुनै छविहरू फेला परेन। 'छवि बटन' संवादको 'अपलोड' प्रयोग गरेर छविहरू अपलोड गर्नुहोस् ट्याब।"
 
 #: venv/lib/python3.9/site-packages/ckeditor_uploader/templates/ckeditor/browse.html:50
 msgid "Images in: "

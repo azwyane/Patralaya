@@ -1,3 +1,6 @@
+{% load i18n %}
+{% load static %}
+
 {% block categories %}
 
 
@@ -5,7 +8,7 @@
             <div class=" px-4 py-2 mt-5 max-w-sm w-full rounded-lg bg-white fixed ml-4 mr-20">
 
             <div class="flex-1 m-2 ">
-            <h2 class=" text-xl w-48 font-semibold text-gray-800">Catagories</h2>
+            <h2 class=" text-xl w-48 font-semibold text-gray-800">{% translate "Catagories" %}</h2>
             </div>
 
 
@@ -16,7 +19,7 @@
             {% endwith %}
             {% endfor %}
             </div>
-            <a class="mx-auto block  text-green-500 my-2 cursor-pointer"> see more
+            <a class="mx-auto block  text-green-500 my-2 cursor-pointer"> {% translate "see more" %}
             </a>
             </div>
 

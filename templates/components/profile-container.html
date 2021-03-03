@@ -1,0 +1,39 @@
+
+{% block body %}
+
+        <div class="lg:max-w-sm w-full  pb-5 mx-auto mt-4 overflow-hidden rounded-lg border">
+            <div class=" bg-gradient-to-br pt-8   pb-5 from-green-500  to-green-800">
+
+                <div class="flex justify-center">
+                    <span class="object-cover w-24 h-24 mt-4 border-4 border-green-200 rounded-full">
+                        {% include 'components/profile-picture-container.html' with user=user %}</span>
+                </div>
+                <div class="flex flex-col items-center px-4 overflow-hidden">
+                    <h2 class="mt-2 mb-1 text-2xl font-semibold text-white">{{user}}</h2>
+                    {% if  user.bio %}
+
+                    <p class="mx-4 text-center font-medium text-gray-300 text-md">{{ user.bio}} </p>
+
+
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class=" mt-4 w-full space-x-2 card-actions divide-x flex justify-between">
+
+
+                <div class="flex flex-row flex-1 flex-col items-center">
+                    <p class="text-gray-600">Bundles</p>
+                    <h2>{{user.bundles.count}}</h2>
+                </div>
+                <div class="flex flex-row flex-1 flex-col items-center">
+                    <p class="text-gray-600">Claps</p>
+                    <h2>29</h2>
+                </div>
+            </div>
+            
+
+
+
+</div>
+{% endblock  %}

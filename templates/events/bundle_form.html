@@ -8,12 +8,12 @@
   <div class="container my-5">
     <div class="row">
       <div class="col">
-      	  <h1  >Create Bundle</h1>
+      	  <h1 class="px-2" >Create Bundle</h1>
  <form  class="mt-5" method="POST"  enctype="multipart/form-data">
     {% csrf_token %}
          
     <section class="max-w-4xl p-6  border rounded-2xl bg-gray-50">
-         <div class="grid grid-cols-1 gap-8 mt-4 sm:grid-cols-2">
+         <div class="flex flex-col gap-y-4 sm:grid sm:grid-cols-1 sm:gap-8 mt-4 sm:grid-cols-2">
                 <div>
                     <label class="text-gray-700 dark:text-gray-200"for="{{form.title.id_for_label}}">{{form.title.label}}:</label> {%render_field form.title  placeholder="Title of your bundle"  class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-green-500 dark:focus:border-green-500 focus:outline-none focus:ring"%}
                 </div>
@@ -166,7 +166,7 @@ Select media file eg file.pdf file.mp4
 
 <div >
     
-       <label for="{{form.forkable.id_for_label}}"  class="text-gray-700 dark:text-gray-200">{{form.forkable.label}}:</label>
+       <label for="{{form.forkable.id_for_label}}"  class="mt-2 text-gray-700 dark:text-gray-200">{{form.forkable.label}}:</label>
 {%render_field form.forkable %}
  </div>
 

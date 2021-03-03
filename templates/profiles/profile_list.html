@@ -1,97 +1,94 @@
 {% extends 'events/base.html' %}
 {% load static %}
 {% load i18n %}
-{%block title%} Activity Streams {%endblock%}
+{% block title %} Community profiles
+{% endblock  %}
 {% block body %}
-{% load static %}
-<style>
-.action:nth-child(even){
-    background-color:white;
-}
- .hover-background{
-	
-	cursor:pointer;
-	position: relative;
+
+<script>
+	$(document).ready(function () {
+		$("button#follow").click(function (e) {
+			e.preventDefault();
+			$.post(
+				"{% url 'user_follow' %}",de={
+					username: "{{user}}",
+					action: $(this).data('action'),
+					csrfmiddlewaretoken: "{{csrf_token}}"
+				},
+				function (data) {
+					if (data['status'] == 'ok') {
+						var previous_action = $('button#follow').data('action');
+						// toggle data-action
+						$('button#follow').data('action', previous_action == 'follow' ?
+							'unfollow' : 'follow');
+						// toggle link text
+						$('button#follow').text(previous_action == 'follow' ? 'unfollow' :
+							'follow');
+						// update total likes
+						var previous_follows = parseInt($('span.count .total').text());
+						$('span.count .total').text(previous_action == 'follow' ?
+							previous_follows + 1 : previous_follows - 1);
+					}
+				}
 
 
-}
-.hover-background:before{
-	
-    background:#ace0ee;
-    position:absolute;
-	content:"";
-	display: block;
-	width: 100%;
-	height: 15%;
-	bottom:0;
-	left:0;
-	z-index: -1;
-	transition: all 0.2s ease-in-out;
+			);
+		});
+	});
+</script>
 
 
+<h1>People</h1>
+<div class="grid grid-flow-row   grid-gap-4 sm:grid-cols-3  xl:grid-cols-4">
+{% for public_profile in users %}
 
 
+  <div class="m-2   max-w-72   bg-white flex sm:flex-col rounded-lg px-1 sm:px-4 py-1 sm:py-4 items-center justify-between  ">
+  	<div class="flex sm:flex-col items-center ">
+  	<span class=" h-12 w-12 sm:h-24 sm:w-24 rounded-full ring ring-green-300 ring-offfset-2">
+      {% include 'components/profile-container.html' with user=public_profiler %}
+  	</span>
+  	 <h4 class=" sm:mt-2 ml-2 sm:ml-0 text-center text-sm sm:text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7 ">
+           {{public_profile}}
+        </h4>
+    </div>
+    
 
-}
 
+					{% if request.user.is_authenticated %}
+					{% if public_profile != request.user %}
 
-.hover-background:hover::before{
-	height:100%;
+					<button id="follow" type="submit"
+						data-action="{% if user_profile in user.followers.all %}un{% endif %}follow"
+						class="btn transition duration-500 anim text-white rounded-xl px-8 py-2   active:outline-none   focus:outline-none   {% if user_profile in user.followers.all %}bg-red-500 active:bg-red-300 {% else %}active:bg-green-400 bg-green-500{% endif %}">
 
-}
+						{% if request.user not in public_profile.followers.all %}
+						Follow
+						{% else %}
+						Unfollow
+						{% endif %}
+					</button>
+					{% endif %}
+					{% endif %}
 
-</style>
+        <button class="hidden sm:block transition duration-500 bg-gray-100  py-2 w-full rounded-xl mt-2 text-gray-500 font-semibold hover:text-gray-600 hover:bg-red-200 active:outline-none outline-none active:border active:bg-gray-400"> following</button>
+         {% if request.user.is_authenticated %}
+         <button class="  sm:hidden  py-2 px-4 rounded-xl text-gray-300 font-semibold hover:text-gray-600 text-xs hover:bg-red-200 active:outline-none outline-none active:border active:bg-gray-400"> following</button>
+        <div class="hidden  sm:flex  w-full my-4">
+        	<div class=" flex flex-col flex-1 items-center">
+        		<span class="">Bundles</span>
+        		<span class=""> 26 </span>
 
+        	</div>
+        	<div class=" flex  border-l-gray-200 border-l-2  flex-col flex-1 items-center">
+        		<span class="">claps</span>
+        		<span class=" "> 26 </span>
 
-<div class="flex">
-    <div class="lg:w-3/5 bg-gray-50 px-2">
-{% if actions %}
-        <div class="flex-1  mt-6 pb-4">
-
-            <h1 id=""class=" text-2xl  font-semibold text-gray-800">Recent Actions</h1>
-               {% for action in actions %}
-                   <div id="article-content" class="action mt-2 py-2 px-2 ">
-                    <span class="text-gray-500  text-sm font-normal block font-medium ">{{action.created}}</span>
-                    <h3 class="text-lg font-medium">  <a class="hover-background" href="{{ action.profile.get_absolute_url }}">{{action.profile}}</a>&nbsp;{{action.verb|rjust:"2"}}  <a
-            class="hover-background" href="{{ action.target.get_absolute_url }}">
-            {% if action.target.slug %}
-            {{action.target.slug}}
-            {% else %}
-            {{action.target}}
-            {% endif %}
-        </a></h3>
-                </div>
-                {% endfor %}
+        	</div>
 
         </div>
+  </div>
 
 
-                {% else %}
-<div class="flex flex-col justify-center items-center mt-64 ">
-<img  class="h-32 w-32" src="{% static 'images/noActions.svg' %}">        
-                <h1 class="text-gray-800 mt-5 font-semibold text-xl lg:text-2xl">Sorry no actions to show!</h1>
-                <p class="text-gray-600">
-                    for this to show you must follow some users
-                </p>
-</div>
-                {% endif %}
-
-
-    </div>
-    <div class=" hidden lg:block lg:w-2/5 h-64 pr-2 py-4">
-        {% include 'events/categories.html' with categories=view.categories %}
-    </div>
-
-</div>
-{% endblock body %}
-
-
-
-
-
-
-
-
-
-
-
+{% endfor %}
+{% endblock %}

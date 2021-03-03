@@ -106,6 +106,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'profiles.context_processors.profile_render', #custom context processor
+                'events.context_processors.categories', 
             ],
         },
     },

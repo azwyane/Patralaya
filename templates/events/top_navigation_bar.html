@@ -2,35 +2,69 @@
 {% block topNavigation %}
 
 
-<div  class=" w-full bg-white sticky top-0 z-40 border border-b-2">
-	<div class="mx-auto max-w-screen-2xl flex justify-between items-center  ">
-		<div class="py-2">
-			<h1 class="text-2xl lg:text-4xl font-semibold text-green-500 pl-2 lg:pl-8 "><a href="{% url 'home' %}"> {% translate "Patralaya" %}</a></h1>  
-		</div>
+<div class=" w-full bg-white sticky top-0 z-40 border border-b-2">
+  <div class="mx-auto max-w-screen-2xl flex justify-between items-center  ">
+    <div class="py-2">
+      <h1 class="text-2xl lg:text-4xl font-semibold text-green-500 pl-2 lg:pl-8 "><a href="{% url 'home' %}">
+          {% translate "Patralaya" %}</a></h1>
+    </div>
 
-		<div class="hidden lg:block w-full max-w-sm ">
-
-
-
-
-         <div class="flex border rounded-lg pl-2 py-2 my-1 bg-gray-50 border-gray-50    items-center">
-           <span><svg class=" h-6 text-gray-800 w-auto " fill="none"
-               viewBox="0 0 24 24" stroke="currentColor">
-               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-             </svg></span>
-           <h3 class="ml-4  text-sm  font-medium text-gray-500" onclick="toggleSearchBoxClass()">Quick search Bundles here....</h3>
-
-         </div>
-			
-
-
-		</div>
+    <div class="hidden lg:block w-full max-w-sm ">
 
 
 
 
-	</div>
+      <div class="flex border rounded-lg pl-2 py-2 my-1 bg-gray-50 border-gray-50    items-center">
+        <span><svg class=" h-6 text-gray-800 w-auto " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg></span>
+        <h3 class="ml-4  text-sm  font-medium text-gray-500" onclick="toggleSearchBoxClass()">Quick search Bundles
+          here....</h3>
+
+      </div>
+
+
+
+    </div>
+
+
+
+
+
+
+  <div class="flex items-center">
+    <div class="col px-2 mx-0 ">
+  <p class="mb-0">
+    <em><a class="hover:bg-gray-50  rounded-md outline-none px-4 py-2 active:bg-gray-100 anim" href="{% url 'bundle_feed' %}"><i class="h-6 w-6 fa fa-rss text-red-500"></i> rss</a></em>
+</p>
+{% get_current_language as LANGUAGE_CODE %}
+</div>
+<div class="col px-2 mx-0 " >
+<form action="{% url 'set_language' %}" method="POST" style=" display: flex; justify-content: flex-end;">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ redirect_to }}">
+  <select name="language" class="pl-2 rounded-l-md">
+    {% get_available_languages as LANGUAGES %}
+    {% get_language_info_list for LANGUAGES as languages %}
+    {% for language in languages %}
+    <option class="bg-green-500"value="{{language.code}}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+      {{language.name_local}} | {{language.code}}
+    </option>
+    {% endfor %}
+  </select>
+  <input class="hover:bg-gray-50  rounded-r-md outline-none px-4 py-1 active:bg-gray-100 anim"type="submit" value="set">
+</form>
+</div>
+</div>
+
+
+
+
+
+
+
+  </div>
 </div>
 
 

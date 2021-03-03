@@ -100,3 +100,28 @@ Then make push by:
 ```
 $ git push origin master
 ```
+
+### The project can be run on docker
+
+- Clone the repo and then follow with:
+
+```
+$ docker build .
+```
+```
+$ docker-compose up
+```
+
+after stopping dont forget to `$ docker-compose down`
+
+After making changes run by:
+
+```
+$ docker-compose build
+```
+
+
+
+Project is licensed under:
+
+![GNU GPLV3](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)

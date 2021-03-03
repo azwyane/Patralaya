@@ -147,12 +147,6 @@ class BundleUpdateView(LoginRequiredMixin, BundleEditMixin,SuccessMessageMixin, 
 
 
 class BundleDeleteView(View):
-    model = Bundle
-    template_name = 'events/bundle_delete.html'
-    success_url = reverse_lazy('home')
-    login_url = 'home'
-    success_message = "%(title)s deleted successfully"
-
     def post(self,request):
         pk = request.POST['pk']
         action = request.POST['action']

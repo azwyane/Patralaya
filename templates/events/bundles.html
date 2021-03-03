@@ -86,7 +86,7 @@
 				<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">{% if bundle.context|striptags|length|intdiv:1500 is 0 %}1 {% else %} {{bundle.context|striptags|length|intdiv:1500}} {% endif %} min read &nbsp;&nbsp;&nbsp;&nbsp;{{bundle.claps.count}} {% translate 'claps' %} &nbsp;&nbsp;&nbsp;&nbsp; {{bundle.fork.count}} {% translate 'forks' %}</p>
   
 				</div>
-                <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class="block mt-2 text-2xl font-semibold text-gray-800 dark:text-white hover:text-gray-600 ">{{ bundle.title|safe}}</a>
+                <a href="{% url 'detail_bundle' creator=bundle.creator slug=bundle.slug %}" class=" outline-none block mt-2 text-2xl font-semibold text-gray-800 dark:text-white hover:text-gray-600 ">{{ bundle.title|safe}}</a>
                   </div>
        
             <div class="mt-4">

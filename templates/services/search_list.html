@@ -1,15 +1,15 @@
 {% extends 'events/base.html' %}
 {% load static %}
-
-{%block title%}  search:{{view.published.queryde}}   {%endblock%}
+{% load i18n %}
+{%block title%}  search:{{view.published.query}}   {%endblock%}
 {% block body %}
 	
-	<div class="flex" >
-		<div class="lg:w-3/5 bg-gray-50 px-2"> 
+	<div class="flex px-2 " >
+		<div class="w-full lg:w-3/5 mx-auto bg-gray-50 px-2"> 
 
 			<div class="flex-1  mt-6 pb-4">
             {% if view.published.published_bundles %}
-				<h1 class=" text-2xl  font-semibold text-gray-800">Results related to '{{view.published.query}}'</h1>
+				<h1 class=" text-2xl  font-semibold text-gray-800"> {% translate "Results related to" %}  '{{view.published.query}}'</h1>
 					{% for bundle in view.published.published_bundles %}
 
 					{% include 'events/bundles.html' with bundle=bundle %}
@@ -19,50 +19,20 @@
 
 
 
-
-                                             <nav >
-  <ul class="pagination justify-content-center align-items-center mt-3">
-  
-  
-  <!-- prvioud buttons starts here   -->
-  {% if view.published.published_bundles.has_previous %}
-      <li class="page-item">
-    
-      <a class="page-link" href="?query={{query}}&page=1" tabindex="1">First</a>
-    </li>
-    <li class="page-item">
-    
-      <a class="page-link" href="?query={{query}}&page={{ view.published.published_bundles.previous_page_number }}" tabindex="1">Previous</a>
-    </li>
-    {%else%}
-        <li class="page-item disabled">
-    
-      <a class="page-link" href="#" tabindex="-1">Previous</a>
-    </li>
-    
-    {% endif %}
-    </ul>
-    </nav>
-
-
-
-
-
-
-
+	 {% include "components/pagination.html" with bundles=view.published.published_bundles %}
 
 {% else %}
 
 <!--if no result exists then follows this-->
 
-<div class="container">
-
-<div class="d-flex justify-content-center align-items-center " id="empty list">
-<div class="my-5 search-content text-center">
+<div class=" mt-24">
+					
+<div class="" id="empty list">
+<div class="flex flex-col justify-center items-center ">
     {% load static %}
 <img  class="my-3"src="{% static 'images/empty-search.svg' %}"  width="200px">
 <h2>Oops ! No results found</h2>
-<p class="text-muted">Sorry didn't found anything matching your query. Try again with different query</p>
+<p class="text-center text-gray-500">Sorry didn't found anything matching your query. Try again with different query</p>
 </div>
 
 
@@ -79,7 +49,7 @@
 
 
 		</div>
-		<div class=" hidden lg:block lg:w-2/5 h-64 pr-2 py-4">
+		<div class=" hidden lg:flex lg:w-2/5 h-64 pr-2 py-4">
 			{% include 'events/categories.html'  %}
 		</div>
 

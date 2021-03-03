@@ -1,6 +1,6 @@
 
 {% extends 'events/base.html' %}
-
+{% load i18n %}
 {%block title%}  Home  page  {%endblock%}
 {% block body %}
 	
@@ -8,7 +8,7 @@
 		<div class="lg:w-3/5 bg-gray-50 px-2"> 
 
 			<div class="flex-1  mt-6 pb-4">
-				<h1 class=" text-2xl  font-semibold text-gray-800">Recent Bundles</h1>
+				<h1 class=" text-2xl  font-semibold text-gray-800">{%translate "Recent Bundles"%}</h1>
 					{% for bundle in view.bundles %}
 
 					{% include 'events/bundles.html' with bundle=bundle %}
@@ -18,85 +18,11 @@
 
 
 
-		{% with view.bundles as bundles  %}
 
-	
+	 {% include "components/pagination.html" with bundles=view.bundles %}
 
-			<!-- paginations-->
-			<div class="w-full mb-24 text-xs md:text-base">
-				<ul class=" flex pl-0 list-none rounded my-2 mx-ato justify-center">
 
-					{% if bundles.has_previous %}
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 border-r-0 ml-0 rounded-l hover:bg-gray-200">
-						<a class="anim page-link" href="?page=1">&laquo; first</a></li>
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
-						<a class="anim page-link" href="?page={{ bundles.previous_page_number }}">previous</a></li>
-					{% else %}
-					<li
-						href="#" class="disabled relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300 border-r-0 ml-0 rounded-l ">
-						&laquo; first</li>
-					<li href="#" class="disabled relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300  ">
-					previous</li>
-					{% endif %}
-<!-- 					
-					{% if  bundles.number >= 3 and  bundles.number != 1 %}
 
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
-						<a class="anim page-link"
-							href="?page={{ bundles.number|add:'-2' }}">{{ bundles.number|add:'-2' }}</a></li>
-					{% endif %}
-					{% if  bundles.number >= 2 and  bundles.number != 1 %}
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
-						<a class="anim page-link"
-							href="?page={{ bundles.number|add:'-1' }}">{{ bundles.number|add:'-1' }}</a></li>
-					{% endif %} -->
-
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
-						{{ bundles.number }} of {{ bundles.paginator.num_pages }}</li>
-
-					<!-- {% if bundles.number|add:'1' <= bundles.paginator.num_pages %}
-
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600  hover:bg-gray-200">
-						<a class="anim page-link"
-							href="?page={{ bundles.next_page_number }}">{{ bundles.next_page_number }}</a></li>
-					{% if bundles.number|add:'2' <= bundles.paginator.num_pages %}
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 border-r-0 hover:bg-gray-200">
-						<a class="anim page-link"
-							href="?page={{ bundles.next_page_number|add:'+1' }}">{{ bundles.next_page_number|add:'+1' }}</a>
-					</li>
-					{% endif %}
-					{% endif %} -->
-
-					{% if bundles.has_next %}
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 border-r-0 hover:bg-gray-200">
-						<a class="anim page-link" href="?page={{ bundles.next_page_number }}">next</a></li>
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-600 rounded-r hover:bg-gray-200">
-						<a class="anim page-link" href="?page={{ bundles.paginator.num_pages }}"></a>last &raquo;</li>
-					{% else %}
-
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300 border-r-0">
-						next</li>
-					<li
-						class="relative block py-2 px-3 leading-tight bg-white border border-gray-300 text-gray-300 rounded-r ">
-						last &raquo;</li>
-
-					{% endif %}
-
-				</ul>
-			</div>
-			<!--paginations ends here-->
-
-{% endwith %}
 
 
 

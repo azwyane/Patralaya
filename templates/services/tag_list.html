@@ -1,66 +1,62 @@
 {% extends 'events/base.html' %}
 {% load static %}
 {% load i18n %}
-
+{%block title%}  bundles with tag {{tag.name}}   {%endblock%}
 {% block body %}
+	
+	<div class="flex px-2 " >
+		<div class="w-full lg:w-3/5 mx-auto bg-gray-50 px-2"> 
 
-
-{% if tag %}
-<h2>Posts tagged with "{{ tag.name }}"</h2>
-{% endif %}
-
+			<div class="flex-1  mt-6 pb-4">
+           {% if tag %}
+				<h1 class=" text-2xl  font-semibold text-gray-800"> {% translate "Posts tagged with" %}  '{{ tag.name }}'</h1>
+				{% endif %}
 {% if page_obj %}
-<ul>
-{% for bundle in page_obj %}
-     
-<li>{{ bundle.title|safe }}<a href='{{ bundle.get_absolute_url }}'>Readmore</a></li>
-<p>Created by:</p>
-{% if bundle.creator.profile_picture %}
-<p><img src='{{bundle.creator.profile_picture.url}}' alt="profile-picture" style="display: inline-block;position: relative;width: 200px;height: 200px;overflow: hidden;border-radius: 50%;">
-</p>
-{% endif %}
-<p>{{ bundle.creator }}</p>
-<p>Tags: </p>
-<ul>
-    {% for tag in bundle.tags.all %}
-    <li><a href="{% url 'list_tag' tag.slug %}">
-        {{ tag.name }}
-    </a>
-    </li>
-    {% endfor %}
-</ul>
+                	{% for bundle in page_obj%}
 
-{% endfor %}
-</ul>
+					{% include 'events/bundles.html' with bundle=bundle %}
 
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
+					{% endfor %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
+
+
+	 {% include "components/pagination.html" with bundles=page_obj %}
 
 {% else %}
 
-<!--if the bundles are private/drafted-->
-Didn't found the bundle?
-<p>It's because the bundles with this topic might be private or unavailable at the moment</p>
-<p> Why not create your own </p>
+<!--if no result exists then follows this-->
 
+<div class=" mt-24">
+					
+<div class="" id="empty list">
+<div class="flex flex-col justify-center items-center ">
+    {% load static %}
+<img  class="my-3"src="{% static 'images/empty-search.svg' %}"  width="200px">
+<h2>Oops ! Didn't found the bundle?</h2>
+<p class="text-center text-gray-500">It's because the bundles with this topic might be private or unavailable at the moment</p>
+<a href="{% url 'create_bundle' creator=user %}" class=" mt-6 anim text-green-500"> Why not create your own </p>
+</div>
+
+
+</div>
+</div>
 {% if not request.user.is_authenticated %}
 <p> Proceed to <a href="{% url 'login' %}">LOGIN</a></p>
 {% endif %}
+
+
+
 {% endif %}
 
-{% endblock %}
+			</div>
+
+
+
+		</div>
+		<div class=" hidden lg:flex lg:w-2/5 h-64 pr-2 py-4">
+			{% include 'events/categories.html'  %}
+		</div>
+
+	</div>
+{% endblock body %}

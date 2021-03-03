@@ -149,7 +149,49 @@
 <span class="ml-3">{% translate "Sign Up" %}</span>
 </a>
 </div>
+
 {% endif %}
+
+
+
+
+
+<div class="my-px ">
+	<a  href="{% url 'bundle_feed' %}"
+	class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-700 hover:bg-gray-100">
+<i class="h-6 w-6 fa fa-rss text-red-500"></i>
+</span>
+<span class="ml-3">{% translate "Subscribe through Rss" %}</span>
+</a>
+</div>
+
+{% get_current_language as LANGUAGE_CODE %}
+<div class="col px-2 mx-0 flex justify-start" >
+<form action="{% url 'set_language' %}" method="POST" style=";">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ redirect_to }}">
+  <select name="language" class="pl-2 rounded-l-md">
+    {% get_available_languages as LANGUAGES %}
+    {% get_language_info_list for LANGUAGES as languages %}
+    {% for language in languages %}
+    <option class="bg-green-500"value="{{language.code}}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+      {{language.name_local}} | {{language.code}}
+    </option>
+    {% endfor %}
+  </select>
+  <input class="hover:bg-gray-50  rounded-r-md outline-none px-4 py-1 active:bg-gray-100 anim"type="submit" value="set language">
+</form>
+</div>
+
+
+
+
+
+
+
+
+
+
 </ul>
 
 

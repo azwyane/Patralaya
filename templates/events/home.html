@@ -23,7 +23,7 @@
 	
 
 			<!-- paginations-->
-			<div class="w-full">
+			<div class="w-full mb-24 text-xs md:text-base">
 				<ul class=" flex pl-0 list-none rounded my-2 mx-ato justify-center">
 
 					{% if bundles.has_previous %}
@@ -105,7 +105,7 @@
 
 
 		</div>
-		<div class=" hidden lg:block lg:w-2/5 h-64 pr-2 py-4">
+		<div class=" hidden md:block md:w-2/5 h-64 pr-2 py-4 overflow-scroll">
 			{% include 'events/categories.html' with categories=view.categories %}
 		</div>
 

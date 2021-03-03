@@ -70,7 +70,7 @@ def signup(request):
 
 
 def user_list(request):
-    profile = Profile.objects.all
+    profile = Profile.objects.exclude(user=request.user)
     return render(request,'profiles/profile_list.html',{'users': profile})
     
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-04 00:23+0545\n"
+"POT-Creation-Date: 2021-03-04 10:11+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,167 +18,117 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/events/bundle_detail.html:310
-#, fuzzy
-#| msgid "Activities Stream"
-msgid "Activity Stream"
-msgstr "गतिबिधि"
-
-#: templates/events/bundle_detail.html:327 templates/events/bundle_form.html:11
-#, fuzzy
-#| msgid "Create New"
-msgid "Create Bundle"
-msgstr "नयाँ बन्डल निर्माण गर्नुहोस्"
-
-#: templates/events/bundle_detail.html:338
-#: templates/events/bundle_detail.html:461
-#: templates/events/bundle_detail.html:479
-msgid "Reading lists"
-msgstr "पठन सूची"
-
-#: templates/events/bundle_detail.html:351
-#: templates/events/mobile_navigation_bar.html:79
-#: templates/events/sidebar.html:125
-msgid "Profile"
-msgstr "प्रोफाइल"
-
-#: templates/events/bundle_detail.html:366
-#: templates/events/mobile_navigation_bar.html:98
-#: templates/events/sidebar.html:144
-msgid "Settings"
-msgstr "सेटिङ्स्"
-
-#: templates/events/bundle_detail.html:378
-#, fuzzy
-#| msgid "Log Out"
-msgid "Log out"
-msgstr "बाहिर प्रवेश गर्नुहोस्"
-
-#: templates/events/bundle_detail.html:408 templates/events/sidebar.html:24
-msgid "Home"
-msgstr "घर"
-
-#: templates/events/bundle_detail.html:427
-#, fuzzy
-#| msgid "search"
-msgid "Search"
-msgstr "खोज"
-
-#: templates/events/bundle_detail.html:442 templates/events/sidebar.html:56
-msgid "Community"
-msgstr "समुदाय"
-
-#: templates/events/bundle_detail.html:515
-#: templates/events/bundle_detail.html:859
+#: templates/events/bundle_detail.html:520
+#: templates/events/bundle_detail.html:866
 msgid "update"
 msgstr "अद्यावधिक गर्नुहोस्"
 
-#: templates/events/bundle_detail.html:526
-#: templates/events/bundle_detail.html:870
+#: templates/events/bundle_detail.html:531
+#: templates/events/bundle_detail.html:877
 msgid "delete"
 msgstr "मेटाउनुहोस्"
 
-#: templates/events/bundle_detail.html:654
-#: templates/events/bundle_detail.html:966
+#: templates/events/bundle_detail.html:651
+#: templates/events/bundle_detail.html:973
 msgid "fork"
 msgstr "फर्क गर्नुहोस्"
 
-#: templates/events/bundle_detail.html:671
-#: templates/events/bundle_detail.html:983
-msgid "share"
-msgstr "सेयर"
-
-#: templates/events/bundle_detail.html:719
+#: templates/events/bundle_detail.html:726
 #: templates/events/top_navigation_bar.html:10
 msgid "Patralaya"
 msgstr "पत्रालय"
 
-#: templates/events/bundle_detail.html:731
+#: templates/events/bundle_detail.html:738
 #, fuzzy
 #| msgid "search"
 msgid "Quick search Bundles here...."
 msgstr "बन्डल खोज"
 
-#: templates/events/bundle_detail.html:753
-#: templates/events/bundle_detail.html:754
+#: templates/events/bundle_detail.html:760
+#: templates/events/bundle_detail.html:761
 msgid "home"
 msgstr "घर"
 
-#: templates/events/bundle_detail.html:771
+#: templates/events/bundle_detail.html:777
+#: templates/events/bundle_detail.html:778
 msgid "community"
 msgstr "समुदाय"
 
-#: templates/events/bundle_detail.html:787
+#: templates/events/bundle_detail.html:794
 #, fuzzy
 #| msgid "Profile"
 msgid "profile"
 msgstr "प्रोफाइल"
 
-#: templates/events/bundle_detail.html:803
+#: templates/events/bundle_detail.html:810
 msgid "more"
 msgstr "अधिक"
 
-#: templates/events/bundle_detail.html:1061
+#: templates/events/bundle_detail.html:990
+msgid "share"
+msgstr "सेयर"
+
+#: templates/events/bundle_detail.html:1068
 msgid "Media files"
 msgstr "मिडिया फाईलहरू"
 
-#: templates/events/bundle_detail.html:1187
+#: templates/events/bundle_detail.html:1195
 msgid "Bundle details"
 msgstr "बन्डल विवरण"
 
-#: templates/events/bundle_detail.html:1192
+#: templates/events/bundle_detail.html:1200
 msgid "Published on"
 msgstr "प्रकाशित समय"
 
-#: templates/events/bundle_detail.html:1200
+#: templates/events/bundle_detail.html:1208
 msgid "Updated On"
 msgstr "अद्यावधिक समय"
 
-#: templates/events/bundle_detail.html:1208
+#: templates/events/bundle_detail.html:1217
 msgid "Forked from"
 msgstr "फर्क यहाँबाट गरेको"
 
-#: templates/events/bundle_detail.html:1216
+#: templates/events/bundle_detail.html:1227
 #, fuzzy
 #| msgid "Bundle you created"
 msgid "Bundle type"
 msgstr "तपाईं निर्मित बन्ड्लहरु"
 
-#: templates/events/bundle_detail.html:1224
+#: templates/events/bundle_detail.html:1236
 msgid "Git url"
 msgstr "गीट युआरयल "
 
-#: templates/events/bundle_detail.html:1234
+#: templates/events/bundle_detail.html:1246
 #, fuzzy
 #| msgid "Bundle you created"
 msgid "Bundle Type:"
 msgstr "तपाईं निर्मित बन्ड्लहरु"
 
-#: templates/events/bundle_detail.html:1241
+#: templates/events/bundle_detail.html:1253
 msgid "Original source::"
 msgstr "मूल युआरयल"
 
-#: templates/events/bundle_detail.html:1252
+#: templates/events/bundle_detail.html:1264
 msgid "Bundle Forked From:"
 msgstr "बन्डल फर्क यहाँबाट गरेको"
 
-#: templates/events/bundle_detail.html:1261
+#: templates/events/bundle_detail.html:1273
 msgid "Bundle Forked into:"
 msgstr "बन्डल योमा फर्क गरेको"
 
-#: templates/events/bundle_detail.html:1362
+#: templates/events/bundle_detail.html:1374
 msgid "Discussions"
 msgstr "छलफल"
 
-#: templates/events/bundle_detail.html:1369
+#: templates/events/bundle_detail.html:1381
 msgid "post"
 msgstr "पोष्ट"
 
-#: templates/events/bundle_detail.html:1380
+#: templates/events/bundle_detail.html:1392
 msgid "total"
 msgstr "कुल"
 
-#: templates/events/bundle_detail.html:1381
+#: templates/events/bundle_detail.html:1393
 msgid "comments."
 msgstr "टिप्पणीहरू"
 
@@ -186,6 +136,12 @@ msgstr "टिप्पणीहरू"
 #, fuzzy
 #| msgid "Create New"
 msgid "Create new bundle"
+msgstr "नयाँ बन्डल निर्माण गर्नुहोस्"
+
+#: templates/events/bundle_form.html:11
+#, fuzzy
+#| msgid "Create New"
+msgid "Create Bundle"
 msgstr "नयाँ बन्डल निर्माण गर्नुहोस्"
 
 #: templates/events/bundle_list.html:6
@@ -214,13 +170,19 @@ msgstr "फर्कहरू"
 
 #: templates/events/categories.html:11
 msgid "Catagories"
-msgstr ""
+msgstr "क्याटागोरीहरू"
 
 #: templates/events/categories.html:22
 msgid "see more"
 msgstr "थप हेर्नुहोस्"
 
-#: templates/events/home.html:11
+#: templates/events/home.html:5
+#, fuzzy
+#| msgid "Home  page"
+msgid "Home Page"
+msgstr "गृह पृष्ठ"
+
+#: templates/events/home.html:12
 #, fuzzy
 #| msgid "Recently Published Bundle"
 msgid "Recent Bundles"
@@ -236,22 +198,37 @@ msgstr "नयाँ बन्डल निर्माण गर्नुहो
 msgid "Reading Lists"
 msgstr "पढ्ने सूचि"
 
-#: templates/events/mobile_navigation_bar.html:115
-#: templates/events/sidebar.html:161
+#: templates/events/mobile_navigation_bar.html:73
+#: templates/events/sidebar.html:117
+msgid "Feed Aggregate"
+msgstr "समग्र फिड"
+
+#: templates/events/mobile_navigation_bar.html:93
+#: templates/events/sidebar.html:138
+msgid "Profile"
+msgstr "प्रोफाइल"
+
+#: templates/events/mobile_navigation_bar.html:112
+#: templates/events/sidebar.html:157
+msgid "Settings"
+msgstr "सेटिङ्स्"
+
+#: templates/events/mobile_navigation_bar.html:129
+#: templates/events/sidebar.html:174
 msgid "Log Out"
 msgstr "बाहिर प्रवेश गर्नुहोस्"
 
-#: templates/events/mobile_navigation_bar.html:134
-#: templates/events/sidebar.html:179
+#: templates/events/mobile_navigation_bar.html:148
+#: templates/events/sidebar.html:192
 msgid "Sign In"
 msgstr "प्रवेस गर्नुहोस"
 
-#: templates/events/mobile_navigation_bar.html:151
-#: templates/events/sidebar.html:196
+#: templates/events/mobile_navigation_bar.html:165
+#: templates/events/sidebar.html:209
 msgid "Sign Up"
 msgstr "नयाँ खाता बनाउनुहोस"
 
-#: templates/events/mobile_navigation_bar.html:166
+#: templates/events/mobile_navigation_bar.html:180
 msgid "Subscribe through Rss"
 msgstr "RSS मार्फत सदस्यता लिनुहोस् "
 
@@ -261,9 +238,17 @@ msgstr "RSS मार्फत सदस्यता लिनुहोस् "
 msgid "search bundles"
 msgstr "बन्डल खोज"
 
+#: templates/events/sidebar.html:24
+msgid "Home"
+msgstr "गृह पृष्ठ"
+
 #: templates/events/sidebar.html:39
 msgid "search"
 msgstr "खोज"
+
+#: templates/events/sidebar.html:56
+msgid "Community"
+msgstr "समुदाय"
 
 #: templates/events/sidebar.html:66
 msgid "Activities Stream"
@@ -1562,6 +1547,24 @@ msgstr ""
 #: venv/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:409
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Activities Stream"
+#~ msgid "Activity Stream"
+#~ msgstr "गतिबिधि"
+
+#~ msgid "Reading lists"
+#~ msgstr "पठन सूची"
+
+#, fuzzy
+#~| msgid "Log Out"
+#~ msgid "Log out"
+#~ msgstr "बाहिर प्रवेश गर्नुहोस्"
+
+#, fuzzy
+#~| msgid "search"
+#~ msgid "Search"
+#~ msgstr "खोज"
 
 #~ msgid "All you need is a hungry eyes"
 #~ msgstr "आँखामा भोक हुन जरुरि छ"

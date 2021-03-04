@@ -1030,7 +1030,7 @@
              <h2 class=" text-lg sm:text-2xl xl:text-4xl font-semibold text-gray-800 leading-tight">
                {{ object.title|safe}}
              </h2>
-
+            
              <div class=" mb-2 flex flex-wrap text-green-700 dark:text-gray-400 text-base py-1 my-0.5">
                {% for tag in object.tags.all %}
                {% with tag|slugify as tag_slug  %}
@@ -1153,7 +1153,7 @@
                  {% include 'components/profile-picture-container.html' with user=object.creator %}
                </div>
                <div>
-                 <p class="font-semibold text-gray-700 text-sm"> {{object.creator}}}</p>
+                 <p class="font-semibold text-gray-700 text-sm"> {{object.creator}}</p>
 
                </div>
 
@@ -1197,7 +1197,13 @@
          <div class="p-4 border w-full border-gray-200 rounded-2xl mt-4">
 
            <h2 class=" border-b mb-4 pb-1 text-sm text-gray-700">{% translate "Bundle details" %}</h2>
-
+           
+           {% if object.status == 'Draft' %}
+           <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
+            <p class="font-semibold text-gray-700 text-sm"> {% translate "Bundle Status" %}</p>
+             <p class="font-medium text-gray-500 text-xs py-1">{% translate "Private" %} </p>
+          </div>
+          {% endif %}
 
 
            <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">

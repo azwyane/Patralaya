@@ -1190,7 +1190,7 @@
 
            <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
              <p class="font-semibold text-gray-700 text-sm"> {% translate "Published on" %}</p>
-             <p class="font-medium text-gray-500 text-xs py-1"> 2077-10-12, 3days ago </p>
+             <p class="font-medium text-gray-500 text-xs py-1"> {{object.published_on}} </p>
 
 
            </div>
@@ -1198,36 +1198,40 @@
 
            <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
              <p class="font-semibold text-gray-700 text-sm"> {% translate "Updated On" %}</p>
-             <p class="font-medium text-gray-500 text-xs py-1"> 2077-10-12, 3days ago </p>
+             <p class="font-medium text-gray-500 text-xs py-1"> {{object.updated_on}} </p>
 
 
            </div>
 
-
+           {% if object.get_forked_from.count == 1 %}
+           {% with object.get_forked_from.0 as parent %}
            <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
              <p class="font-semibold text-gray-700 text-sm">{% translate "Forked from" %}</p>
-             <p class="font-medium text-gray-500 text-xs py-1"> sandesh sharma</p>
+             <p class="font-medium text-gray-500 text-xs py-1"> <a href= "{{parent.get_absolute_url}}">{{parent}}</a></p>
 
 
            </div>
-
-
+           {% endwith %}
+           {% endif %}
+           
+           {% if object.bundle_type %}
            <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
              <p class="font-semibold text-gray-700 text-sm"> {% translate "Bundle type" %}</p>
-             <p class="font-medium text-gray-500 text-xs py-1"> 2077-10-12, 3days ago </p>
+             <p class="font-medium text-gray-500 text-xs py-1"> {{object.bundle_type}} </p>
 
 
            </div>
+           {% endif %}
 
-
+           {% if object.git_url %}
            <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
              <p class="font-semibold text-gray-700 text-sm">{% translate  "Git url" %}</p>
-             <p class="font-medium text-gray-500 text-xs py-1"> 2077-10-12, 3days ago </p>
+             <p class="font-medium text-gray-500 text-xs py-1"> {{object.git_url}} </p>
 
 
            </div>
 
-
+           {% endif %}
 
            {% if object.bundle_type %}
            <div class=" my-1 py-1 sm:flex justify-between gap-2  lg:block">

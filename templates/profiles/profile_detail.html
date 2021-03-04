@@ -274,13 +274,14 @@
 									class=" flex-auto rounded-full py-1 px-2 leading-tight ml-3 font-semibold text-sm">{{total_followings}}</span>
 							</div>
 							<button class="anim h-8 w-8 m-0 p-0 hover:bg-gray-100 rounded-full  anim" type="button"
-								data-toggle="collapse" data-target="#collapseFollower" aria-expanded="false"
+								data-toggle="collapse" data-target="#collapseFollowing" aria-expanded="false"
 								aria-controls="collapseFollowing"><svg class=" h-4 w-4" fill="none" viewBox="0 0 24 24"
 									stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 										d="M19 9l-7 7-7-7" />
 								</svg></button>
 						</div>
+						{% if total_followings > 0 %}
 						<ul class="collapse px-2" id="collapseFollowing">
 							{% for profile in followings.all %}
 
@@ -290,7 +291,7 @@
 									href="{% url 'user_detail' profile %}">{{ profile }}</a></p>
 							{% endfor %}
 						</ul>
-
+                        {% endif %}
 					</div>
 
 					{% endwith %}
@@ -318,13 +319,14 @@
 										d="M19 9l-7 7-7-7" />
 								</svg></button>
 						</div>
+						{% if total_followers > 0 %}
 						<ul class="collapse px-2" id="collapseFollower">
 							{% for profile in user.followers.all %}
 							<p class="font-medium text-gray-500 text-sm pt-1"> <a
 									href="{% url 'user_detail' profile %}">{{ profile }}</a></p>
 							{% endfor %}
 						</ul>
-
+                        {% endif %}
 					</div>
 
 					{% endwith %}
@@ -342,7 +344,7 @@
 
 
 
-					{% if  user.interest %}
+					{% if  user.interest != None %}
 
 					<div class="py-2">
 						<div class="flex justify-between w-full">
@@ -351,14 +353,14 @@
 
 
 							<button class=" anim h-8 w-8 m-0 p-0 hover:bg-gray-100 rounded-full  anim" type="button"
-								data-toggle="collapse" data-target="#collapseFollower" aria-expanded="false"
-								aria-controls="collapseFollower"><svg class=" h-4 w-4" fill="none" viewBox="0 0 24 24"
+								data-toggle="collapse" data-target="#collapseInterest" aria-expanded="false"
+								aria-controls="collapseInterest"><svg class=" h-4 w-4" fill="none" viewBox="0 0 24 24"
 									stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 										d="M19 9l-7 7-7-7" />
 								</svg></button>
 						</div>
-						<ul class="collapse px-2" id="collapseFollower">
+						<ul class="collapse px-2" id="collapseInterest">
 							{% for interest in user.interest.all %}
 
 

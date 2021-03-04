@@ -75,7 +75,7 @@
 -->
 
 
- <div class=" my-4  mx-auto overflow-hidden bg-white rounded-lg border dark:bg-gray-800">
+ <div class=" my-4 w-full  mx-auto overflow-hidden bg-white rounded-lg border dark:bg-gray-800">
    
         <div class="p-6">
             <div>
@@ -92,7 +92,7 @@
             <div class="mt-4">
                 <div class="flex items-center">
                     <div class="flex items-center">
-                        <span class="object-cover h-10 rounded-full ring ring-green-200 ring-offset-2">{% include 'components/profile-picture-container.html' with user=bundle.creator %}</span>
+                        <span class="object-cover h-10 w-10 rounded-full ring ring-green-200 ring-offset-2">{% include 'components/profile-picture-container.html' with user=bundle.creator %}</span>
                         <a href="{% url 'user_detail' username=bundle.creator %}" class="mx-2 font-semibold text-gray-700 dark:text-gray-200">{{bundle.creator}}</a>
                     </div>
                     <span class="mx-1 text-xs text-gray-600 dark:text-gray-300">{{bundle.created_on|naturaltime}}</span>

@@ -5,29 +5,46 @@
   {% load static %}
 
   {% if user_profile == reading.creator %}
-  <ul>
-      <li>
-          <a href="{% url 'readinglists_update' pk=reading.pk uuid=reading.uuid %}">update</a>
-      </li>
-      <li>
-          <a href="{% url 'readinglists_delete' pk=reading.pk uuid=reading.uuid %}">delete</a>
-      </li>
-  </ul>
+  <div class="flex gap-8">
+
+       
+     
+                 <a href="{% url 'readinglists_update' pk=reading.pk uuid=reading.uuid %}"  class="anim px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-green-500 mt-6 rounded-md hover:bg-green-400 focus:outline-none focus:bg-green-700"><i class="mr-2 h-6 w-6 text-white fa fa-edit"></i>update</button>
+            
+           <a href="{% url 'readinglists_delete' pk=reading.pk uuid=reading.uuid %}"  class="anim px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-red-500 mt-6 rounded-md hover:bg-red-400 focus:outline-none focus:bg-red-700"><i class="mr-2 h-6 w-6 text-white fa fa-trash"></i>Delete </a>
+        
+          
+    
+  </div>
   {% endif %}
 
+
+<section class="max-w-4xl p-6  border rounded-2xl mt-4  bg-gray-50">
+         <h3 class=" mb-2">Reading list: "{{reading.title}}"</h3>
+
+
 <p>
-  Title:{{reading.title}}
-</p>
-<p>
-  Tags:{% for tag in reading.tags.all %}{{tag}}{% empty %}not tagged{% endfor %}
-</p>
-<p>
-  Bundles:{% for bundle in reading.bundles.all %}
-  <a href="{{bundle.get_absolute_url}}">
-  {{bundle.title}}
-</a>
+  <div class=" mt-5 flex flex-wrap text-gray-500 dark:text-gray-400 text-xs py-1 my-0.5">
+          {% for tag in reading.tags.all %}
+
+
+    <a class="anim border  px-4 py-1 hover:bg-gray-200 my-2 rounded-sm mr-4">  {{tag}}</a>
+           
+  {% empty %}not tagged
+  
+
+  
   {% endfor %}
+  </div>
 </p>
+<p>
+   <h3 class=" mt-4 mb-2">Bunldes in your reading list</h3>
+   {% for bundle in reading.bundles.all %}
+  {% include 'events/bundles.html' with bundle=bundle %}
+  {% endfor %}
+
+</p>
+</section>
 {% endblock %}
 
 

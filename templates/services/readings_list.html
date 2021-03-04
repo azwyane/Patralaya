@@ -3,16 +3,22 @@
 {% load i18n %}
 
 {% block body %}
-<a href="{% url 'readinglists_create' %}">Create Reading List</a>
-<ul>
-{% for reading in readings %}
-
-<li>
-    <a href="{{reading.get_absolute_url}}">{{reading.title}}</a>
-</li>
 
 
-{% endfor %}
-</ul>
+<div class="flex justify-end max-w-lg mt-8">
+<a href="{% url 'readinglists_create' %}" class="text-gray-700 rounded-md anim bg-gray-200 hover:bg-gray-300 py-1 px-4"><i class="fa fa-edit h-6 w-6 test-gray-700"></i>Create Reading List</a>
+</div>
+
+<section class="max-w-4xl p-6  border rounded-2xl mt-4  bg-gray-50">
+         <h3 class=" mb-2"> Your  Reading lists</h3>
+
+<div class=" mt-5 flex flex-wrap text-gray-500 dark:text-gray-400 text-xs py-1 my-0.5">
+             {% for reading in readings %}	
+            
+            <a class=" anim border  px-4 py-1 hover:bg-gray-200 my-2 rounded-sm mr-4" href="{{reading.get_absolute_url}}">{{reading.title}}</a>
+         
+            {% endfor %}
+            </div>
+</section>
 
 {% endblock %}

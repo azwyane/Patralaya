@@ -15,7 +15,7 @@
             <div class=" mt-5 flex flex-wrap text-gray-500 dark:text-gray-400 text-xs py-1 my-0.5">
              {% for category in categories %}	
              {% with category|slugify as tag_slug  %}
-            <a class="border  px-4 py-1 hover:bg-gray-200 my-2 rounded-sm mr-4" href="{% url 'list_tag' tag_slug %}">{{ category }}</a>
+            <a class="anim border  px-4 py-1 hover:bg-gray-200 my-2 rounded-sm mr-4" href="{% url 'list_tag' tag_slug %}">{{ category }}</a>
             {% endwith %}
             {% endfor %}
             </div>

@@ -167,24 +167,26 @@
              });
          }),
          $("button#share").click(function (e) {
+           console.log("share");
+            $("#shareModal").modal("show");
+         });
+         $("button#shareConfirm").click(function (e) {
            e.preventDefault();
+           let senderEmail=$("#sender-email").val();
+           let receiverEmail=$("#receiver-email").val();
+           let descriptionText=$("#description").val();
            $.post(
              "{% url 'share_by_email' %}", {
                slug: "{{object.slug}}",
-               sender: "dummyemail",
-               receiver: "dummyemail",
-               description: "dummy",
+               sender:senderEmail,
+               receiver: receiverEmail,
+               description: descriptionText,
                csrfmiddlewaretoken: "{{csrf_token}}"
              },
              function (data) {
-
-
-               document.getElementById('share-modal-body').innerHTML = data
-               $("#shareModal").modal();
-
+               $("#shareModal").modal("hide");
                if (data['status'] == 'ok') {
-                 alert("deleted");
-                 //hari
+                 console.log("hello")
                  //edit the dummy by keeping value typed in share model
                  //for values sender, receiver and description
 
@@ -243,21 +245,44 @@
    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
      <div class="modal-dialog modal-box">
        <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="font-semibold modal-title" id="ModalLabel">Share this bunlde</h5>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body" id="share-modal-body">
+      
+         <div class="modal-body py-8" id="share-modal-body">
+         <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white mt-4 mb-4">Share this bundle '{{object}}'</h2>
+   <form  class="mt-5 flex flex-col gap-y-4 mb-4" id="share-form" post="" enctype="multipart/form-data">
+
+
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="sender-email">Sender email</label>
+                    <input id="sender-email" type="email"  placeholder="Enter  sender email" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" required> 
+                    </input>
+                </div>
 
 
 
+                <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="receiver-email">Receiver email</label>
+                    <input id="receiver-email" type="email"  placeholder="Enter  reciever email" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" required> 
+                    </input>
+                </div>
 
-         </div>
-         <div class="modal-footer modal-action">
-           <button type="button"
+
+   <div>
+                    <label class="text-gray-700 dark:text-gray-200" for="description">Description</label>
+                      <textarea id="description" rows="5" class="w-full border border-gray-300 rounded-sm px-4 py-3 h-32 rounded-md outline-none transition-colors duration-150 ease-in-out focus:border-blue-400 resize-none" style="resize:none;"></textarea>
+                </div>
+                
+<div class="flex justify-end gap-2">
+   <button id="" type="button"
              class="px-4 py-2 text-sm font-medium text-gray-700 transition bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700"
              data-dismiss="modal">Close</button>
+             <button id="shareConfirm" type="submit"
+             class="px-4 py-2 text-sm font-medium text-gray-200 transition bg-green-500 rounded-md hover:bg-green-400 focus:outline-none anim"
+             >share</button>
          </div>
+         </form>
+      
+         </div>
+  
        </div>
      </div>
    </div>
@@ -273,7 +298,7 @@
 
         Do you really want to delete this bundle?
 <div class="flex justify-end gap-2">
-   <button id="confirmDelete" type="button"
+   <button id="" type="button"
              class="px-4 py-2 text-sm font-medium text-gray-700 transition bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700"
              data-dismiss="modal">Close</button>
              <button id="confirmDelete" type="button"
@@ -1147,7 +1172,7 @@
                  {% include 'components/profile-picture-container.html' with user=author %}
                </div>
                <div>
-                 <p class="font-semibold text-gray-700 text-sm"> {{author}}</p>
+                 <p class="font-semibold text-gray-700 text-sm"> {{author}}<br></p>
 
                </div>
 
@@ -1190,26 +1215,7 @@
 
            </div>
 
-           {% if object.get_forked_from.count == 1 %}
-           {% with object.get_forked_from.0 as parent %}
-           <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
-             <p class="font-semibold text-gray-700 text-sm">{% translate "Forked from" %}</p>
-             <p class="font-medium text-gray-500 text-xs py-1"> <a href= "{{parent.get_absolute_url}}">{{parent}}</a></p>
-
-
-           </div>
-           {% endwith %}
-           {% endif %}
-           
-           {% if object.bundle_type %}
-           <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
-             <p class="font-semibold text-gray-700 text-sm"> {% translate "Bundle type" %}</p>
-             <p class="font-medium text-gray-500 text-xs py-1"> {{object.bundle_type}} </p>
-
-
-           </div>
-           {% endif %}
-
+  
            {% if object.git_url %}
            <div class="my-1 py-1 sm:flex justify-between gap-2  lg:block">
              <p class="font-semibold text-gray-700 text-sm">{% translate  "Git url" %}</p>
@@ -1281,12 +1287,12 @@
            {% if user_profile != object.creator and user_profile not in object.co_authors.all %}
            <div class=" flex justify-between font-semibold text-gray-700 text-sm py-4">
              <h4>Request for authorship</h4>
-             <button
+             <button 
                class=" text-sm {% if user_profile in object.co_authors_request.all %}text-red-500{% endif %}text-green-500 "
                id="authorship" type="submit"
-               data-action="{% if user_profile in object.co_authors_request.all %}cancel{% endif %}request">
+               data-action="{% if user_profile in object.co_authors_request.all %}cancle{% endif %}request">
                {% if user_profile in object.co_authors_request.all %}
-               cancel
+               cancle
                {% endif %}
                request
              </button>

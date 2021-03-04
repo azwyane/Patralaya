@@ -1,14 +1,15 @@
 
 {% extends 'events/base.html' %}
+{% load static %}
 {% load i18n %}
-{%block title%}  Home  page  {%endblock%}
+{%block title%} {% translate "Home Page" %}{%endblock%}
 {% block body %}
 	
 	<div class="flex" >
 		<div class="lg:w-3/5 bg-gray-50 px-2"> 
 
 			<div class="flex-1  mt-6 pb-4">
-				<h1 class=" text-2xl  font-semibold text-gray-800">{%translate "Recent Bundles"%}</h1>
+				<h1 class=" text-2xl  font-semibold text-gray-800">{% translate "Recent Bundles" %}</h1>
 					{% for bundle in view.bundles %}
 
 					{% include 'events/bundles.html' with bundle=bundle %}

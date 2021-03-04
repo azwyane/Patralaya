@@ -50,7 +50,7 @@ decorators = [ajax_required, require_POST]
 class Share(View):
     def post(self,request):
         try:
-
+            slug = request.POST['slug']
             bundle = Bundle.objects.get(
                 slug=slug, status='Publish')
             
@@ -58,7 +58,6 @@ class Share(View):
             receiver = request.POST['receiver']
             description = request.POST['description'] 
             get_bundle_url = request.build_absolute_uri(bundle.get_absolute_url())
-            
             #preparing msg template
             subject = "WELCOME FROM PATRALAYA"
             message = f'''
@@ -77,7 +76,7 @@ class Share(View):
             return JsonResponse({'status':'ok'})
         
         except Exception as e:
-                    return JsonResponse({'status':'error'})
+            return JsonResponse({'status':'error'})
         
         return JsonResponse({'status':'error'})
 

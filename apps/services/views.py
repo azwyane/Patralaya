@@ -97,7 +97,11 @@ class TagListView(ListView):
                 obj_list = obj_list.filter(tags__in=[tag])
           
                 return obj_list
-
+    
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tagged_with'] = self.kwargs['tag_slug']
+        return context
 
 class SearchBundleListView(TemplateView):
     template_name = 'services/search_list.html'

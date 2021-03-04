@@ -1,6 +1,9 @@
+{% load static %}
+{% load i18n %}
+
 {% extends 'events/base.html' %}
 
-{%block title%}  Home  page  {%endblock%}
+{%block title%}  {% translate "Home  page"}  {%endblock%}
 {% block body %}
 	
 	<div class="flex" >
@@ -8,7 +11,7 @@
 
 			<div class="flex-1  mt-6 pb-4">
             {% if tag %}
-				<h1 class=" text-2xl  font-semibold text-gray-800">Posts tagged with "{{ tag.name }}"</h1>
+				<h1 class=" text-2xl  font-semibold text-gray-800">{% translate "Posts tagged with" %} "{{ tag.name }}"</h1>
             {% endif %}
 					{% for bundle in page_obj %}
 

@@ -2,9 +2,75 @@
 
 {% extends 'events/base.html' %}
 
-{%block title%}  Home  page  {%endblock%}
+{%block title%}  FEED AGGREGATED  {%endblock%}
 {% block body %}
+<script type="text/javascript"> 
+
+    $(document).ready(function(){
+    $("button#update").click(function(e){
+        e.preventDefault();
+        let s=$("#source").val();
+        let u=$("#url").val();
+        $.post(
+            "{% url 'feed_update' %}",
+            {
+                source: s,
+                action: "update",
+                url: u,
+				id: "{{feed_id_remote}}",
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                
+                if (data['status'] == 'ok'){
+                    
+                   alert("updated");
+				   window.location.href="{%url 'feed_list_from_remote' feed_id_remote %}";
+                   
+                }
+            }
+            
+
+        );
+    }),
+    $("button#delete").click(function(e){
+        e.preventDefault();
+        $.post(
+            "{% url 'feed_delete' %}",
+            {
+                action: "delete",
+                id: "{{feed_id_remote}}",
+                csrfmiddlewaretoken: "{{csrf_token}}"
+            },
+            function(data){
+                
+                if (data['status'] == 'ok'){
+                    
+					window.location.href="{%url 'feed_home' %}";
+                   
+                }
+            }
+            
+
+        );
+    });
+});
+</script>	
+
+
+<p>
+	<h4>Update</h4>
+	<input id="source" type="text" value="{{feed_source}}">
+	<input id="url" type="url" value="{{feed_url}}">
 	
+	<button id="update" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">update</button>
+	<button id="delete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">delete</button>
+</p>
+	<br>
+	<br>
+	
+
+
 	<div class="flex" >
 		<div class="lg:w-3/5 bg-gray-50 px-2"> 
 
@@ -24,7 +90,9 @@
                             <hr>
                         </div>
                     </li>
-
+                    <br>
+					<br>
+					<br>
 					{% endfor %}
                 </ul>
 

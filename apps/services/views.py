@@ -147,7 +147,7 @@ class ReadingsCreateView(LoginRequiredMixin, CreateActivityMixin,SuccessMessageM
 
 
 
-class ReadingsUpdateView(LoginRequiredMixin, BundleEditMixin, CreateActivityMixin,SuccessMessageMixin,UpdateView):
+class ReadingsUpdateView(LoginRequiredMixin,UserPassesTestMixin, CreateActivityMixin,SuccessMessageMixin,UpdateView):
     model = ReadingList
     context_object_name = 'reading'
     template_name = 'services/readings_form.html'
@@ -157,15 +157,29 @@ class ReadingsUpdateView(LoginRequiredMixin, BundleEditMixin, CreateActivityMixi
     def form_valid(self,form):
         form.instance.creator = Profile.objects.get(user=self.request.user)
         return super().form_valid(form)
+    
+    def test_func(self):
+        '''
+        check if the creator of bundle is the one requesting to update it
+        '''
+        if Profile.objects.get(user=self.request.user) == self.get_object().creator:
+            return True
+        return False  
 
 
-
-class ReadingsDeleteView(LoginRequiredMixin,BundleEditMixin,SuccessMessageMixin,CreateActivityMixin,DeleteView):
+class ReadingsDeleteView(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,CreateActivityMixin,DeleteView):
     model = ReadingList
     context_object_name = 'reading'
     template_name = 'services/readings_delete.html'
     success_url = reverse_lazy('home')
-
+    
+    def test_func(self):
+        '''
+        check if the creator of bundle is the one requesting to update it
+        '''
+        if Profile.objects.get(user=self.request.user) == self.get_object().creator:
+            return True
+        return False 
 
 #Todo: task (install reportlab==3.5.59)
 # def download_bundle(request,id):

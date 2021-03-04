@@ -66,6 +66,9 @@ class RemoteFeedListView(FetchFeedMixin,TemplateView):
         feed_rendered = self.get_rendered_feed(feed.url)
         context['feed_info'] = feed_rendered.feed
         context['feed_body'] = feed_rendered.entries
+        context['feed_id_remote'] = feed_id
+        context['feed_source'] = feed.source
+        context['feed_url'] = feed.url
         return context
 
 #ajax view for Create,Update and delete and list
